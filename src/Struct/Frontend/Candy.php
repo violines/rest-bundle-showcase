@@ -14,22 +14,30 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Candy
 {
     /**
-     * @Serializer\Annotation\SerializedName("weight")
+     * @Assert\Type("string")
+     */
+    public $gtin;
+
+    /**
      * @Assert\Type("int")
-     * @Assert\Positive
      */
     public $weight;
 
     /**
-     * @Serializer\Annotation\SerializedName("name")
      * @Assert\Type("string")
      */
     public $name;
 
     /**
-     * @var Rating[]
-     * @Serializer\Annotation\SerializedName("ratings")
-     * @Assert\Valid
+     * @Serializer\Annotation\SerializedName("average_rating")
      */
-    public $ratings;
+    public $averageRating;
+
+    public function __construct(string $gtin, int $weight, string $name, ?array $averageRating)
+    {
+        $this->gtin = $gtin;
+        $this->weight = $weight;
+        $this->name = $name;
+        $this->averageRating = $averageRating;
+    }
 }

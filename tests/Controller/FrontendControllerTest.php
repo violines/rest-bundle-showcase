@@ -4,81 +4,132 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\EntityManagerInterface;
 
 class FrontendControllerTest extends WebTestCase
 {
+    private $client;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->client = static::createClient();
+
+        /** @var EntityManagerInterface $em */
+        $em = self::$container->get('doctrine.orm.default_entity_manager');
+        $em->getConnection()->exec(file_get_contents(__DIR__ . '/../../fixtures/candy.sql'));
+    }
+
     public function testCandyList()
     {
-        $client = static::createClient();
-        $client->request('GET', '/candy/list', [], [], ['HTTP_ACCEPT' => 'application/json']);
+        $this->client->request('GET', '/candy/list', [], [], ['HTTP_ACCEPT' => 'application/json']);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
             json_decode($this->expectedCandyList),
-            json_decode($client->getResponse()->getContent())
+            json_decode($this->client->getResponse()->getContent())
         );
     }
 
     public function testCandyDetail()
     {
-        $client = static::createClient();
-        $client->request('GET', '/candy/1', [], [], ['HTTP_ACCEPT' => 'application/json']);
+        $this->client->request('GET', '/candy/886037363214', [], [], ['HTTP_ACCEPT' => 'application/json']);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
             json_decode($this->expectedCandyDetail),
-            json_decode($client->getResponse()->getContent())
+            json_decode($this->client->getResponse()->getContent())
         );
     }
 
     public function testCandyNotFound()
     {
-        $client = static::createClient();
-        $client->request('GET', '/candy/999', [], [], ['HTTP_ACCEPT' => 'application/json']);
+        $this->client->request('GET', '/candy/999', [], [], ['HTTP_ACCEPT' => 'application/json']);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $this->assertEquals(
             json_decode($this->expectedNotFound),
-            json_decode($client->getResponse()->getContent())
+            json_decode($this->client->getResponse()->getContent())
         );
+    }
+
+    public function testRate()
+    {
+        $this->client->request(
+            'POST',
+            '/rate',
+            [],
+            [],
+            [
+                'HTTP_ACCEPT' => 'application/json',
+                'CONTENT_TYPE' => 'application/json'
+            ],
+            $this->ratePayload
+        );
+
+        $this->assertResponseIsSuccessful();
     }
 
     private $expectedCandyList = <<<'EOT'
     [
         {
+            "gtin": "886037363214",
             "weight": 5,
             "name": "Weiße Schokolade mit Krisp",
-            "ratings": null
+            "average_rating": null
         },
         {
+            "gtin": "9272037363324",
             "weight": 10,
             "name": "Erdnuss Cups",
-            "ratings": null
+            "average_rating": null
         },
         {
+            "gtin": "5567037363214",
             "weight": 15,
             "name": "Zartbitter Schokolade",
-            "ratings": null
+            "average_rating": null
         },
         {
+            "gtin": "893037363214",
             "weight": 20,
             "name": "Prinzessinen Rolle",
-            "ratings": null
+            "average_rating": null
         }
     ]
     EOT;
 
     private $expectedCandyDetail = <<<'EOT'
     {
+        "gtin": "886037363214",
         "weight": 5,
         "name": "Weiße Schokolade mit Krisp",
-        "ratings": null
-    }    
+        "average_rating": {
+            "taste": 0,
+            "ingredients": 0,
+            "healthiness": 0,
+            "packaging": 0,
+            "availability": 0
+        }
+    }
     EOT;
 
     private $expectedNotFound = <<<'EOT'
     {
         "message": "The requested resource was not found"
     }    
+    EOT;
+
+    private $ratePayload = <<<'EOT'
+    {
+        "gtin": "886037363214",
+        "taste": 5,
+        "ingredients": 4,
+        "healthiness": 5,
+        "packaging": 2,
+        "availability": 1,
+        "comment": "This is awesome."
+    }
     EOT;
 }

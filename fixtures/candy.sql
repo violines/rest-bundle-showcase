@@ -1,5 +1,9 @@
-INSERT INTO "candy" ("id","weight")
-VALUES (1,5),(2,10),(3,15),(4,20);
+DELETE FROM "rating";
+DELETE FROM "candy_translation";
+DELETE FROM "candy";
+
+INSERT INTO "candy" ("id","gtin","weight")
+VALUES (1,'886037363214',5),(2,'9272037363324',10),(3,'5567037363214',15),(4,'893037363214',20);
 
 INSERT INTO "candy_translation" ("id","candy_id","language","title")
 VALUES 

@@ -22,6 +22,11 @@ class Candy
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=30)
+     */
+    private $gtin;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $weight;
@@ -37,14 +42,14 @@ class Candy
         $this->translations = $translations;
     }
 
-    public function toFrontendStruct(string $language): FrontendStruct
+    public function toFrontendStruct(string $language, ?array $averageRating): FrontendStruct
     {
-        $struct = new FrontendStruct();
-
-        $struct->weight = $this->weight;
-        $struct->name = $this->translationByLanguage($language);
-
-        return $struct;
+        return new FrontendStruct(
+            $this->gtin,
+            $this->weight,
+            $this->translationByLanguage($language),
+            $averageRating
+        );
     }
 
     private function translationByLanguage(string $language): string

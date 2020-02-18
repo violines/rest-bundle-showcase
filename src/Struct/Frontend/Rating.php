@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Struct\Frontend;
 
 use TerryApiBundle\Annotation\Struct;
-use Symfony\Component\Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,13 +13,46 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Rating
 {
     /**
-     * @Serializer\Annotation\SerializedName("amount_of_stars")
-     * @Assert\Positive
+     * @Assert\Type("string")
      */
-    public $stars;
+    public $gtin;
 
     /**
-     * @Serializer\Annotation\SerializedName("comment")
+     * @Assert\Type("int")
+     * @Assert\GreaterThanOrEqual(1)
+     * @Assert\LessThanOrEqual(5)
+     */
+    public $taste;
+
+    /**
+     * @Assert\Type("int")
+     * @Assert\GreaterThanOrEqual(1)
+     * @Assert\LessThanOrEqual(5)
+     */
+    public $ingredients;
+
+    /**
+     * @Assert\Type("int")
+     * @Assert\GreaterThanOrEqual(1)
+     * @Assert\LessThanOrEqual(5)
+     */
+    public $healthiness;
+
+    /**
+     * @Assert\Type("int")
+     * @Assert\GreaterThanOrEqual(1)
+     * @Assert\LessThanOrEqual(5)
+     */
+    public $packaging;
+
+    /**
+     * @Assert\Type("int")
+     * @Assert\GreaterThanOrEqual(1)
+     * @Assert\LessThanOrEqual(5)
+     */
+    public $availability;
+
+    /**
      * @Assert\Type("string")
      */
     public $comment;
