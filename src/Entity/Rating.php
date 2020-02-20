@@ -55,7 +55,7 @@ class Rating
     private $candy;
 
     public function __construct(
-        int  $taste,
+        int $taste,
         int $ingredients,
         int $healthiness,
         int $packaging,
