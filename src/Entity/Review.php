@@ -2,19 +2,19 @@
 
 namespace App\Entity;
 
-use App\Struct\Frontend\Rating as FrontendStruct;
+use App\Struct\Frontend\Review as FrontendStruct;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\RatingRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ReviewRepository")
  */
-class Rating
+class Review
 {
     /**
      * @ORM\Id()
-     * @ORM\Column(type="integer", options={"default"="nextval('rating_id_seq'::regclass)"})
+     * @ORM\Column(type="integer", options={"default"="nextval('review_id_seq'::regclass)"})
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\SequenceGenerator(sequenceName="rating_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="review_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 

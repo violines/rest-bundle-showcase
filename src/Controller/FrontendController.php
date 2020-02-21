@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Rating as EntityRating;
+use App\Entity\Review;
 use App\Exception\NotFoundException;
 use App\Repository\CandyRepository;
-use App\Repository\RatingRepository;
+use App\Repository\ReviewRepository;
 use App\Struct\Frontend\Candy as CandyStruct;
-use App\Struct\Frontend\Rating;
+use App\Struct\Frontend\Review as ReviewStruct;
 use App\Struct\Ok;
 use App\ValueObject\Client;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,16 +22,16 @@ class FrontendController extends AbstractController
 
     private EntityManagerInterface $entityManager;
 
-    private RatingRepository $ratingRepository;
+    private ReviewRepository $reviewRepository;
 
     public function __construct(
         CandyRepository $candyRepository,
         EntityManagerInterface $entityManager,
-        RatingRepository $ratingRepository
+        ReviewRepository $reviewRepository
     ) {
         $this->candyRepository = $candyRepository;
         $this->entityManager = $entityManager;
-        $this->ratingRepository = $ratingRepository;
+        $this->reviewRepository = $reviewRepository;
     }
 
     /**
@@ -55,7 +55,7 @@ class FrontendController extends AbstractController
     {
         $candy = $this->candyRepository->findOneBy(['gtin' => $gtin]);
 
-        $averageRating = $this->ratingRepository->averageByCandy($candy);
+        $averageRating = $this->reviewRepository->averageByCandy($candy);
 
         if (null === $candy) {
             throw NotFoundException::create();
@@ -65,9 +65,9 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/rate", methods={"POST"}, name="rate")
+     * @Route("/review", methods={"POST"}, name="review")
      */
-    public function rate(Rating $struct): Ok
+    public function review(ReviewStruct $struct): Ok
     {
         $candy = $this->candyRepository->findOneBy(['gtin' => $struct->gtin]);
 
@@ -75,7 +75,7 @@ class FrontendController extends AbstractController
             throw NotFoundException::create();
         }
 
-        $this->entityManager->persist(EntityRating::fromStruct($struct, $candy));
+        $this->entityManager->persist(Review::fromStruct($struct, $candy));
         $this->entityManager->flush();
 
         return OK::create();

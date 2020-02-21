@@ -54,7 +54,7 @@ class FrontendControllerTest extends WebTestCase
         );
     }
 
-    public function testRate()
+    public function testReview()
     {
         $headers = array_replace(self::DFAULT_HEADERS, [
             'CONTENT_TYPE' => 'application/json'
@@ -62,7 +62,7 @@ class FrontendControllerTest extends WebTestCase
 
         $this->client->request(
             'POST',
-            '/rate',
+            '/review',
             [],
             [],
             $headers,

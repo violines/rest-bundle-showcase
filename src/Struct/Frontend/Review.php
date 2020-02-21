@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @Struct
  */
-class Rating
+class Review
 {
     /**
      * @Assert\Type("string")

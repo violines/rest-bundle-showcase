@@ -1,4 +1,4 @@
-DELETE FROM "rating";
+DELETE FROM "review";
 DELETE FROM "candy_translation";
 DELETE FROM "candy";
 
