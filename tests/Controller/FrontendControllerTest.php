@@ -23,7 +23,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyList()
     {
-        $this->client->request('GET', '/candy/list', [], [], ['HTTP_ACCEPT' => 'application/json']);
+        $this->client->request('GET', '/candy/list', [], [], self::DFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
@@ -34,7 +34,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyDetail()
     {
-        $this->client->request('GET', '/candy/886037363214', [], [], ['HTTP_ACCEPT' => 'application/json']);
+        $this->client->request('GET', '/candy/886037363214', [], [], self::DFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
@@ -45,7 +45,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyNotFound()
     {
-        $this->client->request('GET', '/candy/999', [], [], ['HTTP_ACCEPT' => 'application/json']);
+        $this->client->request('GET', '/candy/999', [], [], self::DFAULT_HEADERS);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $this->assertEquals(
@@ -56,20 +56,26 @@ class FrontendControllerTest extends WebTestCase
 
     public function testRate()
     {
+        $headers = array_replace(self::DFAULT_HEADERS, [
+            'CONTENT_TYPE' => 'application/json'
+        ]);
+
         $this->client->request(
             'POST',
             '/rate',
             [],
             [],
-            [
-                'HTTP_ACCEPT' => 'application/json',
-                'CONTENT_TYPE' => 'application/json'
-            ],
+            $headers,
             $this->ratePayload
         );
 
         $this->assertResponseIsSuccessful();
     }
+
+    private const DFAULT_HEADERS = [
+        'HTTP_ACCEPT' => 'application/json',
+        'HTTP_ACCEPT_LANGUAGE' => 'de_DE'
+    ];
 
     private $expectedCandyList = <<<'EOT'
     [

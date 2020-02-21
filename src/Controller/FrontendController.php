@@ -11,6 +11,7 @@ use App\Repository\RatingRepository;
 use App\Struct\Frontend\Candy as CandyStruct;
 use App\Struct\Frontend\Rating;
 use App\Struct\Ok;
+use App\ValueObject\Client;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,12 +37,12 @@ class FrontendController extends AbstractController
     /**
      * @Route("candy/list", name="candy_list")
      */
-    public function candyList(): array
+    public function candyList(Client $client): array
     {
         $_candies = [];
 
         foreach ($this->candyRepository->findAll() as $candy) {
-            $_candies[] = $candy->toFrontendStruct('de', null);
+            $_candies[] = $candy->toFrontendStruct($client->getContentLanguage(), null);
         }
 
         return $_candies;
@@ -50,7 +51,7 @@ class FrontendController extends AbstractController
     /**
      * @Route("/candy/{gtin}", methods={"GET"}, name="candy_detail")
      */
-    public function candyDetail(int $gtin): CandyStruct
+    public function candyDetail(int $gtin, Client $client): CandyStruct
     {
         $candy = $this->candyRepository->findOneBy(['gtin' => $gtin]);
 
@@ -60,7 +61,7 @@ class FrontendController extends AbstractController
             throw NotFoundException::create();
         }
 
-        return $candy->toFrontendStruct('de', $averageRating);
+        return $candy->toFrontendStruct($client->getContentLanguage(), $averageRating);
     }
 
     /**
