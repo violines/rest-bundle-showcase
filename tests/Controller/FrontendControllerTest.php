@@ -23,7 +23,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyList()
     {
-        $this->client->request('GET', '/candy/list', [], [], self::DFAULT_HEADERS);
+        $this->client->request('GET', '/candy/list', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
@@ -34,7 +34,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyDetail()
     {
-        $this->client->request('GET', '/candy/886037363214', [], [], self::DFAULT_HEADERS);
+        $this->client->request('GET', '/candy/886037363214', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
@@ -45,7 +45,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyNotFound()
     {
-        $this->client->request('GET', '/candy/999', [], [], self::DFAULT_HEADERS);
+        $this->client->request('GET', '/candy/999', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $this->assertEquals(
@@ -56,7 +56,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testReview()
     {
-        $headers = array_replace(self::DFAULT_HEADERS, [
+        $headers = array_replace(self::DEFAULT_HEADERS, [
             'CONTENT_TYPE' => 'application/json'
         ]);
 
@@ -66,13 +66,13 @@ class FrontendControllerTest extends WebTestCase
             [],
             [],
             $headers,
-            $this->ratePayload
+            $this->reviewPayload
         );
 
         $this->assertResponseIsSuccessful();
     }
 
-    private const DFAULT_HEADERS = [
+    private const DEFAULT_HEADERS = [
         'HTTP_ACCEPT' => 'application/json',
         'HTTP_ACCEPT_LANGUAGE' => 'de_DE'
     ];
@@ -127,7 +127,7 @@ class FrontendControllerTest extends WebTestCase
     }    
     EOT;
 
-    private $ratePayload = <<<'EOT'
+    private $reviewPayload = <<<'EOT'
     {
         "gtin": "886037363214",
         "taste": 5,
