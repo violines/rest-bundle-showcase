@@ -42,7 +42,7 @@ class FrontendController extends AbstractController
         $_candies = [];
 
         foreach ($this->candyRepository->findAll() as $candy) {
-            $_candies[] = $candy->toFrontendStruct($client->getContentLanguage(), null);
+            $_candies[] = $candy->toFrontendStruct($client->getContentLanguage());
         }
 
         return $_candies;

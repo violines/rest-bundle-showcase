@@ -49,8 +49,8 @@ class ReviewGeneratorCommand extends Command
         $candyId = (int) $input->getArgument('candyId');
 
         if ($candyId < 1) {
-            $io->error('Invalid Argument: Candy Id');
-            return 0;
+            $io->error('Invalid Argument: CandyId');
+            return 1;
         }
 
         for ($i = 1; $i <= 200000; $i++) {

@@ -47,7 +47,7 @@ class Candy
         $this->translations = $translations;
     }
 
-    public function toFrontendStruct(string $language, ?array $averageRating): FrontendStruct
+    public function toFrontendStruct(string $language, ?array $averageRating = null): FrontendStruct
     {
         return new FrontendStruct(
             $this->gtin,
