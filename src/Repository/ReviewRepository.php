@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Candy;
 use App\Entity\Review;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -21,7 +22,7 @@ class ReviewRepository extends ServiceEntityRepository
         parent::__construct($registry, Review::class);
     }
 
-    public function averageByCandy($candy)
+    public function averageByCandy(Candy $candy): array
     {
         $result = $this->createQueryBuilder('rating')
             ->select('
