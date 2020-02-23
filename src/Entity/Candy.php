@@ -36,6 +36,11 @@ class Candy
      */
     private $translations;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="candy")
+     */
+    private $reviews;
+
     public function __construct(int $weight, PersistentCollection $translations)
     {
         $this->weight = $weight;

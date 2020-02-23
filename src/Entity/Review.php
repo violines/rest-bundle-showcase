@@ -49,7 +49,7 @@ class Review
     private $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Candy", inversedBy="ratings")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Candy", inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
     private $candy;

@@ -14,6 +14,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class ReviewRepository extends ServiceEntityRepository
 {
+    private string $insertSql = '';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Review::class);
@@ -35,5 +37,29 @@ class ReviewRepository extends ServiceEntityRepository
             ->getResult();
 
         return array_map(fn ($p) => (int) $p, current($result));
+    }
+
+    public function insert(array $row, bool $flush = false): void
+    {
+        $connection = $this->getEntityManager()->getConnection();
+
+        // this uses the DBAL SQL QueryBuilder not the ORM's DQL builder 
+        $this->insertSql .= $connection->createQueryBuilder()
+            ->insert('review')
+            ->values($row)
+            ->getSQL() . ';';
+
+        if (true === $flush) {
+            $connection->beginTransaction();
+            try {
+                $connection->exec($this->insertSql);
+                $connection->commit();
+            } catch (\Throwable $e) {
+                $connection->rollBack();
+                throw $e;
+            }
+
+            $this->insertSql = '';
+        }
     }
 }
