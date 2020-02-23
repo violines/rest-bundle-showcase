@@ -55,11 +55,11 @@ class FrontendController extends AbstractController
     {
         $candy = $this->candyRepository->findOneBy(['gtin' => $gtin]);
 
-        $averageRating = $this->reviewRepository->averageByCandy($candy);
-
         if (null === $candy) {
             throw NotFoundException::create();
         }
+
+        $averageRating = $this->reviewRepository->averageByCandy($candy);
 
         return $candy->toFrontendStruct($client->getContentLanguage(), $averageRating);
     }
