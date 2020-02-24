@@ -13,10 +13,9 @@ use App\Struct\Frontend\Review as ReviewStruct;
 use App\Struct\Ok;
 use App\ValueObject\Client;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FrontendController extends AbstractController
+class FrontendController
 {
     private CandyRepository $candyRepository;
 
