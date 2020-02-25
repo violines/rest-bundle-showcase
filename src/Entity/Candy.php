@@ -7,9 +7,15 @@ namespace App\Entity;
 use App\Struct\Frontend\Candy as FrontendStruct;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\ORM\Mapping\Table;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CandyRepository")
+ * @Table(
+ *      uniqueConstraints={@UniqueConstraint(name="uq_gtin_idx", columns={"gtin"})}
+ * )
  */
 class Candy
 {

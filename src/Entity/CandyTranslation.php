@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CandyTranslationRepository")
+ * @Table(
+ *      uniqueConstraints={@UniqueConstraint(name="uq_candy_id_idx", columns={"candy_id","language"})}
+ * )
  */
 class CandyTranslation
 {
