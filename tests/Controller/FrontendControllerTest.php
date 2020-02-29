@@ -23,7 +23,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyList()
     {
-        $this->client->request('GET', '/candy/list', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', '/frontend/candy/list', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
@@ -34,7 +34,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyDetail()
     {
-        $this->client->request('GET', '/candy/886037363214', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', '/frontend/candy/886037363214', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
@@ -45,7 +45,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyNotFound()
     {
-        $this->client->request('GET', '/candy/999', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', '/frontend/candy/999', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $this->assertEquals(
@@ -62,7 +62,7 @@ class FrontendControllerTest extends WebTestCase
 
         $this->client->request(
             'POST',
-            '/review',
+            '/frontend/review',
             [],
             [],
             $headers,

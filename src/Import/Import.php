@@ -20,7 +20,7 @@ class Import
     /**
      * @param Candy[] $candies
      */
-    public function importCandies(array $candies): void
+    public function candies(array $candies): void
     {
         $this->candyRepository->insert($candies);
     }

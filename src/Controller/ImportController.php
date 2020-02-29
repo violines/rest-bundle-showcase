@@ -21,9 +21,9 @@ class ImportController
     }
 
     /**
-     * @Route("/import", methods={"POST"}, name="import")
+     * @Route("/import/candies", methods={"POST"}, name="import")
      */
-    public function import(CandyStruct ...$candies): Ok
+    public function candies(CandyStruct ...$candies): Ok
     {
         $_candies = [];
 
@@ -33,7 +33,7 @@ class ImportController
         }
 
         /** @var CandyModel[] $_candies  */
-        $this->import->importCandies($_candies);
+        $this->import->candies($_candies);
 
         return Ok::create();
     }

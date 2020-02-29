@@ -28,7 +28,7 @@ class ImportControllerTest extends WebTestCase
     {
         $this->client->request(
             'POST',
-            '/import',
+            '/import/candies',
             [],
             [],
             self::HEADERS,

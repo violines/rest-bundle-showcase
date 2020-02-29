@@ -34,7 +34,7 @@ class FrontendController
     }
 
     /**
-     * @Route("candy/list", name="candy_list")
+     * @Route("/frontend/candy/list", name="candy_list")
      */
     public function candyList(Client $client): array
     {
@@ -48,7 +48,7 @@ class FrontendController
     }
 
     /**
-     * @Route("/candy/{gtin}", methods={"GET"}, name="candy_detail")
+     * @Route("/frontend/candy/{gtin}", methods={"GET"}, name="candy_detail")
      */
     public function candyDetail(int $gtin, Client $client): CandyStruct
     {
@@ -64,7 +64,7 @@ class FrontendController
     }
 
     /**
-     * @Route("/review", methods={"POST"}, name="review")
+     * @Route("/frontend/review", methods={"POST"}, name="review")
      */
     public function review(ReviewStruct $struct): Ok
     {
