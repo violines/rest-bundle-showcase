@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Model\Candy as CandyModel;
-use App\Repository\CandyRepository;
+use App\Import\Import;
+use App\Import\Model\Candy as CandyModel;
 use App\Struct\Import\Candy as CandyStruct;
 use App\Struct\Ok;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImportController
 {
-    private CandyRepository $candyRepository;
+    private Import $import;
 
     public function __construct(
-        CandyRepository $candyRepository
+        Import $import
     ) {
-        $this->candyRepository = $candyRepository;
+        $this->import = $import;
     }
 
     /**
@@ -32,7 +32,8 @@ class ImportController
             array_push($_candies, ...$models);
         }
 
-        $this->candyRepository->insert($_candies);
+        /** @var CandyModel[] $_candies  */
+        $this->import->importCandies($_candies);
 
         return Ok::create();
     }

@@ -6,7 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Candy;
 use App\Exception\PersistanceLayerException;
-use App\Model\Candy as CandyModel;
+use App\Import\Model\Candy as CandyModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -18,7 +18,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class CandyRepository extends ServiceEntityRepository
 {
-    private const MAX_INSERT = 100;
+    private const MAX_INSERT = 1000;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -36,13 +36,11 @@ class CandyRepository extends ServiceEntityRepository
             throw PersistanceLayerException::fromMaxInsert(self::MAX_INSERT, $rowCount);
         }
 
-        $colCount = count((array) $candies[0]);
-
         $sql = '
             WITH 
                 data (gtin, weight, language, title) AS (
                     VALUES
-                        ' . $this->generateValueMatrix($rowCount, $colCount) . '
+                        ' . $this->generateValueMatrix($rowCount, CandyModel::PROPERTY_AMOUNT) . '
                 ), 
                 candy AS (
                     INSERT INTO candy (gtin, weight)

@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Model;
+namespace App\Import\Model;
 
 use App\Struct\Import\Candy as ImportCandyStruct;
 use App\Struct\Import\ImportCandyTranslation as ImportCandyTranslationStruct;
 
 class Candy
 {
+    public const PROPERTY_AMOUNT = 4;
+
     private string $gtin;
 
     private int $weight;
