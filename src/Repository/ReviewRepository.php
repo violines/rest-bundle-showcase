@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Candy;
 use App\Entity\Review;
+use App\Import\Model\Review as ReviewModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -16,6 +17,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 class ReviewRepository extends ServiceEntityRepository
 {
     private string $insertSql = '';
+
+    private int $insertCount = 1;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -40,17 +43,17 @@ class ReviewRepository extends ServiceEntityRepository
         return array_map(fn ($p) => (int) $p, current($result));
     }
 
-    public function insert(array $row, bool $flush = false): void
+    public function insert(ReviewModel $review): void
     {
         $connection = $this->getEntityManager()->getConnection();
 
         // this uses the DBAL SQL QueryBuilder not the ORM's DQL builder 
         $this->insertSql .= $connection->createQueryBuilder()
             ->insert('review')
-            ->values($row)
+            ->values($review->toArray())
             ->getSQL() . ';';
 
-        if (true === $flush) {
+        if ($this->insertCount++ % 1000 === 0) {
             $connection->beginTransaction();
             try {
                 $connection->exec($this->insertSql);

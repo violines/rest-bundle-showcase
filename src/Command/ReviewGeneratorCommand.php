@@ -2,7 +2,8 @@
 
 namespace App\Command;
 
-use App\Repository\ReviewRepository;
+use App\Import\Import;
+use App\Import\Model\Review as ReviewModel;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,13 +27,13 @@ class ReviewGeneratorCommand extends Command
 
     protected static $defaultName = 'app:review-generator';
 
-    private ReviewRepository $reviewRepository;
+    private Import $import;
 
     public function __construct(
-        ReviewRepository $reviewRepository
+        Import $import
     ) {
         parent::__construct();
-        $this->reviewRepository = $reviewRepository;
+        $this->import = $import;
     }
 
     protected function configure()
@@ -54,21 +55,17 @@ class ReviewGeneratorCommand extends Command
         }
 
         for ($i = 1; $i <= 200000; $i++) {
-            $review = [
-                'taste' => random_int(3, 5),
-                'ingredients' => random_int(4, 5),
-                'healthiness' => random_int(3, 5),
-                'packaging' => random_int(4, 5),
-                'availability' => random_int(3, 5),
-                'comment' => self::COMMENTS[random_int(0, 9)],
-                'candy_id' => $candyId
-            ];
-
-            if ($i % 1000 === 0) {
-                $this->reviewRepository->insert($review, true);
-            } else {
-                $this->reviewRepository->insert($review, false);
-            }
+            $this->import->review(
+                new ReviewModel(
+                    random_int(3, 5),
+                    random_int(3, 5),
+                    random_int(3, 5),
+                    random_int(3, 5),
+                    random_int(3, 5),
+                    self::COMMENTS[random_int(0, 9)],
+                    $candyId
+                )
+            );
         }
 
         $io->success('Success.');

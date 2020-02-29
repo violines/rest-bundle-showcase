@@ -5,16 +5,22 @@ declare(strict_types=1);
 namespace App\Import;
 
 use App\Import\Model\Candy;
+use App\Import\Model\Review;
 use App\Repository\CandyRepository;
+use App\Repository\ReviewRepository;
 
 class Import
 {
     private CandyRepository $candyRepository;
 
+    private ReviewRepository $reviewRepository;
+
     public function __construct(
-        CandyRepository $candyRepository
+        CandyRepository $candyRepository,
+        ReviewRepository $reviewRepository
     ) {
         $this->candyRepository = $candyRepository;
+        $this->reviewRepository = $reviewRepository;
     }
 
     /**
@@ -23,5 +29,10 @@ class Import
     public function candies(array $candies): void
     {
         $this->candyRepository->insert($candies);
+    }
+
+    public function review(Review $review): void
+    {
+        $this->reviewRepository->insert($review);
     }
 }
