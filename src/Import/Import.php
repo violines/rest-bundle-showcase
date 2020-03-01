@@ -31,8 +31,11 @@ class Import
         $this->candyRepository->insert($candies);
     }
 
-    public function review(Review $review): void
+    /**
+     * @param Review[] $candies
+     */
+    public function reviews(array $reviews): void
     {
-        $this->reviewRepository->insert($review);
+        $this->reviewRepository->insert($reviews);
     }
 }

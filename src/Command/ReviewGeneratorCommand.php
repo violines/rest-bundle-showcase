@@ -54,19 +54,26 @@ class ReviewGeneratorCommand extends Command
             return 1;
         }
 
+        $reviews = [];
+
         for ($i = 1; $i <= 200000; $i++) {
-            $this->import->review(
-                new ReviewModel(
-                    random_int(3, 5),
-                    random_int(3, 5),
-                    random_int(3, 5),
-                    random_int(3, 5),
-                    random_int(3, 5),
-                    self::COMMENTS[random_int(0, 9)],
-                    $candyId
-                )
+            $reviews[] = new ReviewModel(
+                random_int(3, 5),
+                random_int(3, 5),
+                random_int(3, 5),
+                random_int(3, 5),
+                random_int(3, 5),
+                self::COMMENTS[random_int(0, 9)],
+                $candyId
             );
+
+            if ($i % 1000 === 0) {
+                $this->import->reviews($reviews);
+                $reviews = [];
+            }
         }
+
+        $this->import->reviews($reviews);
 
         $io->success('Success.');
         return 0;

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Candy;
 use App\Entity\Review;
+use App\Exception\PersistanceLayerException;
 use App\Import\Model\Review as ReviewModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -16,9 +17,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class ReviewRepository extends ServiceEntityRepository
 {
-    private string $insertSql = '';
-
-    private int $insertCount = 1;
+    private const MAX_INSERT = 1000;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -43,27 +42,42 @@ class ReviewRepository extends ServiceEntityRepository
         return array_map(fn ($p) => (int) $p, current($result));
     }
 
-    public function insert(ReviewModel $review): void
+    /**
+     * @param ReviewModel[] $candies
+     */
+    public function insert(array $reviews): void
     {
+        $rowCount = count($reviews);
+
+        if (0 === $rowCount) {
+            return;
+        }
+
+        if (self::MAX_INSERT < $rowCount) {
+            throw PersistanceLayerException::fromMaxInsert(self::MAX_INSERT, $rowCount);
+        }
+
         $connection = $this->getEntityManager()->getConnection();
 
-        // this uses the DBAL SQL QueryBuilder not the ORM's DQL builder 
-        $this->insertSql .= $connection->createQueryBuilder()
-            ->insert('review')
-            ->values($review->toArray())
-            ->getSQL() . ';';
+        $insertSql = '';
 
-        if ($this->insertCount++ % 1000 === 0) {
-            $connection->beginTransaction();
-            try {
-                $connection->exec($this->insertSql);
-                $connection->commit();
-            } catch (\Throwable $e) {
-                $connection->rollBack();
-                throw $e;
-            }
+        /** @var ReviewModel $review */
+        foreach ($reviews as $review) {
+            // this uses the DBAL SQL QueryBuilder not the ORM's DQL builder 
+            $insertSql .= $connection->createQueryBuilder()
+                ->insert('review')
+                ->values($review->toArray())
+                ->getSQL() . ';';
+        }
 
-            $this->insertSql = '';
+        $connection->beginTransaction();
+
+        try {
+            $connection->exec($insertSql);
+            $connection->commit();
+        } catch (\Throwable $e) {
+            $connection->rollBack();
+            throw $e;
         }
     }
 }
