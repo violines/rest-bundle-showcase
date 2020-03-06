@@ -5,34 +5,27 @@ declare(strict_types=1);
 namespace App\ValueObject;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints as Assert;
+use TerryApiBundle\ValueObject\AbstractClient;
 
-class Client
+class Client extends AbstractClient
 {
-    private const DEFAULT_LANGUAGE = 'en-GB';
-    private const ACCEPT_LANGUAGE = 'Accept-Language';
-
-    /**
-     * @Assert\Type("string")
-     */
-    public $acceptLanguage;
-
-    private function __construct(string $acceptLanguage)
-    {
-        $this->acceptLanguage = $acceptLanguage;
-    }
+    private const ACCEPT_LANGUAGE_DEFAULTS =  ['*' => 'de-DE'];
+    private const ACCEPT_LANGUAGE_AVAILABLES = ['de', 'en', 'de-DE', 'en-GB'];
 
     public static function fromRequest(Request $request): self
     {
-        $headers = $request->headers;
-
-        $acceptLanguage = $headers->get(self::ACCEPT_LANGUAGE, self::DEFAULT_LANGUAGE);
-
-        return new self($acceptLanguage);
+        return new self($request->headers);
     }
 
     public function getContentLanguage(): string
     {
-        return mb_substr($this->acceptLanguage, 0, 2);
+        $language = $this->negotiate(
+            $this->acceptLanguage,
+            self::ACCEPT_LANGUAGE,
+            self::ACCEPT_LANGUAGE_DEFAULTS,
+            self::ACCEPT_LANGUAGE_AVAILABLES,
+        );
+
+        return mb_substr($language, 0, 2);
     }
 }
