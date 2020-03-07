@@ -10,7 +10,6 @@ use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\ORM\Mapping\Table;
 
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CandyRepository")
  * @Table(

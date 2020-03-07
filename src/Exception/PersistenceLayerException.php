@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-class PersistanceLayerException extends \LogicException implements \Throwable
+class PersistenceLayerException extends \LogicException implements \Throwable
 {
     public static function fromMaxInsert(int $limit, int $actual): self
     {

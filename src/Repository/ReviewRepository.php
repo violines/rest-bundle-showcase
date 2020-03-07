@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Candy;
 use App\Entity\Review;
-use App\Exception\PersistanceLayerException;
+use App\Exception\PersistenceLayerException;
 use App\Import\Model\Review as ReviewModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -54,7 +54,7 @@ class ReviewRepository extends ServiceEntityRepository
         }
 
         if (self::MAX_INSERT < $rowCount) {
-            throw PersistanceLayerException::fromMaxInsert(self::MAX_INSERT, $rowCount);
+            throw PersistenceLayerException::fromMaxInsert(self::MAX_INSERT, $rowCount);
         }
 
         $connection = $this->getEntityManager()->getConnection();
@@ -63,7 +63,7 @@ class ReviewRepository extends ServiceEntityRepository
 
         /** @var ReviewModel $review */
         foreach ($reviews as $review) {
-            // this uses the DBAL SQL QueryBuilder not the ORM's DQL builder 
+            // this uses the DBAL SQL QueryBuilder not the ORM's DQL builder
             $insertSql .= $connection->createQueryBuilder()
                 ->insert('review')
                 ->values($review->toArray())
