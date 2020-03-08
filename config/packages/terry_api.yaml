@@ -10,4 +10,4 @@ terry_api:
         request_single_struct_resolver:
             enable: true
         request_array_of_structs_resolver:
-            enable: false
+            enable: true
