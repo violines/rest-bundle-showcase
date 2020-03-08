@@ -1,0 +1,13 @@
+terry_api:
+    event_listener: 
+        http_error_listener: 
+            enable: true
+        response_transform_listener: 
+            enable: true
+    argument_value_resolver:
+        abstract_client_resolver:
+            enable: true
+        request_single_struct_resolver:
+            enable: true
+        request_array_of_structs_resolver:
+            enable: false
