@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use TerryApiBundle\ValueObject\AbstractHTTPClient;
 use TerryApiBundle\ValueObject\HTTPServer;
 
-class Client extends AbstractHTTPClient
+class HTTPClient extends AbstractHTTPClient
 {
     private const ACCEPT_LANGUAGE_DEFAULTS =  ['*' => 'de-DE'];
     private const ACCEPT_LANGUAGE_AVAILABLES = ['de', 'en', 'de-DE', 'en-GB'];

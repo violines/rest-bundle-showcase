@@ -11,7 +11,7 @@ use App\Repository\ReviewRepository;
 use App\Struct\Frontend\Candy as CandyStruct;
 use App\Struct\Frontend\Review as ReviewStruct;
 use App\Struct\Ok;
-use App\ValueObject\Client;
+use App\ValueObject\HTTPClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -36,7 +36,7 @@ class FrontendController
     /**
      * @Route("/frontend/candy/list", name="candy_list")
      */
-    public function candyList(Client $client): array
+    public function candyList(HTTPClient $client): array
     {
         $_candies = [];
 
@@ -50,7 +50,7 @@ class FrontendController
     /**
      * @Route("/frontend/candy/{gtin}", methods={"GET"}, name="candy_detail")
      */
-    public function candyDetail(int $gtin, Client $client): CandyStruct
+    public function candyDetail(int $gtin, HTTPClient $client): CandyStruct
     {
         $candy = $this->candyRepository->findOneBy(['gtin' => $gtin]);
 
