@@ -74,7 +74,7 @@ class FrontendControllerTest extends WebTestCase
 
     private const DEFAULT_HEADERS = [
         'HTTP_ACCEPT' => 'application/json',
-        'HTTP_ACCEPT_LANGUAGE' => 'de_DE'
+        'HTTP_ACCEPT_LANGUAGE' => 'de-DE'
     ];
 
     private $expectedCandyList = <<<'EOT'

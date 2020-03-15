@@ -11,3 +11,11 @@ terry_api:
             enable: true
         request_array_of_structs_resolver:
             enable: true
+    http_server:
+        formats:
+            json:
+                - 'application/json'
+            xml:
+                - 'application/xml'
+                - 'text/html'
+        format_default: 'application/json'

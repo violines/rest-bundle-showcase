@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\ValueObject;
 
 use Symfony\Component\HttpFoundation\Request;
-use TerryApiBundle\ValueObject\AbstractClient;
+use TerryApiBundle\ValueObject\AbstractHTTPClient;
+use TerryApiBundle\ValueObject\HTTPServer;
 
-class Client extends AbstractClient
+class Client extends AbstractHTTPClient
 {
     private const ACCEPT_LANGUAGE_DEFAULTS =  ['*' => 'de-DE'];
     private const ACCEPT_LANGUAGE_AVAILABLES = ['de', 'en', 'de-DE', 'en-GB'];
 
-    public static function fromRequest(Request $request): self
+    public static function fromRequest(Request $request, HTTPServer $httpServer): self
     {
-        return new self($request->headers);
+        return new self($request->headers, $httpServer);
     }
 
     public function getContentLanguage(): string

@@ -1840,12 +1840,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/simon-schubert/terry-api.git",
-                "reference": "4c8ce9c5ecca2894cd98784f3e27acabc815f1b1"
+                "reference": "a4aee194a575191e608233cc3d16b861be86bcf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simon-schubert/terry-api/zipball/4c8ce9c5ecca2894cd98784f3e27acabc815f1b1",
-                "reference": "4c8ce9c5ecca2894cd98784f3e27acabc815f1b1",
+                "url": "https://api.github.com/repos/simon-schubert/terry-api/zipball/a4aee194a575191e608233cc3d16b861be86bcf9",
+                "reference": "a4aee194a575191e608233cc3d16b861be86bcf9",
                 "shasum": ""
             },
             "require": {
@@ -1853,6 +1853,7 @@
                 "php": "7.4.*",
                 "symfony/config": "^5.0",
                 "symfony/dependency-injection": "^5.0",
+                "symfony/expression-language": "^5.0",
                 "symfony/http-foundation": "^5.0",
                 "symfony/http-kernel": "^5.0",
                 "symfony/serializer-pack": "^1.0",
@@ -1876,7 +1877,7 @@
                 "MIT"
             ],
             "description": "TerryApiBundle is a Symfony Bundle to create REST APIs. While you can focus on your data model, business logic and persistance layer implementations, TerryApiBundle handles serialization, validation and HTTP things like headers or status codes.",
-            "time": "2020-03-08T20:35:33+00:00"
+            "time": "2020-03-15T12:58:29+00:00"
         },
         {
             "name": "symfony/cache",
@@ -2563,6 +2564,57 @@
                 "standards"
             ],
             "time": "2019-11-18T17:27:11+00:00"
+        },
+        {
+            "name": "symfony/expression-language",
+            "version": "v5.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/expression-language.git",
+                "reference": "67741ad12ac7fcc157c51d335e66c7b6a475f9b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/expression-language/zipball/67741ad12ac7fcc157c51d335e66c7b6a475f9b2",
+                "reference": "67741ad12ac7fcc157c51d335e66c7b6a475f9b2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2.5",
+                "symfony/cache": "^4.4|^5.0",
+                "symfony/service-contracts": "^1.1|^2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\ExpressionLanguage\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony ExpressionLanguage Component",
+            "homepage": "https://symfony.com",
+            "time": "2020-02-24T15:05:31+00:00"
         },
         {
             "name": "symfony/filesystem",
