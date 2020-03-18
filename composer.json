@@ -12,6 +12,7 @@
         "symfony/framework-bundle": "5.0.*",
         "symfony/intl": "5.0.*",
         "symfony/orm-pack": "^1.0",
+        "symfony/security-bundle": "5.0.*",
         "symfony/yaml": "5.0.*"
     },
     "require-dev": {

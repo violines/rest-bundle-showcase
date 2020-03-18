@@ -1,0 +1,19 @@
+security:
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: lazy
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\ImportAuthenticator
+
+    access_control:
+        - { path: ^/import, roles: ROLE_IMPORT }

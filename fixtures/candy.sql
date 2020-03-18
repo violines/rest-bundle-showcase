@@ -1,6 +1,7 @@
 DELETE FROM "review";
 DELETE FROM "candy_translation";
 DELETE FROM "candy";
+DELETE FROM "user";
 
 INSERT INTO "candy" ("gtin","weight")
 VALUES ('886037363214',5),('9272037363324',10),('5567037363214',15),('893037363214',20);
@@ -15,3 +16,6 @@ VALUES
 ((SELECT id FROM candy WHERE gtin = '5567037363214'),'de','Zartbitter Schokolade'),
 ((SELECT id FROM candy WHERE gtin = '893037363214'),'en','Princess Cake'),
 ((SELECT id FROM candy WHERE gtin = '893037363214'),'de','Prinzessinen Rolle');
+
+INSERT INTO "user" ("email","key","roles")
+VALUES ('test@test.test','USKRZAOT', '["ROLE_IMPORT"]')

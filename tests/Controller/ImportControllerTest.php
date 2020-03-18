@@ -45,7 +45,8 @@ class ImportControllerTest extends WebTestCase
     private const HEADERS = [
         'HTTP_ACCEPT' => 'application/json',
         'HTTP_ACCEPT_LANGUAGE' => 'de_DE',
-        'CONTENT_TYPE' => 'application/json'
+        'CONTENT_TYPE' => 'application/json',
+        'HTTP_X-AUTH-TOKEN' => 'USKRZAOT'
     ];
 
     private $importSql = <<<'EOT'
