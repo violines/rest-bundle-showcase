@@ -56,21 +56,9 @@ class FrontendControllerTest extends WebTestCase
 
     public function testReview()
     {
-        $this->client->request(
-            'POST',
-            '/frontend/login',
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            '{"username":"test@test.test","password":"pass1234"}'
-        );
-
-        $responseContent = $this->client->getResponse()->getContent();
-        $token = json_decode($responseContent)->token;
-
         $headers = array_replace(self::DEFAULT_HEADERS, [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $token
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->getToken()
         ]);
 
         $this->client->request(
@@ -83,6 +71,22 @@ class FrontendControllerTest extends WebTestCase
         );
 
         $this->assertResponseIsSuccessful();
+    }
+
+    private function getToken(): string
+    {
+        $this->client->request(
+            'POST',
+            '/frontend/login',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            '{"username":"user@test.test","password":"pass1234"}'
+        );
+
+        $responseContent = $this->client->getResponse()->getContent();
+
+        return json_decode($responseContent)->token;
     }
 
     private const DEFAULT_HEADERS = [

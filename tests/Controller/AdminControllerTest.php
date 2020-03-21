@@ -1,0 +1,112 @@
+<?php
+
+namespace App\Tests\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Doctrine\ORM\EntityManagerInterface;
+
+class AdminControllerTest extends WebTestCase
+{
+    private $client;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->client = static::createClient();
+
+        /** @var EntityManagerInterface $em */
+        $em = self::$container->get('doctrine.orm.default_entity_manager');
+        $em->getConnection()->exec(file_get_contents(__DIR__ . '/../../fixtures/candy.sql'));
+    }
+
+    public function testUserList()
+    {
+        $headers = array_replace(self::DEFAULT_HEADERS, [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->getToken()
+        ]);
+
+        $this->client->request('GET', '/admin/user/list', [], [], $headers);
+
+        $this->assertResponseIsSuccessful();
+
+        $this->assertEquals(
+            json_decode($this->expectedUserList),
+            json_decode($this->client->getResponse()->getContent())
+        );
+    }
+
+    public function testUserEdit()
+    {;
+        $headers = array_replace(self::DEFAULT_HEADERS, [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->getToken()
+        ]);
+
+        $this->client->request('POST', '/admin/user/edit', [], [], $headers, $this->userPayload);
+
+        $this->assertResponseIsSuccessful();
+    }
+
+    private function getToken(): string
+    {
+        $this->client->request(
+            'POST',
+            '/frontend/login',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            '{"username":"admin@test.test","password":"pass1234"}'
+        );
+
+        $responseContent = $this->client->getResponse()->getContent();
+
+        return json_decode($responseContent)->token;
+    }
+
+    private const DEFAULT_HEADERS = [
+        'HTTP_ACCEPT' => 'application/json',
+        'HTTP_ACCEPT_LANGUAGE' => 'de-DE'
+    ];
+
+    private $expectedUserList = <<<'EOT'
+    [
+        {
+            "email": "import@test.test",
+            "key": "USKRZAOT",
+            "isResetPassword": null,
+            "isResetKey": null,
+            "roles": [
+                "ROLE_IMPORT"
+            ]
+        },
+        {
+            "email": "admin@test.test",
+            "key": null,
+            "isResetPassword": null,
+            "isResetKey": null,
+            "roles": [
+                "ROLE_ADMIN"
+            ]
+        },
+        {
+            "email": "user@test.test",
+            "key": null,
+            "isResetPassword": null,
+            "isResetKey": null,
+            "roles": []
+        }
+    ]
+    EOT;
+
+    private $userPayload = <<<'EOT'
+    {
+        "email": "user@test.test",
+        "key": null,
+        "isResetPassword": null,
+        "isResetKey": null,
+        "roles": []
+    }
+    EOT;
+}

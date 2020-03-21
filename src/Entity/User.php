@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Struct\Admin\User as AdminUser;
 use App\Struct\Frontend\ProfileRead;
 use App\Struct\Frontend\ProfileWrite;
 use Doctrine\ORM\Mapping as ORM;
@@ -60,6 +61,17 @@ class User implements UserInterface
         );
     }
 
+    public function toAdminUser(): AdminUser
+    {
+        $user = new AdminUser();
+
+        $user->email = $this->email;
+        $user->key = $this->key;
+        $user->roles = $this->roles;
+
+        return $user;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -99,7 +111,7 @@ class User implements UserInterface
 
     public function addRoles(array $roles): void
     {
-        $this->roles = array_unique(array_merge($this->roles, $roles));
+        $this->roles = array_values(array_unique(array_merge($this->roles, $roles)));
     }
 
     public function removeRoles(array $removeRoles): void

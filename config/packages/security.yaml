@@ -32,4 +32,5 @@ security:
 
     access_control:
         - { path: ^/import, roles: ROLE_IMPORT }
-        - { path: ^/frontend/review, roles: [IS_AUTHENTICATED_FULLY, ROLE_USER] }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/frontend/review, roles: [IS_AUTHENTICATED_FULLY] }
