@@ -56,8 +56,21 @@ class FrontendControllerTest extends WebTestCase
 
     public function testReview()
     {
+        $this->client->request(
+            'POST',
+            '/frontend/login',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            '{"username":"test@test.test","password":"pass1234"}'
+        );
+
+        $responseContent = $this->client->getResponse()->getContent();
+        $token = json_decode($responseContent)->token;
+
         $headers = array_replace(self::DEFAULT_HEADERS, [
-            'CONTENT_TYPE' => 'application/json'
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $token
         ]);
 
         $this->client->request(

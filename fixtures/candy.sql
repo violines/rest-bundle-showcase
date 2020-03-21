@@ -17,5 +17,6 @@ VALUES
 ((SELECT id FROM candy WHERE gtin = '893037363214'),'en','Princess Cake'),
 ((SELECT id FROM candy WHERE gtin = '893037363214'),'de','Prinzessinen Rolle');
 
-INSERT INTO "user" ("email","key","roles")
-VALUES ('test@test.test','USKRZAOT', '["ROLE_IMPORT"]')
+/* password for test@test.test: 'pass1234' */
+INSERT INTO "user" ("email","password","key","roles")
+VALUES ('test@test.test','$argon2id$v=19$m=65536,t=4,p=1$Ko4WKUHmT33ALGE9HqlL8g$X9HwgAEeILZU4ESXOozez0zw7chBwXYZjvApW4un490','USKRZAOT', '["ROLE_USER","ROLE_IMPORT"]')

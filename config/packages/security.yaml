@@ -1,4 +1,8 @@
 security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+            cost: 12
     providers:
         app_user_provider:
             entity:
@@ -8,12 +12,24 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        login:
+            pattern:  ^/frontend/login
+            stateless: true
+            anonymous: true
+            json_login:
+                check_path:               /frontend/login
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
         main:
             anonymous: lazy
+            stateless: true
             provider: app_user_provider
             guard:
                 authenticators:
                     - App\Security\ImportAuthenticator
+                    - lexik_jwt_authentication.jwt_token_authenticator
+                entry_point: lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
         - { path: ^/import, roles: ROLE_IMPORT }
+        - { path: ^/frontend/review, roles: [IS_AUTHENTICATED_FULLY, ROLE_USER] }

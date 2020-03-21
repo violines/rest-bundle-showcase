@@ -21,7 +21,7 @@ class ImportController
     }
 
     /**
-     * @Route("/import/candies", methods={"POST"}, name="import")
+     * @Route("/import/candies", methods={"POST"}, name="import_candies")
      */
     public function candies(CandyStruct ...$candies): Ok
     {

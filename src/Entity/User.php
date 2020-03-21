@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Struct\Frontend\ProfileRead;
+use App\Struct\Frontend\ProfileWrite;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -25,6 +27,11 @@ class User implements UserInterface
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $password;
+
+    /**
      * @ORM\Column(type="string", unique=true, nullable=true)
      */
     private $key;
@@ -34,15 +41,23 @@ class User implements UserInterface
      */
     private $roles = [];
 
-    public function __construct(string $email, array $roles)
+    private function __construct(string $email)
     {
         $this->email = $email;
+    }
 
-        if (in_array('ROLE_IMPORT', $roles)) {
-            $this->key = $this->generateKey();
-        }
+    public static function fromProfile(ProfileWrite $profile): self
+    {
+        return new self($profile->email);
+    }
 
-        $this->roles = $roles;
+    public function toProfile(): ProfileRead
+    {
+        return new ProfileRead(
+            $this->email,
+            $this->roles,
+            $this->key
+        );
     }
 
     public function getEmail(): ?string
@@ -52,7 +67,12 @@ class User implements UserInterface
 
     public function getPassword()
     {
-        return null;
+        return $this->password;
+    }
+
+    public function resetPassword(string $encodedPassword): void
+    {
+        $this->password = $encodedPassword;
     }
 
     public function getSalt()
@@ -89,6 +109,11 @@ class User implements UserInterface
                 unset($this->roles[$key]);
             }
         }
+    }
+
+    public function resetKey(): void
+    {
+        $this->key = $this->generateKey();
     }
 
     private function generateKey()
