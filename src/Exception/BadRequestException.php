@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-use App\Struct\Error\HTTPBadRequest;
+use App\Struct\Error;
 use Symfony\Component\HttpFoundation\Response;
 use TerryApiBundle\Exception\HTTPErrorInterface;
 
@@ -17,7 +17,7 @@ class BadRequestException extends \LogicException implements \Throwable, HTTPErr
 
     public function getStruct(): object
     {
-        return HTTPBadRequest::create($this->message);
+        return Error::create($this->message);
     }
 
     public function getHTTPStatusCode(): int

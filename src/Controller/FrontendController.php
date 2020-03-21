@@ -71,7 +71,7 @@ class FrontendController
         $candy = $this->candyRepository->findOneBy(['gtin' => $gtin]);
 
         if (null === $candy) {
-            throw NotFoundException::create();
+            throw NotFoundException::resource();
         }
 
         $averageRating = $this->reviewRepository->averageByCandy($candy);
@@ -87,7 +87,7 @@ class FrontendController
         $candy = $this->candyRepository->findOneBy(['gtin' => $struct->gtin]);
 
         if (null === $candy) {
-            throw NotFoundException::create();
+            throw NotFoundException::resource();
         }
 
         $this->entityManager->persist(Review::fromStruct($struct, $candy));
@@ -123,6 +123,6 @@ class FrontendController
             return $user->toProfile();
         }
 
-        throw AuthenticationFailedException::create();
+        throw AuthenticationFailedException::userNotFound();
     }
 }

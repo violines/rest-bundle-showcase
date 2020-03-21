@@ -73,6 +73,71 @@ class FrontendControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    public function testRegister()
+    {
+        $headers = array_replace(self::DEFAULT_HEADERS, [
+            'CONTENT_TYPE' => 'application/json',
+        ]);
+
+        $this->client->request(
+            'POST',
+            '/frontend/register',
+            [],
+            [],
+            $headers,
+            $this->registerPayload
+        );
+
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testRegisterFailed()
+    {
+        $headers = array_replace(self::DEFAULT_HEADERS, [
+            'CONTENT_TYPE' => 'application/json',
+        ]);
+
+        $this->client->request(
+            'POST',
+            '/frontend/register',
+            [],
+            [],
+            $headers,
+            $this->registerFailedPayload
+        );
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
+    }
+
+    public function testProfile()
+    {
+        $headers = array_replace(self::DEFAULT_HEADERS, [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->getToken()
+        ]);
+
+        $this->client->request('GET', '/frontend/profile', [], [], $headers);
+
+        $this->assertResponseIsSuccessful();
+
+        $this->assertEquals(
+            json_decode($this->expectedProfile),
+            json_decode($this->client->getResponse()->getContent())
+        );
+    }
+
+    public function testProfileFailed()
+    {
+        $headers = array_replace(self::DEFAULT_HEADERS, [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer 12345'
+        ]);
+
+        $this->client->request('GET', '/frontend/profile', [], [], $headers);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
+    }
+
     private function getToken(): string
     {
         $this->client->request(
@@ -153,6 +218,28 @@ class FrontendControllerTest extends WebTestCase
         "packaging": 2,
         "availability": 1,
         "comment": "This is awesome."
+    }
+    EOT;
+
+    private $registerPayload = <<<'EOT'
+    {
+        "email": "register@test.test",
+        "password": "12345678"
+    }
+    EOT;
+
+    private $registerFailedPayload = <<<'EOT'
+    {
+        "email": "user@test.test",
+        "password": "12345678"
+    }
+    EOT;
+
+    private $expectedProfile = <<<'EOT'
+    {
+        "email": "user@test.test",
+        "roles": [],
+        "key": null
     }
     EOT;
 }

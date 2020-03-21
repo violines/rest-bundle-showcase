@@ -43,7 +43,7 @@ class ImportAuthenticator extends AbstractGuardAuthenticator
     public function checkCredentials($credentials, UserInterface $user): bool
     {
         if (!in_array('ROLE_IMPORT', $user->getRoles())) {
-            throw AuthorizationFailedException::create();
+            throw AuthorizationFailedException::roleMissing();
         }
 
         return true;
@@ -51,7 +51,7 @@ class ImportAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        throw AuthenticationFailedException::create();
+        throw AuthenticationFailedException::userNotFound();
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -61,7 +61,7 @@ class ImportAuthenticator extends AbstractGuardAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        throw AuthenticationFailedException::create();
+        throw AuthenticationFailedException::userNotFound();
     }
 
     public function supportsRememberMe(): bool

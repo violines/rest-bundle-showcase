@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-use App\Struct\Error\HTTPNotFound;
+use App\Struct\Error;
 use Symfony\Component\HttpFoundation\Response;
 use TerryApiBundle\Exception\HTTPErrorInterface;
 
 class NotFoundException extends \LogicException implements \Throwable, HTTPErrorInterface
 {
-    public static function create(): self
+    public static function resource(): self
     {
-        return new self();
+        return new self('The requested resource was not found');
     }
 
     public function getStruct(): object
     {
-        return HTTPNotFound::create();
+        return Error::create($this->message);
     }
 
     public function getHTTPStatusCode(): int

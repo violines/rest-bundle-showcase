@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-use App\Struct\Error\HTTPAuthorizationFailed;
+use App\Struct\Error;
 use Symfony\Component\HttpFoundation\Response;
 use TerryApiBundle\Exception\HTTPErrorInterface;
 
 class AuthorizationFailedException extends \RuntimeException implements \Throwable, HTTPErrorInterface
 {
-    public static function create(): self
+    public static function roleMissing(): self
     {
-        return new self();
+        return new self('User has not the required access rights.');
     }
 
     public function getStruct(): object
     {
-        return HTTPAuthorizationFailed::create();
+        return Error::create($this->message);
     }
 
     public function getHTTPStatusCode(): int

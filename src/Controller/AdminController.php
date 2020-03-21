@@ -46,7 +46,7 @@ class AdminController
         $user = $this->userRepository->findOneBy(['email' => $userStruct->email]);
 
         if (null === $user) {
-            throw NotFoundException::create();
+            throw NotFoundException::resource();
         }
 
         if ($userStruct->isResetKey) {

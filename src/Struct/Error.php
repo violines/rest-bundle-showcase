@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Struct\Error;
+namespace App\Struct;
 
 use TerryApiBundle\Annotation\Struct;
 
 /**
  * @Struct
  */
-class HTTPBadRequest
+class Error
 {
     public $message;
 
