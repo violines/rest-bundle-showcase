@@ -3,7 +3,6 @@
 namespace App\Security;
 
 use App\Exception\AuthenticationFailedException;
-use App\Exception\AuthorizationFailedException;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -42,10 +41,6 @@ class ImportAuthenticator extends AbstractGuardAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user): bool
     {
-        if (!in_array('ROLE_IMPORT', $user->getRoles())) {
-            throw AuthorizationFailedException::roleMissing();
-        }
-
         return true;
     }
 
