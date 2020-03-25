@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Struct\Admin\User as AdminUser;
 use App\Struct\Frontend\ProfileRead;
 use App\Struct\Frontend\ProfileWrite;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -42,9 +43,15 @@ class User implements UserInterface
      */
     private $roles = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="user")
+     */
+    private $reviews;
+
     private function __construct(string $email)
     {
         $this->email = $email;
+        $this->reviews = new ArrayCollection();
     }
 
     public static function fromProfile(ProfileWrite $profile): self

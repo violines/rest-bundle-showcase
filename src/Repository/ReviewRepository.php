@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Candy;
 use App\Entity\Review;
+use App\Entity\User;
 use App\Exception\PersistenceLayerException;
 use App\Import\Model\Review as ReviewModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -79,5 +80,23 @@ class ReviewRepository extends ServiceEntityRepository
             $connection->rollBack();
             throw $e;
         }
+    }
+
+    public function findOneByGtinAndUser(string $gtin, User $user): ?Review
+    {
+        $result = $this->createQueryBuilder('rating')
+            ->join(Candy::class, 'candy', 'WITH', 'candy.id = rating.candy')
+            ->andWhere('candy.gtin = :gtin')
+            ->andWhere('rating.user = :user')
+            ->setParameter('gtin', $gtin)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+        if ([] === $result) {
+            return null;
+        }
+
+        return current($result);
     }
 }

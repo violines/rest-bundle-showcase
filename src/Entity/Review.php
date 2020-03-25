@@ -16,22 +16,22 @@ class Review
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\SequenceGenerator(sequenceName="review_id_seq", allocationSize=1, initialValue=1)
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $taste;
+    private int $taste;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $ingredients;
+    private int $ingredients;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $healthiness;
+    private int $healthiness;
 
     /**
      * @ORM\Column(type="integer")
@@ -41,18 +41,24 @@ class Review
     /**
      * @ORM\Column(type="integer")
      */
-    private $availability;
+    private int $availability;
 
     /**
      * @ORM\Column(type="string", length=1000, nullable=true)
      */
-    private $comment;
+    private string $comment;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Candy", inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $candy;
+    private Candy $candy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reviews")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private User $user;
 
     public function __construct(
         int $taste,
@@ -61,7 +67,8 @@ class Review
         int $packaging,
         int $availability,
         string $comment,
-        Candy $candyEntity
+        Candy $candyEntity,
+        User $userEntity
     ) {
         $this->taste = $taste;
         $this->ingredients = $ingredients;
@@ -70,9 +77,10 @@ class Review
         $this->availability = $availability;
         $this->comment = $comment;
         $this->candy = $candyEntity;
+        $this->user = $userEntity;
     }
 
-    public static function fromStruct(FrontendStruct $struct, Candy $candyEntity)
+    public static function fromStruct(FrontendStruct $struct, Candy $candyEntity, User $userEntity)
     {
         return new self(
             $struct->taste,
@@ -81,7 +89,8 @@ class Review
             $struct->packaging,
             $struct->availability,
             $struct->comment,
-            $candyEntity
+            $candyEntity,
+            $userEntity
         );
     }
 }

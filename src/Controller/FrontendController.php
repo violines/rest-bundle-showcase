@@ -7,11 +7,13 @@ namespace App\Controller;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Exception\AuthenticationFailedException;
+use App\Exception\AuthorizationFailedException;
 use App\Exception\BadRequestException;
 use App\Exception\NotFoundException;
 use App\Repository\CandyRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
+use App\Security\Voter\ReviewUniqueVoter;
 use App\Struct\Frontend\Candy as CandyStruct;
 use App\Struct\Frontend\ProfileRead;
 use App\Struct\Frontend\ProfileWrite;
@@ -21,6 +23,7 @@ use App\ValueObject\HTTPClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class FrontendController
@@ -31,6 +34,8 @@ class FrontendController
 
     private ReviewRepository $reviewRepository;
 
+    private Security $security;
+
     private UserRepository $userRepository;
 
     private UserPasswordEncoderInterface $passwordEncoder;
@@ -39,12 +44,14 @@ class FrontendController
         CandyRepository $candyRepository,
         EntityManagerInterface $entityManager,
         ReviewRepository $reviewRepository,
+        Security $security,
         UserRepository $userRepository,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
         $this->candyRepository = $candyRepository;
         $this->entityManager = $entityManager;
         $this->reviewRepository = $reviewRepository;
+        $this->security = $security;
         $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
     }
@@ -82,15 +89,19 @@ class FrontendController
     /**
      * @Route("/frontend/review", methods={"POST"}, name="frontend_review")
      */
-    public function review(ReviewStruct $struct): Ok
+    public function review(ReviewStruct $struct, UserInterface $user): Ok
     {
+        if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $struct)) {
+            throw AuthorizationFailedException::entryNotAllowed();
+        };
+
         $candy = $this->candyRepository->findOneBy(['gtin' => $struct->gtin]);
 
         if (null === $candy) {
             throw NotFoundException::resource();
         }
 
-        $this->entityManager->persist(Review::fromStruct($struct, $candy));
+        $this->entityManager->persist(Review::fromStruct($struct, $candy, $user));
         $this->entityManager->flush();
 
         return OK::create();

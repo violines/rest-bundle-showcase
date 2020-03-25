@@ -15,6 +15,11 @@ class AuthorizationFailedException extends \RuntimeException implements \Throwab
         return new self('User has not the required access rights.');
     }
 
+    public static function entryNotAllowed(): self
+    {
+        return new self('You are not allowed to enter this.');
+    }
+
     public function getStruct(): object
     {
         return Error::create($this->message);
