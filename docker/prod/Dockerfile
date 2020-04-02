@@ -1,14 +1,10 @@
-FROM php:7.4.3-fpm
+FROM php:7.4.4-fpm
 
 WORKDIR "/app"
 
-RUN apt-get update && apt-get install -y zip unzip libpq-dev postgresql-client
+RUN apt-get update && apt-get install -y libpq-dev
 
-RUN docker-php-ext-install pdo_pgsql
-
-RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    && docker-php-ext-install -j$(nproc) zip \
+RUN docker-php-ext-install pdo_pgsql \
     && docker-php-ext-install opcache \
     && echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/php.ini \
     && echo "opcache.memory_consumption=256" >> /usr/local/etc/php/conf.d/php.ini \
@@ -19,7 +15,4 @@ RUN apt-get update && apt-get install -y \
     && echo "realpath_cache_size=4096K" >> /usr/local/etc/php/conf.d/php.ini \
     && echo "realpath_cache_ttl=3600" >> /usr/local/etc/php/conf.d/php.ini
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer --version
-# composer install --optimize-autoloader --no-dev --classmap-authoritative --> ~200ms faster when no opcache enabled
+# composer install --optimize-autoloader --classmap-authoritative --> ~200ms faster when no opcache enabled

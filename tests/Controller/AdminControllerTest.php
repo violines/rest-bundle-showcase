@@ -53,7 +53,7 @@ class AdminControllerTest extends WebTestCase
     {
         $this->client->request(
             'POST',
-            '/frontend/login',
+            'login',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],

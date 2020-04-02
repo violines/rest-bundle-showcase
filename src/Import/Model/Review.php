@@ -47,7 +47,8 @@ class Review
             'packaging' => $this->packaging,
             'availability' => $this->availability,
             'comment' => $this->comment,
-            'candy_id' => $this->candyId
+            'candy_id' => $this->candyId,
+            'user_id' => 1
         ];
     }
 }

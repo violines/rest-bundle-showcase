@@ -19,8 +19,7 @@ services:
       build: docker/prod  
       working_dir: /app
       volumes:
-        - ./vendor:/app/vendor:cached
-        - .:/app
+        - .:/app:cached
     db:
       image: postgres:11
       volumes:

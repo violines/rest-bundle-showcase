@@ -1,2 +1,2 @@
-frontend_login:
-    path: /frontend/login
+jwt_login:
+    path: /login

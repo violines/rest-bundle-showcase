@@ -15,13 +15,17 @@ class HTTPClient extends AbstractHTTPClient
 
     public static function fromRequest(Request $request, HTTPServer $httpServer): self
     {
-        return new self($request->headers, $httpServer);
+        return new self($request->headers, $request->getLocale());
     }
 
     public function getContentLanguage(): string
     {
+        // by locale
+        return $this->locale();
+
+        // or by header
         $language = $this->negotiate(
-            $this->acceptLanguage,
+            $this->acceptLanguage(),
             self::ACCEPT_LANGUAGE,
             self::ACCEPT_LANGUAGE_DEFAULTS,
             self::ACCEPT_LANGUAGE_AVAILABLES,

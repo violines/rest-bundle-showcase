@@ -23,7 +23,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyList()
     {
-        $this->client->request('GET', '/frontend/candy/list', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', 'de/frontend/candy/list', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
@@ -34,7 +34,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyDetail()
     {
-        $this->client->request('GET', '/frontend/candy/886037363214', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', 'de/frontend/candy/886037363214', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
@@ -45,7 +45,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testCandyNotFound()
     {
-        $this->client->request('GET', '/frontend/candy/999', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', 'de/frontend/candy/999', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $this->assertEquals(
@@ -63,7 +63,7 @@ class FrontendControllerTest extends WebTestCase
 
         $this->client->request(
             'POST',
-            '/frontend/review',
+            'de/frontend/review',
             [],
             [],
             $headers,
@@ -81,7 +81,7 @@ class FrontendControllerTest extends WebTestCase
 
         $this->client->request(
             'POST',
-            '/frontend/register',
+            'de/frontend/register',
             [],
             [],
             $headers,
@@ -99,7 +99,7 @@ class FrontendControllerTest extends WebTestCase
 
         $this->client->request(
             'POST',
-            '/frontend/register',
+            'de/frontend/register',
             [],
             [],
             $headers,
@@ -116,7 +116,7 @@ class FrontendControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->getToken()
         ]);
 
-        $this->client->request('GET', '/frontend/profile', [], [], $headers);
+        $this->client->request('GET', 'de/frontend/profile', [], [], $headers);
 
         $this->assertResponseIsSuccessful();
 
@@ -133,7 +133,7 @@ class FrontendControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => 'Bearer 12345'
         ]);
 
-        $this->client->request('GET', '/frontend/profile', [], [], $headers);
+        $this->client->request('GET', 'de/frontend/profile', [], [], $headers);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
@@ -142,7 +142,7 @@ class FrontendControllerTest extends WebTestCase
     {
         $this->client->request(
             'POST',
-            '/frontend/login',
+            'login',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],

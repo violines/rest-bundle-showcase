@@ -1,4 +1,11 @@
-controllers:
+frontend:
+    resource: ../../src/Controller/FrontendController.php
+    type: annotation
+    prefix:
+        de: 'de'
+        en: 'en'
+
+app:
     resource: ../../src/Controller/
     type: annotation
 
