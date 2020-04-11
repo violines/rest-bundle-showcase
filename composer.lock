@@ -1593,24 +1593,24 @@
         },
         {
             "name": "ocramius/package-versions",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/PackageVersions.git",
-                "reference": "651c372efc914aea8223e049f85afaf65e09ba23"
+                "reference": "421679846270a5772534828013a93be709fb13df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/651c372efc914aea8223e049f85afaf65e09ba23",
-                "reference": "651c372efc914aea8223e049f85afaf65e09ba23",
+                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/421679846270a5772534828013a93be709fb13df",
+                "reference": "421679846270a5772534828013a93be709fb13df",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.1.0",
+                "composer-plugin-api": "^1.1.0 || ^2.0",
                 "php": "^7.4.0"
             },
             "require-dev": {
-                "composer/composer": "^1.9.3",
+                "composer/composer": "^1.9.3 || ^2.0@dev",
                 "doctrine/coding-standard": "^7.0.2",
                 "ext-zip": "^1.15.0",
                 "infection/infection": "^0.15.3",
@@ -1640,7 +1640,17 @@
                 }
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
-            "time": "2020-03-06T11:34:16+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/Ocramius",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/ocramius/package-versions",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-04-06T17:43:35+00:00"
         },
         {
             "name": "ocramius/proxy-manager",
@@ -2062,12 +2072,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/simon-schubert/terry-api.git",
-                "reference": "45b0c598957f8dd8fa8d79417491b59edb524330"
+                "reference": "75cde9bb8e22683791e43580fdb08c5250493308"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simon-schubert/terry-api/zipball/45b0c598957f8dd8fa8d79417491b59edb524330",
-                "reference": "45b0c598957f8dd8fa8d79417491b59edb524330",
+                "url": "https://api.github.com/repos/simon-schubert/terry-api/zipball/75cde9bb8e22683791e43580fdb08c5250493308",
+                "reference": "75cde9bb8e22683791e43580fdb08c5250493308",
                 "shasum": ""
             },
             "require": {
@@ -2082,7 +2092,7 @@
                 "symfony/validator": "^5.0"
             },
             "require-dev": {
-                "infection/infection": "^0.15.0",
+                "infection/infection": "^0.16.0",
                 "phake/phake": "^3.1",
                 "phpunit/phpunit": "^8.5.0",
                 "squizlabs/php_codesniffer": "^3.5.3",
@@ -2099,7 +2109,7 @@
                 "MIT"
             ],
             "description": "TerryApiBundle is a Symfony Bundle to create REST APIs. While you can focus on your data model, business logic and persistance layer implementations, TerryApiBundle handles serialization, validation and HTTP things like headers or status codes.",
-            "time": "2020-04-04T14:02:59+00:00"
+            "time": "2020-04-10T11:41:41+00:00"
         },
         {
             "name": "symfony/cache",
@@ -5467,56 +5477,6 @@
     ],
     "packages-dev": [
         {
-            "name": "easycorp/easy-log-handler",
-            "version": "v1.0.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/EasyCorp/easy-log-handler.git",
-                "reference": "224e1dfcf9455aceee89cd0af306ac097167fac1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/EasyCorp/easy-log-handler/zipball/224e1dfcf9455aceee89cd0af306ac097167fac1",
-                "reference": "224e1dfcf9455aceee89cd0af306ac097167fac1",
-                "shasum": ""
-            },
-            "require": {
-                "monolog/monolog": "~1.6|~2.0",
-                "php": ">=7.1",
-                "symfony/yaml": "^3.4|^4.0|^5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "EasyCorp\\EasyLog\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Javier Eguiluz",
-                    "email": "javiereguiluz@gmail.com"
-                },
-                {
-                    "name": "Project Contributors",
-                    "homepage": "https://github.com/EasyCorp/easy-log-handler"
-                }
-            ],
-            "description": "A handler for Monolog that optimizes log messages to be processed by humans instead of software. Improve your productivity with logs that are easy to understand.",
-            "homepage": "https://github.com/EasyCorp/easy-log-handler",
-            "keywords": [
-                "easy",
-                "log",
-                "logging",
-                "monolog",
-                "productivity"
-            ],
-            "time": "2019-10-24T07:13:31+00:00"
-        },
-        {
             "name": "monolog/monolog",
             "version": "2.0.2",
             "source": {
@@ -5922,20 +5882,19 @@
         },
         {
             "name": "symfony/debug-pack",
-            "version": "v1.0.7",
+            "version": "v1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug-pack.git",
-                "reference": "09a4a1e9bf2465987d4f79db0ad6c11cc632bc79"
+                "reference": "7310a66f9f81c9f292ff9089f0b0062386cb83fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug-pack/zipball/09a4a1e9bf2465987d4f79db0ad6c11cc632bc79",
-                "reference": "09a4a1e9bf2465987d4f79db0ad6c11cc632bc79",
+                "url": "https://api.github.com/repos/symfony/debug-pack/zipball/7310a66f9f81c9f292ff9089f0b0062386cb83fb",
+                "reference": "7310a66f9f81c9f292ff9089f0b0062386cb83fb",
                 "shasum": ""
             },
             "require": {
-                "easycorp/easy-log-handler": "^1.0.7",
                 "php": "^7.0",
                 "symfony/debug-bundle": "*",
                 "symfony/monolog-bundle": "^3.0",
@@ -5948,7 +5907,21 @@
                 "MIT"
             ],
             "description": "A debug pack for Symfony projects",
-            "time": "2018-12-10T12:11:11+00:00"
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-04-07T10:08:51+00:00"
         },
         {
             "name": "symfony/dom-crawler",
@@ -6027,16 +6000,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.14.6",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "bc4df88792fbaaeb275167101dc714218475db5f"
+                "reference": "31396f2e61803f0e2debbb43ba5aa21acbc6e15a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/bc4df88792fbaaeb275167101dc714218475db5f",
-                "reference": "bc4df88792fbaaeb275167101dc714218475db5f",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/31396f2e61803f0e2debbb43ba5aa21acbc6e15a",
+                "reference": "31396f2e61803f0e2debbb43ba5aa21acbc6e15a",
                 "shasum": ""
             },
             "require": {
@@ -6091,7 +6064,21 @@
                 "scaffold",
                 "scaffolding"
             ],
-            "time": "2020-03-04T13:57:29+00:00"
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-04-05T10:50:59+00:00"
         },
         {
             "name": "symfony/monolog-bridge",

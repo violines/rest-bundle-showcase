@@ -5,7 +5,7 @@ terry_api:
         response_transform_listener: 
             enable: true
     argument_value_resolver:
-        abstract_client_resolver:
+        abstract_http_client_resolver:
             enable: true
         request_single_struct_resolver:
             enable: true
