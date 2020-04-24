@@ -162,9 +162,6 @@
     "symfony/cache": {
         "version": "v5.0.4"
     },
-    "symfony/cache-contracts": {
-        "version": "v2.0.1"
-    },
     "symfony/config": {
         "version": "v5.0.4"
     },
@@ -216,9 +213,6 @@
     },
     "symfony/event-dispatcher": {
         "version": "v5.0.4"
-    },
-    "symfony/event-dispatcher-contracts": {
-        "version": "v2.0.1"
     },
     "symfony/expression-language": {
         "version": "v5.0.5"
@@ -407,9 +401,6 @@
             "config/packages/translation.yaml",
             "translations/.gitignore"
         ]
-    },
-    "symfony/translation-contracts": {
-        "version": "v2.0.1"
     },
     "symfony/twig-bridge": {
         "version": "v5.0.4"
