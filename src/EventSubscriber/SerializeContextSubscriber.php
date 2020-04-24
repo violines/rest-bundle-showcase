@@ -8,7 +8,7 @@ use TerryApiBundle\Event\SerializeEvent;
 
 class SerializeContextSubscriber implements EventSubscriberInterface
 {
-    public function onTerryApiEventSerialze(SerializeEvent $event)
+    public function onSerialize(SerializeEvent $event)
     {
         $event->mergeToContext([AbstractObjectNormalizer::SKIP_NULL_VALUES => true]);
     }
@@ -16,7 +16,7 @@ class SerializeContextSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            SerializeEvent::NAME => 'onTerryApiEventSerialze',
+            SerializeEvent::NAME => 'onSerialize',
         ];
     }
 }
