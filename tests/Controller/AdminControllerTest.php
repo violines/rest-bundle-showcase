@@ -75,26 +75,18 @@ class AdminControllerTest extends WebTestCase
         {
             "email": "import@test.test",
             "key": "USKRZAOT",
-            "isResetPassword": null,
-            "isResetKey": null,
             "roles": [
                 "ROLE_IMPORT"
             ]
         },
         {
             "email": "admin@test.test",
-            "key": null,
-            "isResetPassword": null,
-            "isResetKey": null,
             "roles": [
                 "ROLE_ADMIN"
             ]
         },
         {
             "email": "user@test.test",
-            "key": null,
-            "isResetPassword": null,
-            "isResetKey": null,
             "roles": []
         }
     ]
@@ -103,9 +95,6 @@ class AdminControllerTest extends WebTestCase
     private $userPayload = <<<'EOT'
     {
         "email": "user@test.test",
-        "key": null,
-        "isResetPassword": null,
-        "isResetKey": null,
         "roles": []
     }
     EOT;

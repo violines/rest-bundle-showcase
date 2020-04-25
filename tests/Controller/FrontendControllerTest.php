@@ -164,26 +164,22 @@ class FrontendControllerTest extends WebTestCase
         {
             "gtin": "886037363214",
             "weight": 5,
-            "name": "Weiße Schokolade mit Krisp",
-            "average_rating": null
+            "name": "Weiße Schokolade mit Krisp"
         },
         {
             "gtin": "9272037363324",
             "weight": 10,
-            "name": "Erdnuss Cups",
-            "average_rating": null
+            "name": "Erdnuss Cups"
         },
         {
             "gtin": "5567037363214",
             "weight": 15,
-            "name": "Zartbitter Schokolade",
-            "average_rating": null
+            "name": "Zartbitter Schokolade"
         },
         {
             "gtin": "893037363214",
             "weight": 20,
-            "name": "Prinzessinen Rolle",
-            "average_rating": null
+            "name": "Prinzessinen Rolle"
         }
     ]
     EOT;
@@ -238,8 +234,7 @@ class FrontendControllerTest extends WebTestCase
     private $expectedProfile = <<<'EOT'
     {
         "email": "user@test.test",
-        "roles": [],
-        "key": null
+        "roles": []
     }
     EOT;
 }

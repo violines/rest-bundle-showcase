@@ -2088,12 +2088,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/simon-schubert/terry-api.git",
-                "reference": "2a88798da138553d711c7d61f4881fdec4c4966b"
+                "reference": "a7c7c72f423f5f1ca67ed1cdeb59ec3d63af6ca3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simon-schubert/terry-api/zipball/2a88798da138553d711c7d61f4881fdec4c4966b",
-                "reference": "2a88798da138553d711c7d61f4881fdec4c4966b",
+                "url": "https://api.github.com/repos/simon-schubert/terry-api/zipball/a7c7c72f423f5f1ca67ed1cdeb59ec3d63af6ca3",
+                "reference": "a7c7c72f423f5f1ca67ed1cdeb59ec3d63af6ca3",
                 "shasum": ""
             },
             "require": {
@@ -2127,7 +2127,7 @@
                 "MIT"
             ],
             "description": "TerryApiBundle is a Symfony Bundle to create REST APIs. While you can focus on your data model, business logic and persistance layer implementations, TerryApiBundle handles serialization, validation and HTTP things like headers or status codes.",
-            "time": "2020-04-24T14:00:14+00:00"
+            "time": "2020-04-25T14:38:21+00:00"
         },
         {
             "name": "symfony/cache",
