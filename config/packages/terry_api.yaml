@@ -1,5 +1,7 @@
 terry_api:
     event_listener: 
+        array_response_listener:
+            enable: true
         http_error_listener: 
             enable: true
         response_transform_listener: 
