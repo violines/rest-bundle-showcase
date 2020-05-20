@@ -22,4 +22,10 @@ INSERT INTO "user" ("email","password","key","roles")
 VALUES 
 ('import@test.test','$argon2id$v=19$m=65536,t=4,p=1$Ko4WKUHmT33ALGE9HqlL8g$X9HwgAEeILZU4ESXOozez0zw7chBwXYZjvApW4un490','USKRZAOT', '["ROLE_IMPORT"]'),
 ('admin@test.test','$argon2id$v=19$m=65536,t=4,p=1$Ko4WKUHmT33ALGE9HqlL8g$X9HwgAEeILZU4ESXOozez0zw7chBwXYZjvApW4un490',NULL, '["ROLE_ADMIN"]'),
-('user@test.test','$argon2id$v=19$m=65536,t=4,p=1$Ko4WKUHmT33ALGE9HqlL8g$X9HwgAEeILZU4ESXOozez0zw7chBwXYZjvApW4un490',NULL, '[]')
+('user@test.test','$argon2id$v=19$m=65536,t=4,p=1$Ko4WKUHmT33ALGE9HqlL8g$X9HwgAEeILZU4ESXOozez0zw7chBwXYZjvApW4un490',NULL, '[]');
+
+INSERT INTO "category" ("key","sorting")
+VALUES 
+('Chocolate',1),
+('Biscuits',2),
+('Bubblegum',3);

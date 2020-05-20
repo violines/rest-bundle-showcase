@@ -11,6 +11,7 @@ use App\Exception\AuthorizationFailedException;
 use App\Exception\BadRequestException;
 use App\Exception\NotFoundException;
 use App\Repository\CandyRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Security\Voter\ReviewUniqueVoter;
@@ -30,6 +31,8 @@ class FrontendController
 {
     private CandyRepository $candyRepository;
 
+    private CategoryRepository $categoryRepository;
+
     private EntityManagerInterface $entityManager;
 
     private ReviewRepository $reviewRepository;
@@ -42,6 +45,7 @@ class FrontendController
 
     public function __construct(
         CandyRepository $candyRepository,
+        CategoryRepository $categoryRepository,
         EntityManagerInterface $entityManager,
         ReviewRepository $reviewRepository,
         Security $security,
@@ -49,11 +53,20 @@ class FrontendController
         UserPasswordEncoderInterface $passwordEncoder
     ) {
         $this->candyRepository = $candyRepository;
+        $this->categoryRepository = $categoryRepository;
         $this->entityManager = $entityManager;
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
         $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
+    }
+
+    /**
+     * @Route("/frontend/categories", name="frontend_categories")
+     */
+    public function categories(): array
+    {
+        return $this->categoryRepository->selectAll();
     }
 
     /**

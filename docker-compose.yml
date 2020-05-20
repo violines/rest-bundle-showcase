@@ -14,7 +14,7 @@ services:
         - ./docker/dev/.env
       volumes:
         - ./vendor:/app/vendor:cached
-        - .:/app
+        - .:/app:delegated  
     prod:
       build: docker/prod  
       working_dir: /app
