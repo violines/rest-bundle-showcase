@@ -6,8 +6,8 @@ namespace App\Controller;
 
 use App\Import\Import;
 use App\Import\Model\Candy as CandyModel;
-use App\Struct\Import\Candy as CandyStruct;
-use App\Struct\Ok;
+use App\DTO\Import\Candy as ImportCandy;
+use App\DTO\Ok;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImportController
@@ -23,12 +23,12 @@ class ImportController
     /**
      * @Route("/import/candies", methods={"POST"}, name="import_candies")
      */
-    public function candies(CandyStruct ...$candies): Ok
+    public function candies(ImportCandy ...$candies): Ok
     {
         $_candies = [];
 
         foreach ($candies as $candy) {
-            $models = CandyModel::fromImportStruct($candy);
+            $models = CandyModel::fromImportDTO($candy);
             array_push($_candies, ...$models);
         }
 

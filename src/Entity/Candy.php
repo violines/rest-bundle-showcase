@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Struct\Frontend\Candy as FrontendStruct;
+use App\DTO\Frontend\Candy as FrontendCandy;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -52,9 +52,9 @@ class Candy
         $this->translations = $translations;
     }
 
-    public function toFrontendStruct(string $language, ?array $averageRating = null): FrontendStruct
+    public function toFrontendDTO(string $language, ?array $averageRating = null): FrontendCandy
     {
-        return new FrontendStruct(
+        return new FrontendCandy(
             $this->gtin,
             $this->weight,
             $this->translationByLanguage($language),

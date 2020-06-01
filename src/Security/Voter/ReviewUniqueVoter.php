@@ -6,7 +6,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use App\Entity\User;
 use App\Repository\ReviewRepository;
-use App\Struct\Frontend\Review;
+use App\DTO\Frontend\Review as FrontendReview;
 
 class ReviewUniqueVoter extends Voter
 {
@@ -21,7 +21,7 @@ class ReviewUniqueVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return self::NAME === $attribute && $subject instanceof Review;
+        return self::NAME === $attribute && $subject instanceof FrontendReview;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -32,7 +32,7 @@ class ReviewUniqueVoter extends Voter
             return false;
         }
 
-        if (!$subject instanceof Review) {
+        if (!$subject instanceof FrontendReview) {
             return false;
         }
 

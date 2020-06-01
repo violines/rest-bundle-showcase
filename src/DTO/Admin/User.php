@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Struct\Admin;
+namespace App\DTO\Admin;
 
-use TerryApiBundle\Annotation\Struct;
+use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @Struct
+ * @HTTPApi
  */
 class User
 {

@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use App\Struct\Admin\User as AdminUser;
-use App\Struct\Frontend\ProfileRead;
-use App\Struct\Frontend\ProfileWrite;
+use App\DTO\Admin\User as AdminUser;
+use App\DTO\Frontend\ProfileRead;
+use App\DTO\Frontend\ProfileWrite;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;

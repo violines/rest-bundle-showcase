@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Struct;
+namespace App\DTO;
 
-use TerryApiBundle\Annotation\Struct;
+use TerryApiBundle\Annotation\HTTPApi;
 
 /**
- * @Struct
+ * @HTTPApi
  */
 class Error
 {

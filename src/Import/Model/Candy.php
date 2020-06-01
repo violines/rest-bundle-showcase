@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Import\Model;
 
-use App\Struct\Import\Candy as ImportCandyStruct;
-use App\Struct\Import\ImportCandyTranslation as ImportCandyTranslationStruct;
+use App\DTO\Import\Candy as ImportCandy;
+use App\DTO\Import\ImportCandyTranslation as ImportCandyTranslation;
 
 class Candy
 {
@@ -31,11 +31,11 @@ class Candy
         $this->title = $title;
     }
 
-    public static function fromImportStruct(ImportCandyStruct $importCandy): array
+    public static function fromImportDTO(ImportCandy $importCandy): array
     {
         $_candies = [];
 
-        /** @var ImportCandyTranslationStruct $translation */
+        /** @var ImportCandyTranslation $translation */
         foreach ($importCandy->translations as $translation) {
             $_candies[] = new self(
                 $importCandy->gtin,

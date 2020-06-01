@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Struct\Frontend\Review as FrontendStruct;
+use App\DTO\Frontend\Review as FrontendReview;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -80,15 +80,15 @@ class Review
         $this->user = $userEntity;
     }
 
-    public static function fromStruct(FrontendStruct $struct, Candy $candyEntity, User $userEntity)
+    public static function fromDTO(FrontendReview $frontenReview, Candy $candyEntity, User $userEntity)
     {
         return new self(
-            $struct->taste,
-            $struct->ingredients,
-            $struct->healthiness,
-            $struct->packaging,
-            $struct->availability,
-            $struct->comment,
+            $frontenReview->taste,
+            $frontenReview->ingredients,
+            $frontenReview->healthiness,
+            $frontenReview->packaging,
+            $frontenReview->availability,
+            $frontenReview->comment,
             $candyEntity,
             $userEntity
         );

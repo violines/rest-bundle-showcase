@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Exception\NotFoundException;
 use App\Repository\UserRepository;
-use App\Struct\Admin\User as UserStruct;
+use App\DTO\Admin\User as AdminUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -25,7 +25,7 @@ class AdminController
     }
     /**
      * @Route("/admin/user/list", methods={"GET"}, name="admin_user_list")
-     * @return UserStruct[]
+     * @return AdminUser[]
      */
     public function userList(): array
     {
@@ -41,19 +41,19 @@ class AdminController
     /**
      * @Route("/admin/user/edit", methods={"POST"}, name="admin_user_edit")
      */
-    public function editUser(UserStruct $userStruct): UserStruct
+    public function editUser(AdminUser $dto): AdminUser
     {
-        $user = $this->userRepository->findOneBy(['email' => $userStruct->email]);
+        $user = $this->userRepository->findOneBy(['email' => $dto->email]);
 
         if (null === $user) {
             throw NotFoundException::resource();
         }
 
-        if ($userStruct->isResetKey) {
+        if ($dto->isResetKey) {
             $user->resetKey();
         }
 
-        $user->addRoles($userStruct->roles);
+        $user->addRoles($dto->roles);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

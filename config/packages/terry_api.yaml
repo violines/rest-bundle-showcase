@@ -4,14 +4,14 @@ terry_api:
             enable: true
         http_error_listener: 
             enable: true
-        response_transform_listener: 
+        object_response_listener: 
             enable: true
     argument_value_resolver:
         abstract_http_client_resolver:
             enable: true
-        request_single_struct_resolver:
+        single_object_resolver:
             enable: true
-        request_array_of_structs_resolver:
+        objects_array_resolver:
             enable: true
     http_server:
         formats:

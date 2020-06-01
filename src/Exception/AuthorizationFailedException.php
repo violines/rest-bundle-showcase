@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-use App\Struct\Error;
+use App\DTO\Error;
 use Symfony\Component\HttpFoundation\Response;
 use TerryApiBundle\Exception\HTTPErrorInterface;
 
@@ -20,7 +20,7 @@ class AuthorizationFailedException extends \RuntimeException implements \Throwab
         return new self('You are not allowed to enter this.');
     }
 
-    public function getStruct(): object
+    public function getContent(): object
     {
         return Error::create($this->message);
     }

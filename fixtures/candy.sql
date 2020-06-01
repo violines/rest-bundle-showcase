@@ -2,6 +2,7 @@ DELETE FROM "review";
 DELETE FROM "candy_translation";
 DELETE FROM "candy";
 DELETE FROM "user";
+DELETE FROM "category";
 
 INSERT INTO "candy" ("gtin","weight")
 VALUES ('886037363214',5),('9272037363324',10),('5567037363214',15),('893037363214',20);

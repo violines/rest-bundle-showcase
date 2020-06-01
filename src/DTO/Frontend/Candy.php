@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Struct\Frontend;
+namespace App\DTO\Frontend;
 
-use TerryApiBundle\Annotation\Struct;
+use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @Struct
+ * @HTTPApi
  */
 class Candy
 {

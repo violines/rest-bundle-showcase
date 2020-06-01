@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Struct\Frontend;
+namespace App\DTO\Frontend;
 
-use TerryApiBundle\Annotation\Struct;
+use TerryApiBundle\Annotation\HTTPApi;
 
 /**
- * @Struct
+ * @HTTPApi
  */
 class ProfileRead
 {

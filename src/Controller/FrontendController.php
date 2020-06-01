@@ -15,11 +15,11 @@ use App\Repository\CategoryRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Security\Voter\ReviewUniqueVoter;
-use App\Struct\Frontend\Candy as CandyStruct;
-use App\Struct\Frontend\ProfileRead;
-use App\Struct\Frontend\ProfileWrite;
-use App\Struct\Frontend\Review as ReviewStruct;
-use App\Struct\Ok;
+use App\DTO\Frontend\Candy as FrontendCandy;
+use App\DTO\Frontend\ProfileRead as FrontendProfileRead;
+use App\DTO\Frontend\ProfileWrite as FrontendProfileWrite;
+use App\DTO\Frontend\Review as FrontendReview;
+use App\DTO\Ok;
 use App\ValueObject\HTTPClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -77,7 +77,7 @@ class FrontendController
         $_candies = [];
 
         foreach ($this->candyRepository->findAll() as $candy) {
-            $_candies[] = $candy->toFrontendStruct($client->getContentLanguage());
+            $_candies[] = $candy->toFrontendDTO($client->getContentLanguage());
         }
 
         return $_candies;
@@ -86,7 +86,7 @@ class FrontendController
     /**
      * @Route("/frontend/candy/{gtin}", methods={"GET"}, name="frontend_candy_detail")
      */
-    public function candyDetail(int $gtin, HTTPClient $client): CandyStruct
+    public function candyDetail(int $gtin, HTTPClient $client): FrontendCandy
     {
         $candy = $this->candyRepository->findOneBy(['gtin' => $gtin]);
 
@@ -96,25 +96,25 @@ class FrontendController
 
         $averageRating = $this->reviewRepository->averageByCandy($candy);
 
-        return $candy->toFrontendStruct($client->getContentLanguage(), $averageRating);
+        return $candy->toFrontendDTO($client->getContentLanguage(), $averageRating);
     }
 
     /**
      * @Route("/frontend/review", methods={"POST"}, name="frontend_review")
      */
-    public function review(ReviewStruct $struct, UserInterface $user): Ok
+    public function review(FrontendReview $frontendReview, UserInterface $user): Ok
     {
-        if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $struct)) {
+        if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $frontendReview)) {
             throw AuthorizationFailedException::entryNotAllowed();
         };
 
-        $candy = $this->candyRepository->findOneBy(['gtin' => $struct->gtin]);
+        $candy = $this->candyRepository->findOneBy(['gtin' => $frontendReview->gtin]);
 
         if (null === $candy) {
             throw NotFoundException::resource();
         }
 
-        $this->entityManager->persist(Review::fromStruct($struct, $candy, $user));
+        $this->entityManager->persist(Review::fromDTO($frontendReview, $candy, $user));
         $this->entityManager->flush();
 
         return OK::create();
@@ -123,7 +123,7 @@ class FrontendController
     /**
      * @Route("/frontend/register", methods={"POST"}, name="frontend_register")
      */
-    public function register(ProfileWrite $profile): Ok
+    public function register(FrontendProfileWrite $profile): Ok
     {
         if (null !== $this->userRepository->findOneBy(['email' => $profile->email])) {
             throw BadRequestException::userExists();
@@ -141,7 +141,7 @@ class FrontendController
     /**
      * @Route("/frontend/profile", methods={"GET"}, name="frontend_profile")
      */
-    public function profile(?UserInterface $user): ProfileRead
+    public function profile(?UserInterface $user): FrontendProfileRead
     {
         if ($user instanceof User) {
             return $user->toProfile();
