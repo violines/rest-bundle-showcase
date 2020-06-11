@@ -32,7 +32,7 @@ class AdminController
         $_users = [];
 
         foreach ($this->userRepository->findAll() as $user) {
-            $_users[] = $user->toAdminUser();
+            $_users[] = $user->toAdminDTO();
         }
 
         return $_users;
@@ -41,23 +41,17 @@ class AdminController
     /**
      * @Route("/admin/user/edit", methods={"POST"}, name="admin_user_edit")
      */
-    public function editUser(AdminUser $dto): AdminUser
+    public function editUser(AdminUser $adminUser): AdminUser
     {
-        $user = $this->userRepository->findOneBy(['email' => $dto->email]);
+        $user = $this->userRepository->findOneBy(['email' => $adminUser->email]);
 
         if (null === $user) {
             throw NotFoundException::resource();
         }
 
-        if ($dto->isResetKey) {
-            $user->resetKey();
-        }
-
-        $user->addRoles($dto->roles);
-
-        $this->entityManager->persist($user);
+        $this->entityManager->persist($user->adminEdit($adminUser));
         $this->entityManager->flush();
 
-        return $user->toAdminUser();
+        return $user->toAdminDTO();
     }
 }

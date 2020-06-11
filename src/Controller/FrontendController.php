@@ -114,7 +114,7 @@ class FrontendController
             throw NotFoundException::resource();
         }
 
-        $this->entityManager->persist(Review::fromDTO($frontendReview, $candy, $user));
+        $this->entityManager->persist(Review::fromFrontendDTO($frontendReview, $candy, $user));
         $this->entityManager->flush();
 
         return OK::create();
@@ -130,7 +130,7 @@ class FrontendController
         }
 
         $user = User::fromProfile($profile);
-        $user->resetPassword($this->passwordEncoder->encodePassword($user, $profile->password));
+        $user->resetPassword($this->passwordEncoder, $profile);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -144,7 +144,7 @@ class FrontendController
     public function profile(?UserInterface $user): FrontendProfileRead
     {
         if ($user instanceof User) {
-            return $user->toProfile();
+            return $user->toFrontendDTO();
         }
 
         throw AuthenticationFailedException::userNotFound();

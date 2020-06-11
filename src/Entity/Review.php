@@ -80,7 +80,7 @@ class Review
         $this->user = $userEntity;
     }
 
-    public static function fromDTO(FrontendReview $frontenReview, Candy $candyEntity, User $userEntity)
+    public static function fromFrontendDTO(FrontendReview $frontenReview, Candy $candyEntity, User $userEntity)
     {
         return new self(
             $frontenReview->taste,

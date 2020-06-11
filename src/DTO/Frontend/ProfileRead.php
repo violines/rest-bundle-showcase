@@ -20,7 +20,7 @@ class ProfileRead
     public function __construct(
         string $email,
         array $roles,
-        ?string $key
+        ?string $key = null
     ) {
         $this->email = $email;
         $this->roles = $roles;

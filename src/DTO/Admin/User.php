@@ -36,4 +36,11 @@ class User
      * @Assert\Type("array")
      */
     public $roles;
+
+    public function __construct(string $email, array $roles, ?string $key = null)
+    {
+        $this->email = $email;
+        $this->roles = $roles;
+        $this->key = $key;
+    }
 }

@@ -7,6 +7,7 @@ use App\DTO\Frontend\ProfileRead;
 use App\DTO\Frontend\ProfileWrite;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -39,6 +40,7 @@ class User implements UserInterface
     private $key;
 
     /**
+     * @var array
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -59,24 +61,31 @@ class User implements UserInterface
         return new self($profile->email);
     }
 
-    public function toProfile(): ProfileRead
+    public function toFrontendDTO(): ProfileRead
     {
-        return new ProfileRead(
-            $this->email,
-            $this->roles,
-            $this->key
-        );
+        return new ProfileRead($this->email, $this->roles, $this->key);
     }
 
-    public function toAdminUser(): AdminUser
+    public function toAdminDTO(): AdminUser
     {
-        $user = new AdminUser();
+        return new AdminUser($this->email, $this->roles, $this->key);
+    }
 
-        $user->email = $this->email;
-        $user->key = $this->key;
-        $user->roles = $this->roles;
+    public function adminEdit(AdminUser $adminUser): self
+    {
+        if ($adminUser->isResetKey) {
+            $this->key = $this->generateKey();
+        }
 
-        return $user;
+        $this->email = $adminUser->email;
+        $this->roles = $adminUser->roles;
+
+        return $this;
+    }
+
+    public function resetPassword(UserPasswordEncoderInterface $passwordEncoder, ProfileWrite $profile): void
+    {
+        $this->password = $passwordEncoder->encodePassword($this, $profile->password);
     }
 
     public function getEmail(): ?string
@@ -87,11 +96,6 @@ class User implements UserInterface
     public function getPassword()
     {
         return $this->password;
-    }
-
-    public function resetPassword(string $encodedPassword): void
-    {
-        $this->password = $encodedPassword;
     }
 
     public function getSalt()
@@ -114,25 +118,6 @@ class User implements UserInterface
     public function getRoles(): array
     {
         return $this->roles;
-    }
-
-    public function addRoles(array $roles): void
-    {
-        $this->roles = array_values(array_unique(array_merge($this->roles, $roles)));
-    }
-
-    public function removeRoles(array $removeRoles): void
-    {
-        foreach ($this->roles as $key => $role) {
-            if (in_array($role, $removeRoles)) {
-                unset($this->roles[$key]);
-            }
-        }
-    }
-
-    public function resetKey(): void
-    {
-        $this->key = $this->generateKey();
     }
 
     private function generateKey()
