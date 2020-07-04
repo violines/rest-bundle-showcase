@@ -10,6 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: Prepare .env
+      run: cp docker/dev/.env.dist docker/dev/.env
+
     - name: Build the docker-compose stack
       run: docker-compose up -d
 
