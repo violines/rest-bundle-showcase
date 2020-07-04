@@ -7,6 +7,6 @@ if ! [ -f "config/jwt/private.pem" ]; then
 else 
     echo "jwt keys already exist"
 fi
-./bin/console d:s:d --full-database --force
-./bin/console d:m:m --no-interaction
-PGPASSWORD=pass psql -h db -U user -d app -a -f ./fixtures/candy.sql
+./bin/console d:s:d --full-database --force --env=test
+./bin/console d:m:m --no-interaction --env=test
+PGPASSWORD=pass psql -h db -U user -d app_test -a -f ./fixtures/test.sql

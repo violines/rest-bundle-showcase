@@ -63,11 +63,11 @@
         ],
         "dev": [
             "@composer install",
-            "bash ./sh/dev_db.sh"
+            "bash ./install/dev.sh"
         ],
         "test": [
             "@composer install",
-            "bash ./sh/test_db.sh",
+            "bash ./install/test.sh",
             "bin/phpunit"
         ]
     },
