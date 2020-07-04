@@ -62,12 +62,12 @@
             "@auto-scripts"
         ],
         "dev": [
-            "bash ./sh/dev_db.sh",
-            "@composer install"
+            "@composer install",
+            "bash ./sh/dev_db.sh"
         ],
         "test": [
-            "bash ./sh/test_db.sh",
             "@composer install",
+            "bash ./sh/test_db.sh",
             "bin/phpunit"
         ]
     },
