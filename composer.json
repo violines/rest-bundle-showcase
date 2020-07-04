@@ -1,6 +1,8 @@
 {
     "type": "project",
-    "license": "proprietary",
+    "name": "simon-schubert/terry-api-show",
+    "license": "MIT",
+    "description": "Show case for https://github.com/simon-schubert/terry-api",
     "require": {
         "php": "^7.4",
         "ext-ctype": "*",
@@ -60,12 +62,12 @@
             "@auto-scripts"
         ],
         "dev": [
-            "bash ./sh/dev_db.sh",
-            "@composer install"
+            "@composer install",
+            "bash ./install/dev.sh"
         ],
         "test": [
-            "bash ./sh/test_db.sh",
             "@composer install",
+            "bash ./install/test.sh",
             "bin/phpunit"
         ]
     },
