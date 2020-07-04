@@ -1,6 +1,8 @@
 {
     "type": "project",
-    "license": "proprietary",
+    "name": "simon-schubert/terry-api-show",
+    "license": "MIT",
+    "description": "Show case for https://github.com/simon-schubert/terry-api",
     "require": {
         "php": "^7.4",
         "ext-ctype": "*",
