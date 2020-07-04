@@ -1,23 +1,15 @@
 name: build
-
 on: [push]
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v1
-
     - name: Prepare .env
       run: cp docker/dev/.env.dist docker/dev/.env
-
     - name: Build the docker-compose stack
       run: docker-compose up -d
-
     - name: Validate composer.json and composer.lock
       run: docker exec terry-api-show-dev composer validate
-
     - name: Run tests
       run: docker exec terry-api-show-dev composer run-script test
