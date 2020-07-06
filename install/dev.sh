@@ -1,4 +1,4 @@
-./bin/generate-keys.sh
+bash ./bin/generate-keys.sh
 ./bin/console d:s:d --full-database --force
 ./bin/console d:m:m --no-interaction
 PGPASSWORD=pass psql -h db -U user -d app -a -f ./fixtures/test.sql
