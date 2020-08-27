@@ -20,9 +20,12 @@ class ReviewRepository extends ServiceEntityRepository
 {
     private const MAX_INSERT = 1000;
 
+    private $em;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Review::class);
+        $this->em = $this->getEntityManager();
     }
 
     public function averageByCandy(Candy $candy): array
@@ -80,6 +83,12 @@ class ReviewRepository extends ServiceEntityRepository
             $connection->rollBack();
             throw $e;
         }
+    }
+
+    public function save(Review $review)
+    {
+        $this->em->persist($review);
+        $this->em->flush();
     }
 
     public function findOneByGtinAndUser(string $gtin, User $user): ?Review

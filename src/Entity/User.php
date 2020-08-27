@@ -71,7 +71,7 @@ class User implements UserInterface
         return new AdminUser($this->email, $this->roles, $this->key);
     }
 
-    public function adminEdit(AdminUser $adminUser): self
+    public function adminEdit(AdminUser $adminUser): void
     {
         if ($adminUser->isResetKey) {
             $this->key = $this->generateKey();
@@ -79,8 +79,6 @@ class User implements UserInterface
 
         $this->email = $adminUser->email;
         $this->roles = $adminUser->roles;
-
-        return $this;
     }
 
     public function resetPassword(UserPasswordEncoderInterface $passwordEncoder, ProfileWrite $profile): void

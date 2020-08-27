@@ -7,35 +7,31 @@ namespace App\Controller;
 use App\Exception\NotFoundException;
 use App\Repository\UserRepository;
 use App\DTO\Admin\User as AdminUser;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController
 {
-    private EntityManagerInterface $entityManager;
-
     private UserRepository $userRepository;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
         UserRepository $userRepository
     ) {
-        $this->entityManager = $entityManager;
         $this->userRepository = $userRepository;
     }
+
     /**
      * @Route("/admin/user/list", methods={"GET"}, name="admin_user_list")
      * @return AdminUser[]
      */
     public function userList(): array
     {
-        $_users = [];
+        $users = [];
 
         foreach ($this->userRepository->findAll() as $user) {
-            $_users[] = $user->toAdminDTO();
+            $users[] = $user->toAdminDTO();
         }
 
-        return $_users;
+        return $users;
     }
 
     /**
@@ -49,8 +45,9 @@ class AdminController
             throw NotFoundException::resource();
         }
 
-        $this->entityManager->persist($user->adminEdit($adminUser));
-        $this->entityManager->flush();
+        $user->adminEdit($adminUser);
+
+        $this->userRepository->save($user);
 
         return $user->toAdminDTO();
     }

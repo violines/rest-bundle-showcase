@@ -14,8 +14,17 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
+    private $em;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+        $this->em = $this->getEntityManager();
+    }
+
+    public function save(User $user): void
+    {
+        $this->em->persist($user);
+        $this->em->flush();
     }
 }
