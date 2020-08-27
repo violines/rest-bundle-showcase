@@ -21,7 +21,6 @@ use App\DTO\Frontend\ProfileWrite as FrontendProfileWrite;
 use App\DTO\Frontend\Review as FrontendReview;
 use App\DTO\Ok;
 use App\ValueObject\HTTPClient;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
@@ -32,8 +31,6 @@ class FrontendController
     private CandyRepository $candyRepository;
 
     private CategoryRepository $categoryRepository;
-
-    private EntityManagerInterface $entityManager;
 
     private ReviewRepository $reviewRepository;
 
@@ -46,7 +43,6 @@ class FrontendController
     public function __construct(
         CandyRepository $candyRepository,
         CategoryRepository $categoryRepository,
-        EntityManagerInterface $entityManager,
         ReviewRepository $reviewRepository,
         Security $security,
         UserRepository $userRepository,
@@ -54,7 +50,6 @@ class FrontendController
     ) {
         $this->candyRepository = $candyRepository;
         $this->categoryRepository = $categoryRepository;
-        $this->entityManager = $entityManager;
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
         $this->userRepository = $userRepository;
@@ -74,13 +69,13 @@ class FrontendController
      */
     public function candyList(HTTPClient $client): array
     {
-        $_candies = [];
+        $candies = [];
 
         foreach ($this->candyRepository->findAll() as $candy) {
-            $_candies[] = $candy->toFrontendDTO($client->getContentLanguage());
+            $candies[] = $candy->toFrontendDTO($client->getContentLanguage());
         }
 
-        return $_candies;
+        return $candies;
     }
 
     /**
@@ -114,8 +109,7 @@ class FrontendController
             throw NotFoundException::resource();
         }
 
-        $this->entityManager->persist(Review::fromFrontendDTO($frontendReview, $candy, $user));
-        $this->entityManager->flush();
+        $this->reviewRepository->save(Review::fromFrontendDTO($frontendReview, $candy, $user));
 
         return OK::create();
     }
@@ -132,8 +126,7 @@ class FrontendController
         $user = User::fromProfile($profile);
         $user->resetPassword($this->passwordEncoder, $profile);
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->userRepository->save($user);
 
         return OK::create();
     }
