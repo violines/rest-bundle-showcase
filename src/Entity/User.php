@@ -56,9 +56,11 @@ class User implements UserInterface
         $this->reviews = new ArrayCollection();
     }
 
-    public static function fromProfile(ProfileWrite $profile): self
+    public static function fromProfile(ProfileWrite $profile, UserPasswordEncoderInterface $passwordEncoder): self
     {
-        return new self($profile->email);
+        $user = new self($profile->email);
+        $user->resetPassword($passwordEncoder, $profile->password);
+        return $user;
     }
 
     public function toFrontendDTO(): ProfileRead
@@ -71,19 +73,24 @@ class User implements UserInterface
         return new AdminUser($this->email, $this->roles, $this->key);
     }
 
-    public function adminEdit(AdminUser $adminUser): void
+    public function changeEmail(string $email): void
     {
-        if ($adminUser->isResetKey) {
-            $this->key = $this->generateKey();
-        }
-
-        $this->email = $adminUser->email;
-        $this->roles = $adminUser->roles;
+        $this->email = $email;
     }
 
-    public function resetPassword(UserPasswordEncoderInterface $passwordEncoder, ProfileWrite $profile): void
+    public function resetPassword(UserPasswordEncoderInterface $passwordEncoder, string $password): void
     {
-        $this->password = $passwordEncoder->encodePassword($this, $profile->password);
+        $this->password = $passwordEncoder->encodePassword($this, $password);
+    }
+
+    public function changeRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    public function resetKey(): void
+    {
+        $this->key = bin2hex(openssl_random_pseudo_bytes(8));
     }
 
     public function getEmail(): ?string
@@ -91,23 +98,9 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public function getSalt()
-    {
-        return null;
-    }
-
-    public function getUsername()
-    {
-        return $this->email;
-    }
-
-    public function eraseCredentials()
-    {
     }
 
     /**
@@ -118,8 +111,26 @@ class User implements UserInterface
         return $this->roles;
     }
 
-    private function generateKey()
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
     {
-        return bin2hex(openssl_random_pseudo_bytes(8));
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
     }
 }

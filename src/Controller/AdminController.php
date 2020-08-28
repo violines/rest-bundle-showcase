@@ -45,7 +45,12 @@ class AdminController
             throw NotFoundException::resource();
         }
 
-        $user->adminEdit($adminUser);
+        if ($adminUser->isResetKey) {
+            $user->resetKey();
+        }
+        $user->changeEmail($adminUser->email);
+        $user->changeRoles($adminUser->roles);
+
 
         $this->userRepository->save($user);
 

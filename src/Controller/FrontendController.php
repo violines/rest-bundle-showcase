@@ -123,10 +123,7 @@ class FrontendController
             throw BadRequestException::userExists();
         }
 
-        $user = User::fromProfile($profile);
-        $user->resetPassword($this->passwordEncoder, $profile);
-
-        $this->userRepository->save($user);
+        $this->userRepository->save(User::fromProfile($profile, $this->passwordEncoder));
 
         return OK::create();
     }
