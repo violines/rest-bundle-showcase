@@ -5,10 +5,9 @@ namespace App\Repository;
 use App\Entity\Candy;
 use App\Entity\Review;
 use App\Entity\User;
-use App\Exception\PersistenceLayerException;
-use App\Import\Model\Review as ReviewModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Rating|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,14 +17,12 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class ReviewRepository extends ServiceEntityRepository
 {
-    private const MAX_INSERT = 1000;
-
-    private $em;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Review::class);
-        $this->em = $this->getEntityManager();
+        $this->entityManager = $this->getEntityManager();
     }
 
     public function averageByCandy(Candy $candy): array
@@ -46,51 +43,6 @@ class ReviewRepository extends ServiceEntityRepository
         return array_map(fn ($p) => (int) $p, current($result));
     }
 
-    /**
-     * @param ReviewModel[] $candies
-     */
-    public function insert(array $reviews): void
-    {
-        $rowCount = count($reviews);
-
-        if (0 === $rowCount) {
-            return;
-        }
-
-        if (self::MAX_INSERT < $rowCount) {
-            throw PersistenceLayerException::fromMaxInsert(self::MAX_INSERT, $rowCount);
-        }
-
-        $connection = $this->getEntityManager()->getConnection();
-
-        $insertSql = '';
-
-        /** @var ReviewModel $review */
-        foreach ($reviews as $review) {
-            // this uses the DBAL SQL QueryBuilder not the ORM's DQL builder
-            $insertSql .= $connection->createQueryBuilder()
-                ->insert('review')
-                ->values($review->toArray())
-                ->getSQL() . ';';
-        }
-
-        $connection->beginTransaction();
-
-        try {
-            $connection->exec($insertSql);
-            $connection->commit();
-        } catch (\Throwable $e) {
-            $connection->rollBack();
-            throw $e;
-        }
-    }
-
-    public function save(Review $review)
-    {
-        $this->em->persist($review);
-        $this->em->flush();
-    }
-
     public function findOneByGtinAndUser(string $gtin, User $user): ?Review
     {
         $result = $this->createQueryBuilder('rating')
@@ -107,5 +59,11 @@ class ReviewRepository extends ServiceEntityRepository
         }
 
         return current($result);
+    }
+
+    public function save(Review $review)
+    {
+        $this->entityManager->persist($review);
+        $this->entityManager->flush();
     }
 }

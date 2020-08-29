@@ -57,7 +57,7 @@ class ReviewGeneratorCommand extends Command
         $reviews = [];
 
         for ($i = 1; $i <= 200000; $i++) {
-            $reviews[] = new ReviewModel(
+            $reviews[] = ReviewModel::new(
                 random_int(3, 5),
                 random_int(3, 5),
                 random_int(3, 5),

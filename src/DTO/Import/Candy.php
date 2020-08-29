@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTO\Import;
 
+use App\Import\Model\Candy as ImportCandy;
 use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,4 +30,23 @@ class Candy
      * @var CandyTranslation[]
      */
     public $translations;
+
+    /**
+     * @return ImportCandy[]
+     */
+    public function toImport(): array
+    {
+        $candies = [];
+
+        foreach ($this->translations as $translation) {
+            $candies[] = ImportCandy::new(
+                $this->gtin,
+                $this->weight,
+                $translation->language,
+                $translation->title,
+            );
+        }
+
+        return $candies;
+    }
 }

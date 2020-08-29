@@ -6,8 +6,8 @@ namespace App\Import;
 
 use App\Import\Model\Candy;
 use App\Import\Model\Review;
-use App\Repository\CandyRepository;
-use App\Repository\ReviewRepository;
+use App\Import\Repository\CandyRepository;
+use App\Import\Repository\ReviewRepository;
 
 class Import
 {
@@ -28,7 +28,7 @@ class Import
      */
     public function candies(array $candies): void
     {
-        $this->candyRepository->insert($candies);
+        $this->candyRepository->saveMany($candies);
     }
 
     /**
@@ -36,6 +36,6 @@ class Import
      */
     public function reviews(array $reviews): void
     {
-        $this->reviewRepository->insert($reviews);
+        $this->reviewRepository->saveMany($reviews);
     }
 }

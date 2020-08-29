@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Import\Model;
 
-use App\DTO\Import\Candy as ImportCandy;
-use App\DTO\Import\ImportCandyTranslation as ImportCandyTranslation;
-
 class Candy
 {
     public const PROPERTY_AMOUNT = 4;
@@ -31,21 +28,13 @@ class Candy
         $this->title = $title;
     }
 
-    public static function fromImportDTO(ImportCandy $importCandy): array
-    {
-        $_candies = [];
-
-        /** @var ImportCandyTranslation $translation */
-        foreach ($importCandy->translations as $translation) {
-            $_candies[] = new self(
-                $importCandy->gtin,
-                $importCandy->weight,
-                $translation->language,
-                $translation->title,
-            );
-        }
-
-        return $_candies;
+    public static function new(
+        string $gtin,
+        int $weight,
+        string $language,
+        string $title
+    ) {
+        return new self($gtin, $weight, $language, $title);
     }
 
     public function getGtin(): string

@@ -20,7 +20,7 @@ class Review
 
     private int $candyId;
 
-    public function __construct(
+    private function __construct(
         int $taste,
         int $ingredients,
         int $healthiness,
@@ -36,6 +36,18 @@ class Review
         $this->availability = $availability;
         $this->comment = $comment;
         $this->candyId = $candyId;
+    }
+
+    public static function new(
+        int $taste,
+        int $ingredients,
+        int $healthiness,
+        int $packaging,
+        int $availability,
+        string $comment,
+        int $candyId
+    ) {
+        return new self($taste, $ingredients, $healthiness, $packaging, $availability, $comment, $candyId);
     }
 
     public function toArray()

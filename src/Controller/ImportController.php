@@ -28,8 +28,7 @@ class ImportController
         $_candies = [];
 
         foreach ($candies as $candy) {
-            $models = CandyModel::fromImportDTO($candy);
-            array_push($_candies, ...$models);
+            array_push($_candies, ...$candy->toImport());
         }
 
         /** @var CandyModel[] $_candies  */
