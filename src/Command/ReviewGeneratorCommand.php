@@ -64,7 +64,8 @@ class ReviewGeneratorCommand extends Command
                 random_int(3, 5),
                 random_int(3, 5),
                 self::COMMENTS[random_int(0, 9)],
-                $candyId
+                $candyId,
+                1
             );
 
             if ($i % 1000 === 0) {

@@ -20,6 +20,8 @@ class Review
 
     private int $candyId;
 
+    private int $userId;
+
     private function __construct(
         int $taste,
         int $ingredients,
@@ -27,7 +29,8 @@ class Review
         int $packaging,
         int $availability,
         string $comment,
-        int $candyId
+        int $candyId,
+        int $userId
     ) {
         $this->taste = $taste;
         $this->ingredients = $ingredients;
@@ -36,6 +39,7 @@ class Review
         $this->availability = $availability;
         $this->comment = $comment;
         $this->candyId = $candyId;
+        $this->userId = $userId;
     }
 
     public static function new(
@@ -45,9 +49,10 @@ class Review
         int $packaging,
         int $availability,
         string $comment,
-        int $candyId
+        int $candyId,
+        int $userId
     ) {
-        return new self($taste, $ingredients, $healthiness, $packaging, $availability, $comment, $candyId);
+        return new self($taste, $ingredients, $healthiness, $packaging, $availability, $comment, $candyId, $userId);
     }
 
     public function toArray()
@@ -60,7 +65,7 @@ class Review
             'availability' => $this->availability,
             'comment' => $this->comment,
             'candy_id' => $this->candyId,
-            'user_id' => 1
+            'user_id' => $this->userId
         ];
     }
 }
