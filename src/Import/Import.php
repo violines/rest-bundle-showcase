@@ -6,18 +6,18 @@ namespace App\Import;
 
 use App\Import\Model\Candy;
 use App\Import\Model\Review;
-use App\Import\Repository\CandyRepository;
-use App\Import\Repository\ReviewRepository;
+use App\Import\Repository\CandyInterface;
+use App\Import\Repository\ReviewInterface;
 
 class Import
 {
-    private CandyRepository $candyRepository;
+    private CandyInterface $candyRepository;
 
-    private ReviewRepository $reviewRepository;
+    private ReviewInterface $reviewRepository;
 
     public function __construct(
-        CandyRepository $candyRepository,
-        ReviewRepository $reviewRepository
+        CandyInterface $candyRepository,
+        ReviewInterface $reviewRepository
     ) {
         $this->candyRepository = $candyRepository;
         $this->reviewRepository = $reviewRepository;

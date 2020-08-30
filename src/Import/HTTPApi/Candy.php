@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\DTO\Import;
+namespace App\Import\HTTPApi;
 
 use App\Import\Model\Candy as ImportCandy;
 use TerryApiBundle\Annotation\HTTPApi;
