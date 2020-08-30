@@ -8,7 +8,7 @@ use App\Exception\PersistenceLayerException;
 use App\Import\Model\Candy;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CandyRepository
+class CandyRepository implements CandyInterface
 {
     private const MAX_INSERT = 1000;
 
@@ -34,7 +34,7 @@ class CandyRepository
             WITH 
                 data (gtin, weight, language, title) AS (
                     VALUES
-                        ' . $this->generateValueMatrix($rowCount, Candy::PROPERTY_AMOUNT) . '
+                        ' . $this->generateValueMatrix($rowCount) . '
                 ), 
                 candy AS (
                     INSERT INTO candy (gtin, weight)
@@ -53,24 +53,22 @@ class CandyRepository
 
         $statement = $connection->prepare($sql);
 
-        $count = 1;
         /** @var Candy $candy */
-        foreach ($candies as $candy) {
-            $statement->bindValue($count++, $candy->getGtin());
-            $statement->bindValue($count++, $candy->getWeight());
-            $statement->bindValue($count++, $candy->getLanguage());
-            $statement->bindValue($count++, $candy->getTitle());
+        foreach ($candies as $i => $candy) {
+            foreach ($candy->toArray() as $name => $value) {
+                $statement->bindValue($name . $i, $value);
+            }
         }
 
         $statement->execute();
     }
 
-    private function generateValueMatrix(int $rows, int $cols): string
+    private function generateValueMatrix(int $rows): string
     {
         $matrix = '';
 
         for ($i = 0; $i < $rows; $i++) {
-            $matrix .= '(' . implode(',', array_fill(0, $cols, '?')) . ')';
+            $matrix .= "(:gtin$i, :weight$i, :language$i, :title$i)";
             $matrix .= $i < $rows - 1 ? ',' : '';
         }
 

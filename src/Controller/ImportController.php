@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Import\Import;
 use App\Import\Model\Candy as CandyModel;
-use App\DTO\Import\Candy as ImportCandy;
+use App\Import\HTTPApi\Candy as CandyHTTPApi;
 use App\DTO\Ok;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,7 +23,7 @@ class ImportController
     /**
      * @Route("/import/candies", methods={"POST"}, name="import_candies")
      */
-    public function candies(ImportCandy ...$candies): Ok
+    public function candies(CandyHTTPApi ...$candies): Ok
     {
         $_candies = [];
 

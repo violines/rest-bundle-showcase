@@ -6,8 +6,6 @@ namespace App\Import\Model;
 
 class Candy
 {
-    public const PROPERTY_AMOUNT = 4;
-
     private string $gtin;
 
     private int $weight;
@@ -37,23 +35,13 @@ class Candy
         return new self($gtin, $weight, $language, $title);
     }
 
-    public function getGtin(): string
+    public function toArray()
     {
-        return $this->gtin;
-    }
-
-    public function getWeight(): int
-    {
-        return $this->weight;
-    }
-
-    public function getLanguage(): string
-    {
-        return $this->language;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
+        return [
+            'gtin' => $this->gtin,
+            'weight' => $this->weight,
+            'language' => $this->language,
+            'title' => $this->title
+        ];
     }
 }

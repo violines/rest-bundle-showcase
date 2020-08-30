@@ -6,7 +6,7 @@ use App\Exception\PersistenceLayerException;
 use App\Import\Model\Review;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ReviewRepository
+class ReviewRepository implements ReviewInterface
 {
     private const MAX_INSERT = 1000;
 

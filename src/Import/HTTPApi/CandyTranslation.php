@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\DTO\Import;
+namespace App\Import\HTTPApi;
 
 use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Validator\Constraints as Assert;
