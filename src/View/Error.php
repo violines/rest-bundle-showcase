@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\DTO;
+namespace App\View;
 
 use TerryApiBundle\Annotation\HTTPApi;
 
 /**
  * @HTTPApi
  */
-class Error
+final class Error
 {
-    public $message;
+    private string $message;
 
     private function __construct(string $message)
     {
@@ -21,5 +21,10 @@ class Error
     public static function create(string $message): self
     {
         return new self($message);
+    }
+
+    public function getMessage(): string
+    {
+        return $this->message;
     }
 }

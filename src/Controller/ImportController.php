@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Import\Import;
 use App\Import\Model\Candy as CandyModel;
 use App\Import\HTTPApi\Candy as CandyHTTPApi;
-use App\DTO\Ok;
+use App\View\Ok as OkView;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImportController
@@ -23,7 +23,7 @@ class ImportController
     /**
      * @Route("/import/candies", methods={"POST"}, name="import_candies")
      */
-    public function candies(CandyHTTPApi ...$candies): Ok
+    public function candies(CandyHTTPApi ...$candies): OkView
     {
         $_candies = [];
 
@@ -34,6 +34,6 @@ class ImportController
         /** @var CandyModel[] $_candies  */
         $this->import->candies($_candies);
 
-        return Ok::create();
+        return OkView::create();
     }
 }

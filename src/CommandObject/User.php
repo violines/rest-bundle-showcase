@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\DTO\Admin;
+namespace App\CommandObject;
 
 use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -36,11 +36,4 @@ class User
      * @Assert\Type("array")
      */
     public $roles;
-
-    public function __construct(string $email, array $roles, ?string $key = null)
-    {
-        $this->email = $email;
-        $this->roles = $roles;
-        $this->key = $key;
-    }
 }

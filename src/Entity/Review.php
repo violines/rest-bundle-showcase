@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\DTO\Frontend\Review as FrontendReview;
+use App\CommandObject\Review as ReviewCommandObject;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -80,15 +80,15 @@ class Review
         $this->user = $userEntity;
     }
 
-    public static function fromFrontendDTO(FrontendReview $frontenReview, Candy $candyEntity, User $userEntity)
+    public static function fromCommandObject(ReviewCommandObject $review, Candy $candyEntity, User $userEntity)
     {
         return new self(
-            $frontenReview->taste,
-            $frontenReview->ingredients,
-            $frontenReview->healthiness,
-            $frontenReview->packaging,
-            $frontenReview->availability,
-            $frontenReview->comment,
+            $review->taste,
+            $review->ingredients,
+            $review->healthiness,
+            $review->packaging,
+            $review->availability,
+            $review->comment,
             $candyEntity,
             $userEntity
         );
