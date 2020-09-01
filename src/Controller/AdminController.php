@@ -6,7 +6,9 @@ namespace App\Controller;
 
 use App\Exception\NotFoundException;
 use App\Repository\UserRepository;
-use App\DTO\Admin\User as AdminUser;
+use App\CommandObject\User;
+use App\View\Ok as OkView;
+use App\View\User as UserView;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController
@@ -28,7 +30,7 @@ class AdminController
         $users = [];
 
         foreach ($this->userRepository->findAll() as $user) {
-            $users[] = $user->toAdminDTO();
+            $users[] = UserView::fromEntity($user);
         }
 
         return $users;
@@ -37,7 +39,7 @@ class AdminController
     /**
      * @Route("/admin/user/edit", methods={"POST"}, name="admin_user_edit")
      */
-    public function editUser(AdminUser $adminUser): AdminUser
+    public function editUser(User $adminUser): OkView
     {
         $user = $this->userRepository->findOneBy(['email' => $adminUser->email]);
 
@@ -51,9 +53,8 @@ class AdminController
         $user->changeEmail($adminUser->email);
         $user->changeRoles($adminUser->roles);
 
-
         $this->userRepository->save($user);
 
-        return $user->toAdminDTO();
+        return OkView::create();
     }
 }

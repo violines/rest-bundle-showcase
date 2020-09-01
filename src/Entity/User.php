@@ -2,9 +2,7 @@
 
 namespace App\Entity;
 
-use App\DTO\Admin\User as AdminUser;
-use App\DTO\Frontend\ProfileRead;
-use App\DTO\Frontend\ProfileWrite;
+use App\CommandObject\Profile;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -56,21 +54,11 @@ class User implements UserInterface
         $this->reviews = new ArrayCollection();
     }
 
-    public static function fromProfile(ProfileWrite $profile, UserPasswordEncoderInterface $passwordEncoder): self
+    public static function fromProfile(Profile $profile, UserPasswordEncoderInterface $passwordEncoder): self
     {
         $user = new self($profile->email);
         $user->resetPassword($passwordEncoder, $profile->password);
         return $user;
-    }
-
-    public function toFrontendDTO(): ProfileRead
-    {
-        return new ProfileRead($this->email, $this->roles, $this->key);
-    }
-
-    public function toAdminDTO(): AdminUser
-    {
-        return new AdminUser($this->email, $this->roles, $this->key);
     }
 
     public function changeEmail(string $email): void
@@ -93,14 +81,15 @@ class User implements UserInterface
         $this->key = bin2hex(openssl_random_pseudo_bytes(8));
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getPassword(): string
+
+    public function getKey(): ?string
     {
-        return $this->password;
+        return $this->key;
     }
 
     /**
@@ -109,6 +98,14 @@ class User implements UserInterface
     public function getRoles(): array
     {
         return $this->roles;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
     }
 
     /**

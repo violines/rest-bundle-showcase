@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\CommandObject\Profile as ProfileCommandObject;
+use App\CommandObject\Review as ReviewCommandObject;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Exception\AuthenticationFailedException;
@@ -15,12 +17,10 @@ use App\Repository\CategoryRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Security\Voter\ReviewUniqueVoter;
-use App\DTO\Frontend\Candy as FrontendCandy;
-use App\DTO\Frontend\ProfileRead as FrontendProfileRead;
-use App\DTO\Frontend\ProfileWrite as FrontendProfileWrite;
-use App\DTO\Frontend\Review as FrontendReview;
-use App\DTO\Ok;
 use App\ValueObject\HTTPClient;
+use App\View\Candy as CandyView;
+use App\View\Ok as OkView;
+use App\View\Profile as ProfileView;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
@@ -72,7 +72,7 @@ class FrontendController
         $candies = [];
 
         foreach ($this->candyRepository->findAll() as $candy) {
-            $candies[] = $candy->toFrontendDTO($client->getContentLanguage());
+            $candies[] = CandyView::fromEntity($candy, $client->getContentLanguage());
         }
 
         return $candies;
@@ -81,7 +81,7 @@ class FrontendController
     /**
      * @Route("/frontend/candy/{gtin}", methods={"GET"}, name="frontend_candy_detail")
      */
-    public function candyDetail(int $gtin, HTTPClient $client): FrontendCandy
+    public function candyDetail(int $gtin, HTTPClient $client): CandyView
     {
         $candy = $this->candyRepository->findOneBy(['gtin' => $gtin]);
 
@@ -91,33 +91,33 @@ class FrontendController
 
         $averageRating = $this->reviewRepository->averageByCandy($candy);
 
-        return $candy->toFrontendDTO($client->getContentLanguage(), $averageRating);
+        return CandyView::fromEntity($candy, $client->getContentLanguage(), $averageRating);
     }
 
     /**
      * @Route("/frontend/review", methods={"POST"}, name="frontend_review")
      */
-    public function review(FrontendReview $frontendReview, UserInterface $user): Ok
+    public function review(ReviewCommandObject $reviewCommand, UserInterface $user): OkView
     {
-        if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $frontendReview)) {
+        if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $reviewCommand)) {
             throw AuthorizationFailedException::entryNotAllowed();
         };
 
-        $candy = $this->candyRepository->findOneBy(['gtin' => $frontendReview->gtin]);
+        $candy = $this->candyRepository->findOneBy(['gtin' => $reviewCommand->gtin]);
 
         if (null === $candy) {
             throw NotFoundException::resource();
         }
 
-        $this->reviewRepository->save(Review::fromFrontendDTO($frontendReview, $candy, $user));
+        $this->reviewRepository->save(Review::fromCommandObject($reviewCommand, $candy, $user));
 
-        return OK::create();
+        return OkView::create();
     }
 
     /**
      * @Route("/frontend/register", methods={"POST"}, name="frontend_register")
      */
-    public function register(FrontendProfileWrite $profile): Ok
+    public function register(ProfileCommandObject $profile): OkView
     {
         if (null !== $this->userRepository->findOneBy(['email' => $profile->email])) {
             throw BadRequestException::userExists();
@@ -125,16 +125,16 @@ class FrontendController
 
         $this->userRepository->save(User::fromProfile($profile, $this->passwordEncoder));
 
-        return OK::create();
+        return OkView::create();
     }
 
     /**
      * @Route("/frontend/profile", methods={"GET"}, name="frontend_profile")
      */
-    public function profile(?UserInterface $user): FrontendProfileRead
+    public function profile(?UserInterface $user): ProfileView
     {
         if ($user instanceof User) {
-            return $user->toFrontendDTO();
+            return ProfileView::fromEntity($user);
         }
 
         throw AuthenticationFailedException::userNotFound();

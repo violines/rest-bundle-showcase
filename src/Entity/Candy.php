@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\DTO\Frontend\Candy as FrontendCandy;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -46,28 +45,22 @@ class Candy
      */
     private $reviews;
 
-    public function __construct(int $weight, PersistentCollection $translations)
+    public function gtin()
     {
-        $this->weight = $weight;
-        $this->translations = $translations;
+        return $this->gtin;
     }
 
-    public function toFrontendDTO(string $language, ?array $averageRating = null): FrontendCandy
+    public function weight()
     {
-        return new FrontendCandy(
-            $this->gtin,
-            $this->weight,
-            $this->translationByLanguage($language),
-            $averageRating
-        );
+        return $this->weight;
     }
 
-    private function translationByLanguage(string $language): string
+    public function title(string $language): string
     {
         $name = $this->translations->filter(
             fn (CandyTranslation $t) => $t->isLanguage($language)
         )->first();
 
-        return $name !== false ? $name->getTitle() : '';
+        return $name !== false ? $name->title() : '';
     }
 }

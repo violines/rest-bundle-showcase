@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\DTO\Frontend;
+namespace App\View;
 
+use App\Entity\User;
 use TerryApiBundle\Annotation\HTTPApi;
 
 /**
  * @HTTPApi
  */
-class ProfileRead
+final class Profile
 {
     private string $email;
 
@@ -25,6 +26,11 @@ class ProfileRead
         $this->email = $email;
         $this->roles = $roles;
         $this->key = $key;
+    }
+
+    public static function fromEntity(User $user): self
+    {
+        return new self($user->getEmail(), $user->getRoles(), $user->getKey());
     }
 
     public function getEmail(): string

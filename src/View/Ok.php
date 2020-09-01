@@ -2,19 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\DTO;
+namespace App\View;
 
 use TerryApiBundle\Annotation\HTTPApi;
 
 /**
  * @HTTPApi
  */
-class Ok
+final class Ok
 {
-    public $message = "Everything is fine.";
+    private string $message = "Everything is fine.";
 
     public static function create()
     {
         return new self();
+    }
+
+    public function getMessage(): string
+    {
+        return $this->message;
     }
 }

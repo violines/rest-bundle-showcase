@@ -39,13 +39,7 @@ class CandyTranslation
      */
     private $candy;
 
-    public function __construct(string $language, string $title)
-    {
-        $this->language = $language;
-        $this->title = $title;
-    }
-
-    public function getTitle(): string
+    public function title(): string
     {
         return $this->title;
     }
