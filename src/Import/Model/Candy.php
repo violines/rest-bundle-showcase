@@ -4,44 +4,38 @@ declare(strict_types=1);
 
 namespace App\Import\Model;
 
+use TerryApiBundle\Annotation\HTTPApi;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @HTTPApi
+ */
 class Candy
 {
-    private string $gtin;
+    /**
+     * @Assert\Type("string")
+     * @var string
+     */
+    public $gtin;
 
-    private int $weight;
+    /**
+     * @Assert\Type("int")
+     * @var int
+     */
+    public $weight;
 
-    private string $language;
-
-    private string $title;
-
-    private function __construct(
-        string $gtin,
-        int $weight,
-        string $language,
-        string $title
-    ) {
-        $this->gtin = $gtin;
-        $this->weight = $weight;
-        $this->language = $language;
-        $this->title = $title;
-    }
-
-    public static function new(
-        string $gtin,
-        int $weight,
-        string $language,
-        string $title
-    ) {
-        return new self($gtin, $weight, $language, $title);
-    }
+    /**
+     * @Assert\Type("array")
+     * @var CandyTranslation[]
+     */
+    public $translations;
 
     public function toArray()
     {
         return [
             'gtin' => $this->gtin,
             'weight' => $this->weight,
-            'language' => $this->language,
-            'title' => $this->title
+            'translations' => array_map(fn (CandyTranslation $t) => $t->toArray(), $this->translations)
         ];
     }
 }

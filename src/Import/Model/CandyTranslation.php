@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Import\HTTPApi;
+namespace App\Import\Model;
 
 use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,4 +23,12 @@ class CandyTranslation
      * @var string
      */
     public $title;
+
+    public function toArray()
+    {
+        return [
+            'language' => $this->language,
+            'title' => $this->title
+        ];
+    }
 }
