@@ -24,7 +24,10 @@ class CandyRepository implements CandyInterface
      */
     public function saveMany(array $candies): void
     {
-        $rowCount = count($candies);
+        $rowCount = 0;
+        foreach ($candies as $candy) {
+            $rowCount += count($candy->translations);
+        }
 
         if (self::MAX_INSERT < $rowCount) {
             throw PersistenceLayerException::fromMaxInsert(self::MAX_INSERT, $rowCount);
@@ -54,9 +57,15 @@ class CandyRepository implements CandyInterface
         $statement = $connection->prepare($sql);
 
         /** @var Candy $candy */
-        foreach ($candies as $i => $candy) {
-            foreach ($candy->toArray() as $name => $value) {
-                $statement->bindValue($name . $i, $value);
+        $i = 0;
+        foreach ($candies as $candy) {
+            $mappedCandy = $candy->toArray();
+            foreach ($mappedCandy['translations'] as $mappedTranslation) {
+                $statement->bindValue('gtin' . $i, $mappedCandy['gtin']);
+                $statement->bindValue('weight' . $i, $mappedCandy['weight']);
+                $statement->bindValue('language' . $i, $mappedTranslation['language']);
+                $statement->bindValue('title' . $i, $mappedTranslation['title']);
+                $i++;
             }
         }
 
