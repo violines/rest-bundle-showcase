@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\CommandObject\Review as ReviewCommandObject;
+use App\ValueObject\Rating;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,29 +20,29 @@ class Review
     private int $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="rating")
      */
-    private int $taste;
+    private Rating $taste;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="rating")
      */
-    private int $ingredients;
+    private Rating $ingredients;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="rating")
      */
-    private int $healthiness;
+    private Rating $healthiness;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="rating")
      */
-    private $packaging;
+    private Rating $packaging;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="rating")
      */
-    private int $availability;
+    private Rating $availability;
 
     /**
      * @ORM\Column(type="string", length=1000, nullable=true)
@@ -60,12 +61,12 @@ class Review
      */
     private User $user;
 
-    public function __construct(
-        int $taste,
-        int $ingredients,
-        int $healthiness,
-        int $packaging,
-        int $availability,
+    private function __construct(
+        Rating $taste,
+        Rating $ingredients,
+        Rating $healthiness,
+        Rating $packaging,
+        Rating $availability,
         string $comment,
         Candy $candyEntity,
         User $userEntity
@@ -83,11 +84,11 @@ class Review
     public static function fromCommandObject(ReviewCommandObject $review, Candy $candyEntity, User $userEntity)
     {
         return new self(
-            $review->taste,
-            $review->ingredients,
-            $review->healthiness,
-            $review->packaging,
-            $review->availability,
+            Rating::new($review->taste),
+            Rating::new($review->ingredients),
+            Rating::new($review->healthiness),
+            Rating::new($review->packaging),
+            Rating::new($review->availability),
             $review->comment,
             $candyEntity,
             $userEntity
