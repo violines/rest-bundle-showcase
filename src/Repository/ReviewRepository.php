@@ -31,16 +31,7 @@ class ReviewRepository extends ServiceEntityRepository
 
     public function nextId(): int
     {
-        return $this->connection->transactional(function () {
-
-            $nextId = (int)$this->connection->fetchColumn('SELECT "last_value" FROM "review_id_seq"') + 1;
-
-            $statement = $this->connection->prepare('SELECT setval(\'review_id_seq\', :next_value)');
-            $statement->bindValue('next_value', $nextId);
-            $statement->execute();
-
-            return $nextId;
-        });
+        return (int)$this->connection->fetchColumn('SELECT setval(\'review_id_seq\', nextval(\'review_id_seq\'::regclass))');
     }
 
     public function averageByCandy(Candy $candy): array
