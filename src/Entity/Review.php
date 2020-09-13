@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\CommandObject\Review as ReviewCommandObject;
+use App\CommandObject\CreateReview;
 use App\ValueObject\Rating;
+use App\ValueObject\ReviewId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,8 +15,7 @@ class Review
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer", options={"default"="nextval('review_id_seq'::regclass)"})
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\SequenceGenerator(sequenceName="review_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="review_id_seq", allocationSize=1, initialValue=0)
      */
     private int $id;
 
@@ -62,6 +62,7 @@ class Review
     private User $user;
 
     private function __construct(
+        ReviewId $reviewId,
         Rating $taste,
         Rating $ingredients,
         Rating $healthiness,
@@ -71,6 +72,7 @@ class Review
         Candy $candyEntity,
         User $userEntity
     ) {
+        $this->id = $reviewId->toInt();
         $this->taste = $taste;
         $this->ingredients = $ingredients;
         $this->healthiness = $healthiness;
@@ -81,9 +83,10 @@ class Review
         $this->user = $userEntity;
     }
 
-    public static function fromCommandObject(ReviewCommandObject $review, Candy $candyEntity, User $userEntity)
+    public static function fromCreate(ReviewId $reviewId, CreateReview $review, Candy $candyEntity, User $userEntity)
     {
         return new self(
+            $reviewId,
             Rating::new($review->taste),
             Rating::new($review->ingredients),
             Rating::new($review->healthiness),

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\CommandObject\CreateReview;
 use App\CommandObject\Profile as ProfileCommandObject;
-use App\CommandObject\Review as ReviewCommandObject;
 use App\Entity\Review;
 use App\Entity\User;
 use App\Exception\AuthenticationFailedException;
@@ -18,6 +18,7 @@ use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Security\Voter\ReviewUniqueVoter;
 use App\ValueObject\HTTPClient;
+use App\ValueObject\ReviewId;
 use App\View\Candy as CandyView;
 use App\View\Ok as OkView;
 use App\View\Profile as ProfileView;
@@ -97,19 +98,21 @@ class FrontendController
     /**
      * @Route("/frontend/review", methods={"POST"}, name="frontend_review")
      */
-    public function review(ReviewCommandObject $reviewCommand, UserInterface $user): OkView
+    public function review(CreateReview $createReview, UserInterface $user): OkView
     {
-        if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $reviewCommand)) {
+        if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $createReview)) {
             throw AuthorizationFailedException::entryNotAllowed();
         };
 
-        $candy = $this->candyRepository->findOneBy(['gtin' => $reviewCommand->gtin]);
+        $candy = $this->candyRepository->findOneBy(['gtin' => $createReview->gtin]);
 
         if (null === $candy) {
             throw NotFoundException::resource();
         }
 
-        $this->reviewRepository->save(Review::fromCommandObject($reviewCommand, $candy, $user));
+        $nextId = ReviewId::new($this->reviewRepository->nextId());
+
+        $this->reviewRepository->save(Review::fromCreate($nextId, $createReview, $candy, $user));
 
         return OkView::create();
     }
