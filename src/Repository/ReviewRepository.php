@@ -7,6 +7,7 @@ use App\Entity\Review;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -19,10 +20,27 @@ class ReviewRepository extends ServiceEntityRepository
 {
     private EntityManagerInterface $entityManager;
 
+    private Connection $connection;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Review::class);
+        $this->connection = $this->getEntityManager()->getConnection();
         $this->entityManager = $this->getEntityManager();
+    }
+
+    public function nextId(): int
+    {
+        return $this->connection->transactional(function () {
+
+            $nextId = (int)$this->connection->fetchColumn('SELECT "last_value" FROM "review_id_seq"') + 1;
+
+            $statement = $this->connection->prepare('SELECT setval(\'review_id_seq\', :next_value)');
+            $statement->bindValue('next_value', $nextId);
+            $statement->execute();
+
+            return $nextId;
+        });
     }
 
     public function averageByCandy(Candy $candy): array

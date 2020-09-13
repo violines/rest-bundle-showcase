@@ -23,7 +23,7 @@ final class Version20200225205718 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SEQUENCE candy_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE review_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE review_id_seq INCREMENT BY 1 MINVALUE 0 START 0');
         $this->addSql('CREATE SEQUENCE candy_translation_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE candy (id INT DEFAULT nextval(\'candy_id_seq\'::regclass) NOT NULL, gtin VARCHAR(30) NOT NULL, weight INT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX uq_gtin_idx ON candy (gtin)');
