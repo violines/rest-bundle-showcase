@@ -15,6 +15,7 @@ class Review
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer", options={"default"="nextval('review_id_seq'::regclass)"})
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\SequenceGenerator(sequenceName="review_id_seq", allocationSize=1, initialValue=0)
      */
     private int $id;
