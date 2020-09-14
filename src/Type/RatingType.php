@@ -6,17 +6,11 @@ namespace App\Type;
 
 use App\ValueObject\Rating;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\Types\IntegerType;
 
-final class RatingType extends Type
+final class RatingType extends IntegerType
 {
     const RATING = 'rating';
-
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
-    {
-        return Types::INTEGER;
-    }
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
