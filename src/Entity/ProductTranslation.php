@@ -9,18 +9,18 @@ use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CandyTranslationRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ProductTranslationDoctrineRepository")
  * @Table(
- *      uniqueConstraints={@UniqueConstraint(name="uq_candy_id_idx", columns={"candy_id","language"})}
+ *      uniqueConstraints={@UniqueConstraint(name="uq_product_id_idx", columns={"product_id","language"})}
  * )
  */
-class CandyTranslation
+class ProductTranslation
 {
     /**
      * @ORM\Id()
-     * @ORM\Column(type="integer", options={"default"="nextval('candy_translation_id_seq'::regclass)"})
+     * @ORM\Column(type="integer", options={"default"="nextval('product_translation_id_seq'::regclass)"})
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\SequenceGenerator(sequenceName="candy_translation_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="product_translation_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -35,9 +35,9 @@ class CandyTranslation
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Candy", inversedBy="translations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="translations")
      */
-    private $candy;
+    private $product;
 
     public function title(): string
     {

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @HTTPApi
  */
-class Candy
+class Product
 {
     /**
      * @Assert\Type("string")
@@ -26,7 +26,7 @@ class Candy
 
     /**
      * @Assert\Type("array")
-     * @var CandyTranslation[]
+     * @var ProductTranslation[]
      */
     public $translations;
 
@@ -35,7 +35,7 @@ class Candy
         return [
             'gtin' => $this->gtin,
             'weight' => $this->weight,
-            'translations' => array_map(fn (CandyTranslation $t) => $t->toArray(), $this->translations)
+            'translations' => array_map(fn (ProductTranslation $t) => $t->toArray(), $this->translations)
         ];
     }
 }

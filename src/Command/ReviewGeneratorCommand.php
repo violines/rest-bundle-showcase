@@ -40,17 +40,17 @@ class ReviewGeneratorCommand extends Command
     {
         $this
             ->setDescription('Generate fake reviews for testing.')
-            ->addArgument('candyId', InputArgument::REQUIRED, 'candy fk');
+            ->addArgument('productId', InputArgument::REQUIRED, 'product fk');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $candyId = (int) $input->getArgument('candyId');
+        $productId = (int) $input->getArgument('productId');
 
-        if ($candyId < 1) {
-            $io->error('Invalid Argument: CandyId');
+        if ($productId < 1) {
+            $io->error('Invalid Argument: ProductId');
             return 1;
         }
 
@@ -64,7 +64,7 @@ class ReviewGeneratorCommand extends Command
                 random_int(3, 5),
                 random_int(3, 5),
                 self::COMMENTS[random_int(0, 9)],
-                $candyId,
+                $productId,
                 1
             );
 

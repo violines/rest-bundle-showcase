@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Import\Repository;
 
 use App\Exception\PersistenceLayerException;
-use App\Import\Model\Candy;
+use App\Import\Model\Product;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CandyRepository implements CandyInterface
+class ProductRepository implements ProductInterface
 {
     private const MAX_INSERT = 1000;
 
@@ -20,13 +20,13 @@ class CandyRepository implements CandyInterface
     }
 
     /**
-     * @param Candy[]
+     * @param Product[]
      */
     public function saveMany(array $candies): void
     {
         $rowCount = 0;
-        foreach ($candies as $candy) {
-            $rowCount += count($candy->translations);
+        foreach ($candies as $product) {
+            $rowCount += count($product->translations);
         }
 
         if (self::MAX_INSERT < $rowCount) {
@@ -39,30 +39,30 @@ class CandyRepository implements CandyInterface
                     VALUES
                         ' . $this->generateValueMatrix($rowCount) . '
                 ), 
-                candy AS (
-                    INSERT INTO candy (gtin, weight)
+                product AS (
+                    INSERT INTO product (gtin, weight)
                         SELECT DISTINCT gtin, CAST(weight AS int4) FROM data
                         ON CONFLICT (gtin) DO UPDATE SET weight = EXCLUDED.weight
-                    RETURNING gtin, id AS candy_id
+                    RETURNING gtin, id AS product_id
                 )
-            INSERT INTO candy_translation (candy_id, language, title)
-                SELECT candy_id, language, title
+            INSERT INTO product_translation (product_id, language, title)
+                SELECT product_id, language, title
                 FROM data
-                JOIN candy USING (gtin)
-                ON CONFLICT (candy_id, language) DO UPDATE SET title = EXCLUDED.title;
+                JOIN product USING (gtin)
+                ON CONFLICT (product_id, language) DO UPDATE SET title = EXCLUDED.title;
         ';
 
         $connection = $this->entityManager->getConnection();
 
         $statement = $connection->prepare($sql);
 
-        /** @var Candy $candy */
+        /** @var Product $product */
         $i = 0;
-        foreach ($candies as $candy) {
-            $mappedCandy = $candy->toArray();
-            foreach ($mappedCandy['translations'] as $mappedTranslation) {
-                $statement->bindValue('gtin' . $i, $mappedCandy['gtin']);
-                $statement->bindValue('weight' . $i, $mappedCandy['weight']);
+        foreach ($candies as $product) {
+            $mappedProduct = $product->toArray();
+            foreach ($mappedProduct['translations'] as $mappedTranslation) {
+                $statement->bindValue('gtin' . $i, $mappedProduct['gtin']);
+                $statement->bindValue('weight' . $i, $mappedProduct['weight']);
                 $statement->bindValue('language' . $i, $mappedTranslation['language']);
                 $statement->bindValue('title' . $i, $mappedTranslation['title']);
                 $i++;

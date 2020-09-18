@@ -21,31 +21,31 @@ class FrontendControllerTest extends WebTestCase
         $em->getConnection()->exec(file_get_contents(__DIR__ . '/../../fixtures/test.sql'));
     }
 
-    public function testCandyList()
+    public function testProductList()
     {
-        $this->client->request('GET', 'de/frontend/candy/list', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', 'de/frontend/product/list', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
-            json_decode($this->expectedCandyList),
+            json_decode($this->expectedProductList),
             json_decode($this->client->getResponse()->getContent())
         );
     }
 
-    public function testCandyDetail()
+    public function testProductDetail()
     {
-        $this->client->request('GET', 'de/frontend/candy/886037363214', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', 'de/frontend/product/886037363214', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
-            json_decode($this->expectedCandyDetail),
+            json_decode($this->expectedProductDetail),
             json_decode($this->client->getResponse()->getContent())
         );
     }
 
-    public function testCandyNotFound()
+    public function testProductNotFound()
     {
-        $this->client->request('GET', 'de/frontend/candy/999', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', 'de/frontend/product/999', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
         $this->assertEquals(
@@ -159,7 +159,7 @@ class FrontendControllerTest extends WebTestCase
         'HTTP_ACCEPT_LANGUAGE' => 'de-DE'
     ];
 
-    private $expectedCandyList = <<<'EOT'
+    private $expectedProductList = <<<'EOT'
     [
         {
             "gtin": "886037363214",
@@ -184,7 +184,7 @@ class FrontendControllerTest extends WebTestCase
     ]
     EOT;
 
-    private $expectedCandyDetail = <<<'EOT'
+    private $expectedProductDetail = <<<'EOT'
     {
         "gtin": "886037363214",
         "weight": 5,

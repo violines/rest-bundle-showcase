@@ -51,10 +51,10 @@ class Review
     private string $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Candy", inversedBy="reviews")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
-    private Candy $candy;
+    private Product $product;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reviews")
@@ -70,7 +70,7 @@ class Review
         Rating $packaging,
         Rating $availability,
         string $comment,
-        Candy $candyEntity,
+        Product $productEntity,
         User $userEntity
     ) {
         $this->id = $reviewId->toInt();
@@ -80,11 +80,11 @@ class Review
         $this->packaging = $packaging;
         $this->availability = $availability;
         $this->comment = $comment;
-        $this->candy = $candyEntity;
+        $this->product = $productEntity;
         $this->user = $userEntity;
     }
 
-    public static function fromCreate(ReviewId $reviewId, CreateReview $review, Candy $candyEntity, User $userEntity)
+    public static function fromCreate(ReviewId $reviewId, CreateReview $review, Product $productEntity, User $userEntity)
     {
         return new self(
             $reviewId,
@@ -94,7 +94,7 @@ class Review
             Rating::new($review->packaging),
             Rating::new($review->availability),
             $review->comment,
-            $candyEntity,
+            $productEntity,
             $userEntity
         );
     }

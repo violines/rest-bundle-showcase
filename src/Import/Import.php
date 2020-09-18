@@ -4,35 +4,35 @@ declare(strict_types=1);
 
 namespace App\Import;
 
-use App\Import\Model\Candy;
+use App\Import\Model\Product;
 use App\Import\Model\Review;
-use App\Import\Repository\CandyInterface;
+use App\Import\Repository\ProductInterface;
 use App\Import\Repository\ReviewInterface;
 
 class Import
 {
-    private CandyInterface $candyRepository;
+    private ProductInterface $productRepository;
 
     private ReviewInterface $reviewRepository;
 
     public function __construct(
-        CandyInterface $candyRepository,
+        ProductInterface $productRepository,
         ReviewInterface $reviewRepository
     ) {
-        $this->candyRepository = $candyRepository;
+        $this->productRepository = $productRepository;
         $this->reviewRepository = $reviewRepository;
     }
 
     /**
-     * @param Candy[] $candies
+     * @param Product[] $products
      */
-    public function candies(array $candies): void
+    public function products(array $products): void
     {
-        $this->candyRepository->saveMany($candies);
+        $this->productRepository->saveMany($products);
     }
 
     /**
-     * @param Review[] $candies
+     * @param Review[] $reviews
      */
     public function reviews(array $reviews): void
     {

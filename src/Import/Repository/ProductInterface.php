@@ -2,12 +2,12 @@
 
 namespace App\Import\Repository;
 
-use App\Import\Model\Candy;
+use App\Import\Model\Product;
 
-interface CandyInterface
+interface ProductInterface
 {
     /**
-     * @param Candy[]
+     * @param Product[]
      */
     public function saveMany(array $candies): void;
 }

@@ -10,18 +10,18 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\ORM\Mapping\Table;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CandyRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ProductDoctrineRepository")
  * @Table(
  *      uniqueConstraints={@UniqueConstraint(name="uq_gtin_idx", columns={"gtin"})}
  * )
  */
-class Candy
+class Product
 {
     /**
      * @ORM\Id()
-     * @ORM\Column(type="integer", options={"default"="nextval('candy_id_seq'::regclass)"})
+     * @ORM\Column(type="integer", options={"default"="nextval('product_id_seq'::regclass)"})
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\SequenceGenerator(sequenceName="candy_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="product_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -36,12 +36,12 @@ class Candy
     private $weight;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CandyTranslation", mappedBy="candy", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductTranslation", mappedBy="product", cascade={"persist"})
      */
     private $translations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="candy")
+     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="product")
      */
     private $reviews;
 
@@ -58,7 +58,7 @@ class Candy
     public function title(string $language): string
     {
         $name = $this->translations->filter(
-            fn (CandyTranslation $t) => $t->isLanguage($language)
+            fn (ProductTranslation $t) => $t->isLanguage($language)
         )->first();
 
         return $name !== false ? $name->title() : '';
