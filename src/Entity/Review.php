@@ -8,7 +8,7 @@ use App\ValueObject\ReviewId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ReviewRepository")
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\ReviewRepository")
  */
 class Review
 {

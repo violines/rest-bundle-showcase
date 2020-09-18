@@ -1,12 +1,12 @@
 frontend:
-    resource: ../../src/Controller/FrontendController.php
+    resource: ../../src/Infrastructure/Controller/FrontendController.php
     type: annotation
     prefix:
         de: 'de'
         en: 'en'
 
 app:
-    resource: ../../src/Controller/
+    resource: ../../src/Infrastructure/Controller/
     type: annotation
 
 kernel:

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Exception;
+namespace App\Infrastructure\Exception;
 
 use App\View\Error;
 use Symfony\Component\HttpFoundation\Response;
 use TerryApiBundle\Exception\HTTPErrorInterface;
 
-class AuthenticationFailedException extends \RuntimeException implements \Throwable, HTTPErrorInterface
+class BadRequestException extends \LogicException implements \Throwable, HTTPErrorInterface
 {
-    public static function userNotFound(): self
+    public static function userExists(): self
     {
-        return new self('User not found.');
+        return new self('User already exists');
     }
 
     public function getContent(): object
@@ -22,6 +22,6 @@ class AuthenticationFailedException extends \RuntimeException implements \Throwa
 
     public function getHTTPStatusCode(): int
     {
-        return Response::HTTP_UNAUTHORIZED;
+        return Response::HTTP_BAD_REQUEST;
     }
 }

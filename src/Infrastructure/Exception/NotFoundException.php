@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Exception;
+namespace App\Infrastructure\Exception;
 
 use App\View\Error;
 use Symfony\Component\HttpFoundation\Response;
 use TerryApiBundle\Exception\HTTPErrorInterface;
 
-class BadRequestException extends \LogicException implements \Throwable, HTTPErrorInterface
+class NotFoundException extends \LogicException implements \Throwable, HTTPErrorInterface
 {
-    public static function userExists(): self
+    public static function resource(): self
     {
-        return new self('User already exists');
+        return new self('The requested resource was not found');
     }
 
     public function getContent(): object
@@ -22,6 +22,6 @@ class BadRequestException extends \LogicException implements \Throwable, HTTPErr
 
     public function getHTTPStatusCode(): int
     {
-        return Response::HTTP_BAD_REQUEST;
+        return Response::HTTP_NOT_FOUND;
     }
 }

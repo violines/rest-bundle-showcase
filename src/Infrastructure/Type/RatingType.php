@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Type;
+namespace App\Infrastructure\Type;
 
 use App\ValueObject\Rating;
 use Doctrine\DBAL\Platforms\AbstractPlatform;

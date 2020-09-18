@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Infrastructure\Repository;
 
 use App\Entity\ProductTranslation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace App\Infrastructure\Command;
 
 use App\Import\Import;
 use App\Import\Model\Review as ReviewModel;
