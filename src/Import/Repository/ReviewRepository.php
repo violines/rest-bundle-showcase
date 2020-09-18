@@ -18,7 +18,7 @@ class ReviewRepository implements ReviewInterface
     }
 
     /**
-     * @param Review[] $candies
+     * @param Review[] $reviews
      */
     public function saveMany(array $reviews): void
     {

@@ -12,14 +12,14 @@ use App\Exception\AuthenticationFailedException;
 use App\Exception\AuthorizationFailedException;
 use App\Exception\BadRequestException;
 use App\Exception\NotFoundException;
-use App\Repository\CandyRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\ProductDoctrineRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use App\Security\Voter\ReviewUniqueVoter;
 use App\ValueObject\HTTPClient;
 use App\ValueObject\ReviewId;
-use App\View\Candy as CandyView;
+use App\View\Product as ProductView;
 use App\View\Ok as OkView;
 use App\View\Profile as ProfileView;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +29,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class FrontendController
 {
-    private CandyRepository $candyRepository;
+    private ProductDoctrineRepository $productRepository;
 
     private CategoryRepository $categoryRepository;
 
@@ -42,14 +42,14 @@ class FrontendController
     private UserPasswordEncoderInterface $passwordEncoder;
 
     public function __construct(
-        CandyRepository $candyRepository,
+        ProductDoctrineRepository $productRepository,
         CategoryRepository $categoryRepository,
         ReviewRepository $reviewRepository,
         Security $security,
         UserRepository $userRepository,
         UserPasswordEncoderInterface $passwordEncoder
     ) {
-        $this->candyRepository = $candyRepository;
+        $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
@@ -66,33 +66,33 @@ class FrontendController
     }
 
     /**
-     * @Route("/frontend/candy/list", name="frontend_candy_list")
+     * @Route("/frontend/product/list", name="frontend_product_list")
      */
-    public function candyList(HTTPClient $client): array
+    public function productList(HTTPClient $client): array
     {
-        $candies = [];
+        $products = [];
 
-        foreach ($this->candyRepository->findAll() as $candy) {
-            $candies[] = CandyView::fromEntity($candy, $client->getContentLanguage());
+        foreach ($this->productRepository->findAll() as $product) {
+            $products[] = ProductView::fromEntity($product, $client->getContentLanguage());
         }
 
-        return $candies;
+        return $products;
     }
 
     /**
-     * @Route("/frontend/candy/{gtin}", methods={"GET"}, name="frontend_candy_detail")
+     * @Route("/frontend/product/{gtin}", methods={"GET"}, name="frontend_product_detail")
      */
-    public function candyDetail(int $gtin, HTTPClient $client): CandyView
+    public function productDetail(int $gtin, HTTPClient $client): ProductView
     {
-        $candy = $this->candyRepository->findOneBy(['gtin' => $gtin]);
+        $product = $this->productRepository->findOneBy(['gtin' => $gtin]);
 
-        if (null === $candy) {
+        if (null === $product) {
             throw NotFoundException::resource();
         }
 
-        $averageRating = $this->reviewRepository->averageByCandy($candy);
+        $averageRating = $this->reviewRepository->averageByProduct($product);
 
-        return CandyView::fromEntity($candy, $client->getContentLanguage(), $averageRating);
+        return ProductView::fromEntity($product, $client->getContentLanguage(), $averageRating);
     }
 
     /**
@@ -104,15 +104,15 @@ class FrontendController
             throw AuthorizationFailedException::entryNotAllowed();
         };
 
-        $candy = $this->candyRepository->findOneBy(['gtin' => $createReview->gtin]);
+        $product = $this->productRepository->findOneBy(['gtin' => $createReview->gtin]);
 
-        if (null === $candy) {
+        if (null === $product) {
             throw NotFoundException::resource();
         }
 
         $nextId = ReviewId::new($this->reviewRepository->nextId());
 
-        $this->reviewRepository->save(Review::fromCreate($nextId, $createReview, $candy, $user));
+        $this->reviewRepository->save(Review::fromCreate($nextId, $createReview, $product, $user));
 
         return OkView::create();
     }

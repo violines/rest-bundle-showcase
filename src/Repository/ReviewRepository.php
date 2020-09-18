@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Candy;
+use App\Entity\Product;
 use App\Entity\Review;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -34,7 +34,7 @@ class ReviewRepository extends ServiceEntityRepository
         return (int)$this->connection->fetchColumn('SELECT setval(\'review_id_seq\', nextval(\'review_id_seq\'::regclass))');
     }
 
-    public function averageByCandy(Candy $candy): array
+    public function averageByProduct(Product $product): array
     {
         $result = $this->createQueryBuilder('rating')
             ->select('
@@ -44,8 +44,8 @@ class ReviewRepository extends ServiceEntityRepository
                 AVG(rating.packaging) as packaging,
                 AVG(rating.availability) as availability
             ')
-            ->andWhere('rating.candy = :candy')
-            ->setParameter('candy', $candy)
+            ->andWhere('rating.product = :product')
+            ->setParameter('product', $product)
             ->getQuery()
             ->getResult();
 
@@ -55,8 +55,8 @@ class ReviewRepository extends ServiceEntityRepository
     public function findOneByGtinAndUser(string $gtin, User $user): ?Review
     {
         $result = $this->createQueryBuilder('rating')
-            ->join(Candy::class, 'candy', 'WITH', 'candy.id = rating.candy')
-            ->andWhere('candy.gtin = :gtin')
+            ->join(Product::class, 'product', 'WITH', 'product.id = rating.product')
+            ->andWhere('product.gtin = :gtin')
             ->andWhere('rating.user = :user')
             ->setParameter('gtin', $gtin)
             ->setParameter('user', $user)

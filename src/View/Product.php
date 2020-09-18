@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\View;
 
-use App\Entity\Candy as CandyEntity;
+use App\Entity\Product as ProductEntity;
 use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Serializer;
 
 /**
  * @HTTPApi
  */
-final class Candy
+final class Product
 {
     private string $gtin;
 
@@ -32,9 +32,9 @@ final class Candy
         $this->averageRating = $averageRating;
     }
 
-    public static function fromEntity(CandyEntity $candy, string $language, ?array $averageRating = null): self
+    public static function fromEntity(ProductEntity $product, string $language, ?array $averageRating = null): self
     {
-        return new self($candy->gtin(), $candy->weight(), $candy->title($language), $averageRating);
+        return new self($product->gtin(), $product->weight(), $product->title($language), $averageRating);
     }
 
     public function getGtin(): string

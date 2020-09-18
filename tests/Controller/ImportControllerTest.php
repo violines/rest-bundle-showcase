@@ -28,7 +28,7 @@ class ImportControllerTest extends WebTestCase
     {
         $this->client->request(
             'POST',
-            '/import/candies',
+            '/import/products',
             [],
             [],
             self::HEADERS,
@@ -50,8 +50,8 @@ class ImportControllerTest extends WebTestCase
     ];
 
     private $importSql = <<<'EOT'
-    SELECT * FROM candy 
-        JOIN candy_translation ON (candy.id = candy_translation.candy_id)
+    SELECT * FROM product 
+        JOIN product_translation ON (product.id = product_translation.product_id)
         WHERE gtin IN (
             '9372610283610', 
             '7682610283411', 

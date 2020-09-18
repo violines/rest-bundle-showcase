@@ -18,7 +18,7 @@ class Review
 
     private string $comment;
 
-    private int $candyId;
+    private int $productId;
 
     private int $userId;
 
@@ -29,7 +29,7 @@ class Review
         int $packaging,
         int $availability,
         string $comment,
-        int $candyId,
+        int $productId,
         int $userId
     ) {
         $this->taste = $taste;
@@ -38,7 +38,7 @@ class Review
         $this->packaging = $packaging;
         $this->availability = $availability;
         $this->comment = $comment;
-        $this->candyId = $candyId;
+        $this->productId = $productId;
         $this->userId = $userId;
     }
 
@@ -49,10 +49,10 @@ class Review
         int $packaging,
         int $availability,
         string $comment,
-        int $candyId,
+        int $productId,
         int $userId
     ) {
-        return new self($taste, $ingredients, $healthiness, $packaging, $availability, $comment, $candyId, $userId);
+        return new self($taste, $ingredients, $healthiness, $packaging, $availability, $comment, $productId, $userId);
     }
 
     public function toArray()
@@ -64,7 +64,7 @@ class Review
             'packaging' => $this->packaging,
             'availability' => $this->availability,
             'comment' => $this->comment,
-            'candy_id' => $this->candyId,
+            'product_id' => $this->productId,
             'user_id' => $this->userId
         ];
     }
