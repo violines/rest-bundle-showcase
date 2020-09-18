@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ProductTranslationDoctrineRepository")
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\ProductTranslationDoctrineRepository")
  * @Table(
  *      uniqueConstraints={@UniqueConstraint(name="uq_product_id_idx", columns={"product_id","language"})}
  * )

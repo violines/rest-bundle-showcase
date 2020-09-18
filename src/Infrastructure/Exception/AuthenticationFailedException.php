@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Exception;
+namespace App\Infrastructure\Exception;
 
 use App\View\Error;
 use Symfony\Component\HttpFoundation\Response;
 use TerryApiBundle\Exception\HTTPErrorInterface;
 
-class NotFoundException extends \LogicException implements \Throwable, HTTPErrorInterface
+class AuthenticationFailedException extends \RuntimeException implements \Throwable, HTTPErrorInterface
 {
-    public static function resource(): self
+    public static function userNotFound(): self
     {
-        return new self('The requested resource was not found');
+        return new self('User not found.');
     }
 
     public function getContent(): object
@@ -22,6 +22,6 @@ class NotFoundException extends \LogicException implements \Throwable, HTTPError
 
     public function getHTTPStatusCode(): int
     {
-        return Response::HTTP_NOT_FOUND;
+        return Response::HTTP_UNAUTHORIZED;
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Security\Voter;
+namespace App\Infrastructure\Security\Voter;
 
 use App\CommandObject\CreateReview;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use App\Entity\User;
-use App\Repository\ReviewRepository;
+use App\Infrastructure\Repository\ReviewRepository;
 
 class ReviewUniqueVoter extends Voter
 {

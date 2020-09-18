@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\UserRepository")
  * @ORM\Table(name="`user`")
  */
 class User implements UserInterface

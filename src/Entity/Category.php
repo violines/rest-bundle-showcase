@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\ORM\Mapping\Table;
 
 /**
- * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\CategoryRepository")
  * @Table(
  *      uniqueConstraints={@UniqueConstraint(name="uq_key_idx", columns={"key"})}
  * )

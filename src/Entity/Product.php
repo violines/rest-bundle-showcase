@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\ORM\Mapping\Table;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ProductDoctrineRepository")
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\ProductDoctrineRepository")
  * @Table(
  *      uniqueConstraints={@UniqueConstraint(name="uq_gtin_idx", columns={"gtin"})}
  * )

@@ -26,7 +26,7 @@ security:
             provider: app_user_provider
             guard:
                 authenticators:
-                    - App\Security\ImportAuthenticator
+                    - App\Infrastructure\Security\ImportAuthenticator
                     - lexik_jwt_authentication.jwt_token_authenticator
                 entry_point: lexik_jwt_authentication.jwt_token_authenticator
 

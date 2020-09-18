@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Infrastructure\Controller;
 
 use App\Exception\NotFoundException;
-use App\Repository\UserRepository;
 use App\CommandObject\User;
+use App\Infrastructure\Repository\UserRepository;
 use App\View\Ok as OkView;
 use App\View\User as UserView;
 use Symfony\Component\Routing\Annotation\Route;

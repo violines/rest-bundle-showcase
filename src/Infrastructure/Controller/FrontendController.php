@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Infrastructure\Controller;
 
 use App\CommandObject\CreateReview;
 use App\CommandObject\Profile as ProfileCommandObject;
 use App\Entity\Review;
 use App\Entity\User;
-use App\Exception\AuthenticationFailedException;
-use App\Exception\AuthorizationFailedException;
-use App\Exception\BadRequestException;
-use App\Exception\NotFoundException;
-use App\Repository\CategoryRepository;
-use App\Repository\ProductDoctrineRepository;
-use App\Repository\ReviewRepository;
-use App\Repository\UserRepository;
-use App\Security\Voter\ReviewUniqueVoter;
+use App\Infrastructure\Exception\AuthenticationFailedException;
+use App\Infrastructure\Exception\AuthorizationFailedException;
+use App\Infrastructure\Exception\BadRequestException;
+use App\Infrastructure\Exception\NotFoundException;
+use App\Infrastructure\Repository\CategoryRepository;
+use App\Infrastructure\Repository\ProductDoctrineRepository;
+use App\Infrastructure\Repository\ReviewRepository;
+use App\Infrastructure\Repository\UserRepository;
+use App\Infrastructure\Security\Voter\ReviewUniqueVoter;
 use App\ValueObject\HTTPClient;
 use App\ValueObject\ReviewId;
 use App\View\Product as ProductView;
