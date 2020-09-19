@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Product\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;

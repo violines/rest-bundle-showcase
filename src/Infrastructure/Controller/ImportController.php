@@ -6,7 +6,7 @@ namespace App\Infrastructure\Controller;
 
 use App\Import\Import;
 use App\Import\Model\Product;
-use App\View\Ok as OkView;
+use App\Infrastructure\View\Ok;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImportController
@@ -21,10 +21,10 @@ class ImportController
     /**
      * @Route("/import/products", methods={"POST"}, name="import_products")
      */
-    public function products(Product ...$products): OkView
+    public function products(Product ...$products): Ok
     {
         $this->import->products($products);
 
-        return OkView::create();
+        return Ok::create();
     }
 }

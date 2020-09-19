@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Product\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Table;
@@ -35,7 +35,7 @@ class ProductTranslation
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="translations")
+     * @ORM\ManyToOne(targetEntity="App\Product\Entity\Product", inversedBy="translations")
      */
     private $product;
 
