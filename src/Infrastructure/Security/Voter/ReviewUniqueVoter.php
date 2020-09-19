@@ -5,7 +5,7 @@ namespace App\Infrastructure\Security\Voter;
 use App\CommandObject\CreateReview;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use App\Entity\User;
+use App\User\Entity\User;
 use App\Infrastructure\Repository\ReviewRepository;
 
 class ReviewUniqueVoter extends Voter

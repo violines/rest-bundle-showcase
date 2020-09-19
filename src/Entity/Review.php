@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\CommandObject\CreateReview;
+use App\User\Entity\User;
 use App\ValueObject\Rating;
 use App\ValueObject\ReviewId;
 use Doctrine\ORM\Mapping as ORM;
@@ -57,7 +58,7 @@ class Review
     private Product $product;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reviews")
+     * @ORM\ManyToOne(targetEntity="App\User\Entity\User", inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
     private User $user;

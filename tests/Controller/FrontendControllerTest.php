@@ -233,8 +233,8 @@ class FrontendControllerTest extends WebTestCase
 
     private $expectedProfile = <<<'EOT'
     {
-        "email": "user@test.test",
-        "roles": []
+        "user_id":3,
+        "email": "user@test.test"
     }
     EOT;
 }
