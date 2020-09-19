@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Entity\ProductTranslation;
+use App\Product\Entity\ProductTranslation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 

@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\CommandObject\CreateReview;
-use App\Entity\Review;
 use App\Infrastructure\Exception\AuthenticationFailedException;
 use App\Infrastructure\Exception\AuthorizationFailedException;
 use App\Infrastructure\Exception\BadRequestException;
 use App\Infrastructure\Exception\NotFoundException;
+use App\Infrastructure\HTTPClient;
 use App\Infrastructure\Repository\CategoryRepository;
 use App\Infrastructure\Repository\ProductDoctrineRepository;
 use App\Infrastructure\Repository\ReviewRepository;
 use App\Infrastructure\Repository\UserRepository;
 use App\Infrastructure\Security\Voter\ReviewUniqueVoter;
+use App\Infrastructure\View\Ok;
+use App\Product\View\Product;
+use App\Review\Command\CreateReview;
+use App\Review\Entity\Review;
+use App\Review\Value\ReviewId;
 use App\User\Command\CreateProfile;
 use App\User\Entity\User;
 use App\User\View\Profile;
-use App\ValueObject\HTTPClient;
-use App\ValueObject\ReviewId;
-use App\View\Product as ProductView;
-use App\View\Ok as OkView;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
@@ -73,7 +73,7 @@ class FrontendController
         $products = [];
 
         foreach ($this->productRepository->findAll() as $product) {
-            $products[] = ProductView::fromEntity($product, $client->getContentLanguage());
+            $products[] = Product::fromEntity($product, $client->getContentLanguage());
         }
 
         return $products;
@@ -82,7 +82,7 @@ class FrontendController
     /**
      * @Route("/frontend/product/{gtin}", methods={"GET"}, name="frontend_product_detail")
      */
-    public function productDetail(int $gtin, HTTPClient $client): ProductView
+    public function productDetail(int $gtin, HTTPClient $client): Product
     {
         $product = $this->productRepository->findOneBy(['gtin' => $gtin]);
 
@@ -92,13 +92,13 @@ class FrontendController
 
         $averageRating = $this->reviewRepository->averageByProduct($product);
 
-        return ProductView::fromEntity($product, $client->getContentLanguage(), $averageRating);
+        return Product::fromEntity($product, $client->getContentLanguage(), $averageRating);
     }
 
     /**
      * @Route("/frontend/review", methods={"POST"}, name="frontend_review")
      */
-    public function review(CreateReview $createReview, UserInterface $user): OkView
+    public function review(CreateReview $createReview, UserInterface $user): Ok
     {
         if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $createReview)) {
             throw AuthorizationFailedException::entryNotAllowed();
@@ -114,13 +114,13 @@ class FrontendController
 
         $this->reviewRepository->save(Review::fromCreate($nextId, $createReview, $product, $user));
 
-        return OkView::create();
+        return Ok::create();
     }
 
     /**
      * @Route("/frontend/register", methods={"POST"}, name="frontend_register")
      */
-    public function register(CreateProfile $profile): OkView
+    public function register(CreateProfile $profile): Ok
     {
         if (null !== $this->userRepository->findOneBy(['email' => $profile->email])) {
             throw BadRequestException::userExists();
@@ -128,7 +128,7 @@ class FrontendController
 
         $this->userRepository->save(User::fromCreateProfile($profile, $this->passwordEncoder));
 
-        return OkView::create();
+        return Ok::create();
     }
 
     /**

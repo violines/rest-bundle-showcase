@@ -44,7 +44,7 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Review\Entity\Review", mappedBy="user")
      */
     private $reviews;
 

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Entity;
+namespace App\Review\Entity;
 
-use App\CommandObject\CreateReview;
+use App\Product\Entity\Product;
+use App\Review\Command\CreateReview;
+use App\Review\Value\Rating;
+use App\Review\Value\ReviewId;
 use App\User\Entity\User;
-use App\ValueObject\Rating;
-use App\ValueObject\ReviewId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,7 +53,7 @@ class Review
     private string $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="reviews")
+     * @ORM\ManyToOne(targetEntity="App\Product\Entity\Product", inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
     private Product $product;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\View;
+namespace App\Product\View;
 
-use App\Entity\Product as ProductEntity;
+use App\Product\Entity\Product as ProductEntity;
 use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Serializer;
 

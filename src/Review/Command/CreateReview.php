@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\CommandObject;
+namespace App\Review\Command;
 
 use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Validator\Constraints as Assert;

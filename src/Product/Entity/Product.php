@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Product\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
@@ -36,12 +36,12 @@ class Product
     private $weight;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductTranslation", mappedBy="product", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Product\Entity\ProductTranslation", mappedBy="product", cascade={"persist"})
      */
     private $translations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="App\Review\Entity\Review", mappedBy="product")
      */
     private $reviews;
 

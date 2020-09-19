@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ValueObject;
+namespace App\Infrastructure;
 
 use Symfony\Component\HttpFoundation\Request;
 use TerryApiBundle\ValueObject\AbstractHTTPClient;

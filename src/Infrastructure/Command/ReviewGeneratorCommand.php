@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Command;
 
 use App\Import\Import;
-use App\Import\Model\Review as ReviewModel;
+use App\Import\Model\Review;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -57,7 +57,7 @@ class ReviewGeneratorCommand extends Command
         $reviews = [];
 
         for ($i = 1; $i <= 200000; $i++) {
-            $reviews[] = ReviewModel::new(
+            $reviews[] = Review::new(
                 random_int(3, 5),
                 random_int(3, 5),
                 random_int(3, 5),
