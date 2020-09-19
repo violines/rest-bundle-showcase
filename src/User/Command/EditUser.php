@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\CommandObject;
+namespace App\User\Command;
 
 use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,17 +10,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @HTTPApi
  */
-class User
+class EditUser
 {
     /**
-     * @Assert\Type("string")
+     * @Assert\Type("int")
      */
-    public $email;
+    public $id;
 
     /**
      * @Assert\Type("string")
      */
-    public $key;
+    public $email;
 
     /**
      * @Assert\Type("boolean")

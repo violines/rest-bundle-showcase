@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Exception\NotFoundException;
-use App\CommandObject\User;
+use App\Infrastructure\Exception\NotFoundException;
 use App\Infrastructure\Repository\UserRepository;
+use App\User\Command\EditUser;
 use App\View\Ok as OkView;
-use App\View\User as UserView;
+use App\User\View\User;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController
@@ -22,14 +22,14 @@ class AdminController
 
     /**
      * @Route("/admin/user/list", methods={"GET"}, name="admin_user_list")
-     * @return AdminUser[]
+     * @return User[]
      */
     public function userList(): array
     {
         $users = [];
 
         foreach ($this->userRepository->findAll() as $user) {
-            $users[] = UserView::fromEntity($user);
+            $users[] = User::fromEntity($user);
         }
 
         return $users;
@@ -38,19 +38,20 @@ class AdminController
     /**
      * @Route("/admin/user/edit", methods={"POST"}, name="admin_user_edit")
      */
-    public function editUser(User $adminUser): OkView
+    public function editUser(EditUser $editUser): OkView
     {
-        $user = $this->userRepository->findOneBy(['email' => $adminUser->email]);
+        $user = $this->userRepository->findOneBy(['email' => $editUser->email]);
 
         if (null === $user) {
             throw NotFoundException::resource();
         }
 
-        if ($adminUser->isResetKey) {
+        if ($editUser->isResetKey) {
             $user->resetKey();
         }
-        $user->changeEmail($adminUser->email);
-        $user->changeRoles($adminUser->roles);
+
+        $user->changeEmail($editUser->email);
+        $user->changeRoles($editUser->roles);
 
         $this->userRepository->save($user);
 

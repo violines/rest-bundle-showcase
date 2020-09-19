@@ -4,7 +4,7 @@ namespace App\Infrastructure\Repository;
 
 use App\Entity\Product;
 use App\Entity\Review;
-use App\Entity\User;
+use App\User\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;

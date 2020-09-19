@@ -73,6 +73,7 @@ class AdminControllerTest extends WebTestCase
     private $expectedUserList = <<<'EOT'
     [
         {
+            "id":1,
             "email": "import@test.test",
             "key": "USKRZAOT",
             "roles": [
@@ -80,12 +81,14 @@ class AdminControllerTest extends WebTestCase
             ]
         },
         {
+            "id":2,
             "email": "admin@test.test",
             "roles": [
                 "ROLE_ADMIN"
             ]
         },
         {
+            "id":3,
             "email": "user@test.test",
             "roles": []
         }
@@ -94,6 +97,7 @@ class AdminControllerTest extends WebTestCase
 
     private $userPayload = <<<'EOT'
     {
+        "id": 3,
         "email": "user@test.test",
         "roles": []
     }

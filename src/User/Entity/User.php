@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\User\Entity;
 
-use App\CommandObject\Profile;
+use App\User\Command\CreateProfile;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -48,17 +48,23 @@ class User implements UserInterface
      */
     private $reviews;
 
-    private function __construct(string $email)
-    {
+    private function __construct(
+        string $email,
+        string $password,
+        UserPasswordEncoderInterface $passwordEncoder,
+        ?string $key = null,
+        array $roles = []
+    ) {
         $this->email = $email;
+        $this->password = $passwordEncoder->encodePassword($this, $password);
+        $this->key = $key;
+        $this->roles = $roles;
         $this->reviews = new ArrayCollection();
     }
 
-    public static function fromProfile(Profile $profile, UserPasswordEncoderInterface $passwordEncoder): self
+    public static function fromCreateProfile(CreateProfile $profile, UserPasswordEncoderInterface $passwordEncoder): self
     {
-        $user = new self($profile->email);
-        $user->resetPassword($passwordEncoder, $profile->password);
-        return $user;
+        return new self($profile->email, $profile->password, $passwordEncoder);
     }
 
     public function changeEmail(string $email): void
@@ -81,11 +87,30 @@ class User implements UserInterface
         $this->key = bin2hex(openssl_random_pseudo_bytes(8));
     }
 
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
 
     public function getKey(): ?string
     {
@@ -103,14 +128,6 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    /**
-     * @see UserInterface
-     */
     public function getSalt()
     {
         return null;
@@ -122,12 +139,5 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->email;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
     }
 }

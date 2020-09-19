@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\CommandObject\CreateReview;
-use App\CommandObject\Profile as ProfileCommandObject;
 use App\Entity\Review;
-use App\Entity\User;
 use App\Infrastructure\Exception\AuthenticationFailedException;
 use App\Infrastructure\Exception\AuthorizationFailedException;
 use App\Infrastructure\Exception\BadRequestException;
@@ -17,11 +15,13 @@ use App\Infrastructure\Repository\ProductDoctrineRepository;
 use App\Infrastructure\Repository\ReviewRepository;
 use App\Infrastructure\Repository\UserRepository;
 use App\Infrastructure\Security\Voter\ReviewUniqueVoter;
+use App\User\Command\CreateProfile;
+use App\User\Entity\User;
+use App\User\View\Profile;
 use App\ValueObject\HTTPClient;
 use App\ValueObject\ReviewId;
 use App\View\Product as ProductView;
 use App\View\Ok as OkView;
-use App\View\Profile as ProfileView;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
@@ -120,13 +120,13 @@ class FrontendController
     /**
      * @Route("/frontend/register", methods={"POST"}, name="frontend_register")
      */
-    public function register(ProfileCommandObject $profile): OkView
+    public function register(CreateProfile $profile): OkView
     {
         if (null !== $this->userRepository->findOneBy(['email' => $profile->email])) {
             throw BadRequestException::userExists();
         }
 
-        $this->userRepository->save(User::fromProfile($profile, $this->passwordEncoder));
+        $this->userRepository->save(User::fromCreateProfile($profile, $this->passwordEncoder));
 
         return OkView::create();
     }
@@ -134,10 +134,10 @@ class FrontendController
     /**
      * @Route("/frontend/profile", methods={"GET"}, name="frontend_profile")
      */
-    public function profile(?UserInterface $user): ProfileView
+    public function profile(?UserInterface $user): Profile
     {
         if ($user instanceof User) {
-            return ProfileView::fromEntity($user);
+            return Profile::fromEntity($user);
         }
 
         throw AuthenticationFailedException::userNotFound();

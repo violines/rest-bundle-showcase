@@ -1,12 +1,12 @@
 security:
     encoders:
-        App\Entity\User:
+        App\User\Entity\User:
             algorithm: auto
             cost: 12
     providers:
         app_user_provider:
             entity:
-                class: App\Entity\User
+                class: App\User\Entity\User
                 property: email
     firewalls:
         dev:
