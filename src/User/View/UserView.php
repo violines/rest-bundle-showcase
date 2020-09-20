@@ -10,7 +10,7 @@ use TerryApiBundle\Annotation\HTTPApi;
 /**
  * @HTTPApi
  */
-final class User
+final class UserView
 {
     private int $id;
 

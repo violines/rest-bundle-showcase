@@ -3,13 +3,13 @@
 namespace App\User\Entity;
 
 use App\User\Command\CreateProfile;
+use App\User\PasswordEncoder;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\UserDoctrineRepository")
  * @ORM\Table(name="`user`")
  */
 class User implements UserInterface
@@ -51,18 +51,18 @@ class User implements UserInterface
     private function __construct(
         string $email,
         string $password,
-        UserPasswordEncoderInterface $passwordEncoder,
+        PasswordEncoder $passwordEncoder,
         ?string $key = null,
         array $roles = []
     ) {
         $this->email = $email;
-        $this->password = $passwordEncoder->encodePassword($this, $password);
+        $this->password = $passwordEncoder->encode($this, $password);
         $this->key = $key;
         $this->roles = $roles;
         $this->reviews = new ArrayCollection();
     }
 
-    public static function fromCreateProfile(CreateProfile $profile, UserPasswordEncoderInterface $passwordEncoder): self
+    public static function fromCreateProfile(CreateProfile $profile, PasswordEncoder $passwordEncoder): self
     {
         return new self($profile->email, $profile->password, $passwordEncoder);
     }
@@ -72,9 +72,9 @@ class User implements UserInterface
         $this->email = $email;
     }
 
-    public function resetPassword(UserPasswordEncoderInterface $passwordEncoder, string $password): void
+    public function resetPassword(string $password, PasswordEncoder $passwordEncoder): void
     {
-        $this->password = $passwordEncoder->encodePassword($this, $password);
+        $this->password = $passwordEncoder->encode($this, $password);
     }
 
     public function changeRoles(array $roles): void

@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Security;
 
 use App\Infrastructure\Exception\AuthenticationFailedException;
-use App\Infrastructure\Repository\UserRepository;
+use App\Infrastructure\Repository\UserDoctrineRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -13,9 +13,9 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class ImportAuthenticator extends AbstractGuardAuthenticator
 {
-    private UserRepository $userRepository;
+    private UserDoctrineRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserDoctrineRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }

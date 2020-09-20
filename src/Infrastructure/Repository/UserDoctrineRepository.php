@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Repository;
 
 use App\User\Entity\User;
+use App\User\Repository\UserRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -12,7 +13,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserDoctrineRepository extends ServiceEntityRepository implements UserRepository
 {
     private $em;
 
@@ -22,9 +23,24 @@ class UserRepository extends ServiceEntityRepository
         $this->em = $this->getEntityManager();
     }
 
-    public function save(User $user): void
+    public function saveUser(User $user): void
     {
         $this->em->persist($user);
         $this->em->flush();
+    }
+
+    public function userExists(string $email): bool
+    {
+        return null !== $this->findOneBy(['email' => $email]);
+    }
+
+    public function findUser(int $id): User
+    {
+        return $this->find($id);
+    }
+
+    public function findUsers(): array
+    {
+        return $this->findAll();
     }
 }
