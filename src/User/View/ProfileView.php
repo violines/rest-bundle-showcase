@@ -11,7 +11,7 @@ use TerryApiBundle\Annotation\HTTPApi;
 /**
  * @HTTPApi
  */
-final class Profile
+final class ProfileView
 {
     /**
      * @Serializer\Annotation\SerializedName("user_id")

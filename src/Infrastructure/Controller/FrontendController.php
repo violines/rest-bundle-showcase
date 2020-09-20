@@ -12,7 +12,6 @@ use App\Infrastructure\HTTPClient;
 use App\Infrastructure\Repository\CategoryRepository;
 use App\Infrastructure\Repository\ProductDoctrineRepository;
 use App\Infrastructure\Repository\ReviewRepository;
-use App\Infrastructure\Repository\UserRepository;
 use App\Infrastructure\Security\Voter\ReviewUniqueVoter;
 use App\Infrastructure\View\Ok;
 use App\Product\View\Product;
@@ -20,10 +19,11 @@ use App\Review\Command\CreateReview;
 use App\Review\Entity\Review;
 use App\Review\Value\ReviewId;
 use App\User\Command\CreateProfile;
+use App\User\Exception\UserAlreadyExists;
 use App\User\Entity\User;
-use App\User\View\Profile;
+use App\User\UserService;
+use App\User\View\ProfileView;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -37,24 +37,20 @@ class FrontendController
 
     private Security $security;
 
-    private UserRepository $userRepository;
-
-    private UserPasswordEncoderInterface $passwordEncoder;
+    private UserService $userService;
 
     public function __construct(
         ProductDoctrineRepository $productRepository,
         CategoryRepository $categoryRepository,
         ReviewRepository $reviewRepository,
         Security $security,
-        UserRepository $userRepository,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserService $userService
     ) {
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
         $this->reviewRepository = $reviewRepository;
         $this->security = $security;
-        $this->userRepository = $userRepository;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->userService = $userService;
     }
 
     /**
@@ -120,13 +116,13 @@ class FrontendController
     /**
      * @Route("/frontend/register", methods={"POST"}, name="frontend_register")
      */
-    public function register(CreateProfile $profile): Ok
+    public function register(CreateProfile $createProfile): Ok
     {
-        if (null !== $this->userRepository->findOneBy(['email' => $profile->email])) {
+        try {
+            $this->userService->createProfile($createProfile);
+        } catch (UserAlreadyExists $e) {
             throw BadRequestException::userExists();
         }
-
-        $this->userRepository->save(User::fromCreateProfile($profile, $this->passwordEncoder));
 
         return Ok::create();
     }
@@ -134,10 +130,10 @@ class FrontendController
     /**
      * @Route("/frontend/profile", methods={"GET"}, name="frontend_profile")
      */
-    public function profile(?UserInterface $user): Profile
+    public function profile(?UserInterface $user): ProfileView
     {
         if ($user instanceof User) {
-            return Profile::fromEntity($user);
+            return $this->userService->getProfile($user);
         }
 
         throw AuthenticationFailedException::userNotFound();

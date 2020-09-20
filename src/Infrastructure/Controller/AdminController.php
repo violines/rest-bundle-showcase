@@ -5,19 +5,20 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\Infrastructure\Exception\NotFoundException;
-use App\Infrastructure\Repository\UserRepository;
+use App\User\Exception\UserNotExists;
 use App\Infrastructure\View\Ok;
 use App\User\Command\EditUser;
+use App\User\UserService;
 use App\User\View\User;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController
 {
-    private UserRepository $userRepository;
+    private UserService $userService;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserService $userService)
     {
-        $this->userRepository = $userRepository;
+        $this->userService = $userService;
     }
 
     /**
@@ -26,13 +27,7 @@ class AdminController
      */
     public function userList(): array
     {
-        $users = [];
-
-        foreach ($this->userRepository->findAll() as $user) {
-            $users[] = User::fromEntity($user);
-        }
-
-        return $users;
+        return $this->userService->getUsers();
     }
 
     /**
@@ -40,20 +35,11 @@ class AdminController
      */
     public function editUser(EditUser $editUser): Ok
     {
-        $user = $this->userRepository->findOneBy(['email' => $editUser->email]);
-
-        if (null === $user) {
+        try {
+            $this->userService->editUser($editUser);
+        } catch (UserNotExists $e) {
             throw NotFoundException::resource();
         }
-
-        if ($editUser->isResetKey) {
-            $user->resetKey();
-        }
-
-        $user->changeEmail($editUser->email);
-        $user->changeRoles($editUser->roles);
-
-        $this->userRepository->save($user);
 
         return Ok::create();
     }
