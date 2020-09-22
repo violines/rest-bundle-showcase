@@ -34,7 +34,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testProductDetail()
     {
-        $this->client->request('GET', 'de/frontend/product/886037363214', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', 'de/frontend/product/1', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
@@ -207,6 +207,7 @@ class FrontendControllerTest extends WebTestCase
 
     private $reviewPayload = <<<'EOT'
     {
+        "productId": 1,
         "gtin": "886037363214",
         "taste": 5,
         "ingredients": 4,

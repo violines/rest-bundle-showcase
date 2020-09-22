@@ -4,6 +4,7 @@ namespace App\Infrastructure\Repository;
 
 use App\Product\Entity\Product;
 use App\Review\Entity\Review;
+use App\Review\Repository\ReviewRepository;
 use App\User\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -11,14 +12,14 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * @method Rating|null find($id, $lockMode = null, $lockVersion = null)
- * @method Rating|null findOneBy(array $criteria, array $orderBy = null)
- * @method Rating[]    findAll()
- * @method Rating[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Review|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Review|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Review[]    findAll()
+ * @method Review[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ReviewRepository extends ServiceEntityRepository
+class ReviewDoctrineRepository extends ServiceEntityRepository implements ReviewRepository
 {
-    private EntityManagerInterface $entityManager;
+    private EntityManagerInterface $em;
 
     private Connection $connection;
 
@@ -26,12 +27,7 @@ class ReviewRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Review::class);
         $this->connection = $this->getEntityManager()->getConnection();
-        $this->entityManager = $this->getEntityManager();
-    }
-
-    public function nextId(): int
-    {
-        return (int)$this->connection->fetchColumn('SELECT setval(\'review_id_seq\', nextval(\'review_id_seq\'::regclass))');
+        $this->em = $this->getEntityManager();
     }
 
     public function averageByProduct(Product $product): array
@@ -44,8 +40,8 @@ class ReviewRepository extends ServiceEntityRepository
                 AVG(rating.packaging) as packaging,
                 AVG(rating.availability) as availability
             ')
-            ->andWhere('rating.product = :product')
-            ->setParameter('product', $product)
+            ->andWhere('rating.productId = :productId')
+            ->setParameter('productId', $product->getId())
             ->getQuery()
             ->getResult();
 
@@ -55,11 +51,11 @@ class ReviewRepository extends ServiceEntityRepository
     public function findOneByGtinAndUser(string $gtin, User $user): ?Review
     {
         $result = $this->createQueryBuilder('rating')
-            ->join(Product::class, 'product', 'WITH', 'product.id = rating.product')
+            ->join(Product::class, 'product', 'WITH', 'product.id = rating.productId')
             ->andWhere('product.gtin = :gtin')
-            ->andWhere('rating.user = :user')
+            ->andWhere('rating.userId = :userId')
             ->setParameter('gtin', $gtin)
-            ->setParameter('user', $user)
+            ->setParameter('userId', $user->getId())
             ->getQuery()
             ->getResult();
 
@@ -70,9 +66,29 @@ class ReviewRepository extends ServiceEntityRepository
         return current($result);
     }
 
-    public function save(Review $review)
+    public function nextId(): int
     {
-        $this->entityManager->persist($review);
-        $this->entityManager->flush();
+        return (int)$this->connection->fetchColumn('SELECT setval(\'review_id_seq\', nextval(\'review_id_seq\'::regclass))');
+    }
+
+    public function saveReview(Review $review): void
+    {
+        $this->em->persist($review);
+        $this->em->flush();
+    }
+
+    public function reviewExists(int $productId, int $userId): bool
+    {
+        return null !== $this->findOneBy(['productId' => $productId, 'userId' => $userId]);
+    }
+
+    public function findReview(int $id): Review
+    {
+        return $this->find($id);
+    }
+
+    public function findReviews(): array
+    {
+        return $this->findAll();
     }
 }

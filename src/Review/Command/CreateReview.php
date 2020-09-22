@@ -13,6 +13,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreateReview
 {
     /**
+     * @Assert\Type("int")
+     */
+    public $productId;
+
+    /**
+     * @Assert\IsNull
+     */
+    public $userId;
+
+    /**
      * @Assert\Type("string")
      */
     public $gtin;

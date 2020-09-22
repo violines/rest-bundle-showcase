@@ -2,19 +2,19 @@
 
 namespace App\Infrastructure\Security\Voter;
 
+use App\Infrastructure\Repository\ReviewDoctrineRepository;
 use App\Review\Command\CreateReview;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use App\User\Entity\User;
-use App\Infrastructure\Repository\ReviewRepository;
 
 class ReviewUniqueVoter extends Voter
 {
     public const NAME = 'APP_VOTER_REVIEW_UNIQUE';
 
-    private ReviewRepository $reviewRepository;
+    private ReviewDoctrineRepository $reviewRepository;
 
-    public function __construct(ReviewRepository $reviewRepository)
+    public function __construct(ReviewDoctrineRepository $reviewRepository)
     {
         $this->reviewRepository = $reviewRepository;
     }

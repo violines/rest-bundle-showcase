@@ -15,6 +15,11 @@ class BadRequestException extends \LogicException implements \Throwable, HTTPErr
         return new self('User already exists');
     }
 
+    public static function reviewExists(): self
+    {
+        return new self('Review already exists');
+    }
+
     public function getContent(): object
     {
         return Error::create($this->message);

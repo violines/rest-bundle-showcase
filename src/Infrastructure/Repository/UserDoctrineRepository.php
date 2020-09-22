@@ -6,6 +6,8 @@ use App\User\Entity\User;
 use App\User\Repository\UserRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,12 +17,20 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class UserDoctrineRepository extends ServiceEntityRepository implements UserRepository
 {
-    private $em;
+    private EntityManagerInterface $em;
+
+    private Connection $connection;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+        $this->connection = $this->getEntityManager()->getConnection();
         $this->em = $this->getEntityManager();
+    }
+
+    public function nextId(): int
+    {
+        return (int)$this->connection->fetchColumn('SELECT setval(\'user_id_seq\', nextval(\'user_id_seq\'::regclass))');
     }
 
     public function saveUser(User $user): void

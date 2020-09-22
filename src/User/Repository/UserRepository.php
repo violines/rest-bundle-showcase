@@ -7,6 +7,11 @@ use App\User\Entity\User;
 interface UserRepository
 {
     /**
+     * @return int
+     */
+    public function nextId(): int;
+
+    /**
      * @param User $user
      */
     public function saveUser(User $user): void;

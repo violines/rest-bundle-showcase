@@ -11,7 +11,7 @@ use Symfony\Component\Serializer;
 /**
  * @HTTPApi
  */
-final class Product
+final class ProductView
 {
     private string $gtin;
 
