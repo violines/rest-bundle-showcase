@@ -2,8 +2,8 @@
 
 namespace App\Import\Repository;
 
-use App\Exception\PersistenceLayerException;
 use App\Import\Model\Review;
+use App\Infrastructure\Exception\PersistenceLayerException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ReviewRepository implements ReviewInterface

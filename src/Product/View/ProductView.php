@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Product\View;
 
-use App\Product\Entity\Product as ProductEntity;
 use TerryApiBundle\Annotation\HTTPApi;
 use Symfony\Component\Serializer;
 
 /**
  * @HTTPApi
  */
-final class Product
+final class ProductView
 {
     private string $gtin;
 
@@ -22,19 +21,14 @@ final class Product
     /**
      * @Serializer\Annotation\SerializedName("average_rating")
      */
-    private ?array $averageRating;
+    private int $averageRating;
 
-    public function __construct(string $gtin, int $weight, string $name, ?array $averageRating)
+    public function __construct(string $gtin, int $weight, string $name, int $averageRating)
     {
         $this->gtin = $gtin;
         $this->weight = $weight;
         $this->name = $name;
         $this->averageRating = $averageRating;
-    }
-
-    public static function fromEntity(ProductEntity $product, string $language, ?array $averageRating = null): self
-    {
-        return new self($product->gtin(), $product->weight(), $product->title($language), $averageRating);
     }
 
     public function getGtin(): string
@@ -52,7 +46,7 @@ final class Product
         return $this->name;
     }
 
-    public function getAverageRating(): ?array
+    public function getAverageRating(): int
     {
         return $this->averageRating;
     }

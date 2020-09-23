@@ -2,15 +2,13 @@
 
 namespace App\Review\Entity;
 
-use App\Product\Entity\Product;
 use App\Review\Command\CreateReview;
 use App\Review\Value\Rating;
 use App\Review\Value\ReviewId;
-use App\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\ReviewRepository")
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\ReviewDoctrineRepository")
  */
 class Review
 {
@@ -53,16 +51,14 @@ class Review
     private string $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Product\Entity\Product", inversedBy="reviews")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer")
      */
-    private Product $product;
+    private int $productId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\User\Entity\User", inversedBy="reviews")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer")
      */
-    private User $user;
+    private int $userId;
 
     private function __construct(
         ReviewId $reviewId,
@@ -72,8 +68,8 @@ class Review
         Rating $packaging,
         Rating $availability,
         string $comment,
-        Product $productEntity,
-        User $userEntity
+        int $productId,
+        int $userId
     ) {
         $this->id = $reviewId->toInt();
         $this->taste = $taste;
@@ -82,11 +78,11 @@ class Review
         $this->packaging = $packaging;
         $this->availability = $availability;
         $this->comment = $comment;
-        $this->product = $productEntity;
-        $this->user = $userEntity;
+        $this->productId = $productId;
+        $this->userId = $userId;
     }
 
-    public static function fromCreate(ReviewId $reviewId, CreateReview $review, Product $productEntity, User $userEntity)
+    public static function fromCreate(ReviewId $reviewId, CreateReview $review)
     {
         return new self(
             $reviewId,
@@ -96,8 +92,8 @@ class Review
             Rating::new($review->packaging),
             Rating::new($review->availability),
             $review->comment,
-            $productEntity,
-            $userEntity
+            $review->productId,
+            $review->userId
         );
     }
 }

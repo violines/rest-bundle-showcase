@@ -40,10 +40,10 @@ class Product
      */
     private $translations;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Review\Entity\Review", mappedBy="product")
-     */
-    private $reviews;
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function gtin()
     {

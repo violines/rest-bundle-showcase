@@ -9,15 +9,14 @@ use App\Infrastructure\Exception\AuthorizationFailedException;
 use App\Infrastructure\Exception\BadRequestException;
 use App\Infrastructure\Exception\NotFoundException;
 use App\Infrastructure\HTTPClient;
-use App\Infrastructure\Repository\CategoryRepository;
-use App\Infrastructure\Repository\ProductDoctrineRepository;
-use App\Infrastructure\Repository\ReviewRepository;
 use App\Infrastructure\Security\Voter\ReviewUniqueVoter;
 use App\Infrastructure\View\Ok;
-use App\Product\View\Product;
+use App\Product\Exception\ProductNotExists;
+use App\Product\ProductService;
+use App\Product\Value\Language;
+use App\Product\View\ProductView;
 use App\Review\Command\CreateReview;
-use App\Review\Entity\Review;
-use App\Review\Value\ReviewId;
+use App\Review\ReviewService;
 use App\User\Command\CreateProfile;
 use App\User\Exception\UserAlreadyExists;
 use App\User\Entity\User;
@@ -29,26 +28,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class FrontendController
 {
-    private ProductDoctrineRepository $productRepository;
+    private ProductService $productService;
 
-    private CategoryRepository $categoryRepository;
-
-    private ReviewRepository $reviewRepository;
+    private ReviewService $reviewService;
 
     private Security $security;
 
     private UserService $userService;
 
     public function __construct(
-        ProductDoctrineRepository $productRepository,
-        CategoryRepository $categoryRepository,
-        ReviewRepository $reviewRepository,
+        ProductService $productService,
+        ReviewService $reviewService,
         Security $security,
         UserService $userService
     ) {
-        $this->productRepository = $productRepository;
-        $this->categoryRepository = $categoryRepository;
-        $this->reviewRepository = $reviewRepository;
+        $this->productService = $productService;
+        $this->reviewService = $reviewService;
         $this->security = $security;
         $this->userService = $userService;
     }
@@ -58,7 +53,7 @@ class FrontendController
      */
     public function categories(): array
     {
-        return $this->categoryRepository->selectAll();
+        return $this->productService->categories();
     }
 
     /**
@@ -66,32 +61,25 @@ class FrontendController
      */
     public function productList(HTTPClient $client): array
     {
-        $products = [];
-
-        foreach ($this->productRepository->findAll() as $product) {
-            $products[] = Product::fromEntity($product, $client->getContentLanguage());
-        }
-
-        return $products;
+        return $this->productService->products(Language::fromString($client->getContentLanguage()));
     }
 
     /**
-     * @Route("/frontend/product/{gtin}", methods={"GET"}, name="frontend_product_detail")
+     * @Route("/frontend/product/{id}", methods={"GET"}, name="frontend_product_detail")
      */
-    public function productDetail(int $gtin, HTTPClient $client): Product
+    public function productDetail(int $id, HTTPClient $client): ProductView
     {
-        $product = $this->productRepository->findOneBy(['gtin' => $gtin]);
-
-        if (null === $product) {
+        try {
+            $product = $this->productService->product($id, Language::fromString($client->getContentLanguage()));
+        } catch (ProductNotExists $e) {
             throw NotFoundException::resource();
         }
 
-        $averageRating = $this->reviewRepository->averageByProduct($product);
-
-        return Product::fromEntity($product, $client->getContentLanguage(), $averageRating);
+        return $product;
     }
 
     /**
+     * @param User $user
      * @Route("/frontend/review", methods={"POST"}, name="frontend_review")
      */
     public function review(CreateReview $createReview, UserInterface $user): Ok
@@ -100,15 +88,13 @@ class FrontendController
             throw AuthorizationFailedException::entryNotAllowed();
         };
 
-        $product = $this->productRepository->findOneBy(['gtin' => $createReview->gtin]);
+        $createReview->userId = $user->getId();
 
-        if (null === $product) {
-            throw NotFoundException::resource();
+        try {
+            $this->reviewService->createReview($createReview);
+        } catch (\Throwable $e) {
+            throw BadRequestException::reviewExists();
         }
-
-        $nextId = ReviewId::new($this->reviewRepository->nextId());
-
-        $this->reviewRepository->save(Review::fromCreate($nextId, $createReview, $product, $user));
 
         return Ok::create();
     }

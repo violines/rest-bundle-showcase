@@ -34,7 +34,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testProductDetail()
     {
-        $this->client->request('GET', 'de/frontend/product/886037363214', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', 'de/frontend/product/1', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
@@ -164,22 +164,26 @@ class FrontendControllerTest extends WebTestCase
         {
             "gtin": "886037363214",
             "weight": 5,
-            "name": "Weiße Schokolade mit Krisp"
+            "name": "Weiße Schokolade mit Krisp",
+            "average_rating": 0
         },
         {
             "gtin": "9272037363324",
             "weight": 10,
-            "name": "Erdnuss Cups"
+            "name": "Erdnuss Cups",
+            "average_rating": 0
         },
         {
             "gtin": "5567037363214",
             "weight": 15,
-            "name": "Zartbitter Schokolade"
+            "name": "Zartbitter Schokolade",
+            "average_rating": 0
         },
         {
             "gtin": "893037363214",
             "weight": 20,
-            "name": "Prinzessinen Rolle"
+            "name": "Prinzessinen Rolle",
+            "average_rating": 0
         }
     ]
     EOT;
@@ -189,13 +193,7 @@ class FrontendControllerTest extends WebTestCase
         "gtin": "886037363214",
         "weight": 5,
         "name": "Weiße Schokolade mit Krisp",
-        "average_rating": {
-            "taste": 0,
-            "ingredients": 0,
-            "healthiness": 0,
-            "packaging": 0,
-            "availability": 0
-        }
+        "average_rating": 0
     }
     EOT;
 
@@ -207,6 +205,7 @@ class FrontendControllerTest extends WebTestCase
 
     private $reviewPayload = <<<'EOT'
     {
+        "productId": 1,
         "gtin": "886037363214",
         "taste": 5,
         "ingredients": 4,
