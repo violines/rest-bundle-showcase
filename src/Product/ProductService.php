@@ -10,6 +10,7 @@ use App\Product\Value\Language;
 use App\Product\View\CategoryView;
 use App\Product\View\ProductView;
 use App\Product\Repository\ProductRepository;
+use App\Product\Repository\ProductViewRepository;
 
 class ProductService
 {
@@ -17,10 +18,13 @@ class ProductService
 
     private ProductRepository $productRepository;
 
-    public function __construct(CategoryRepository $categoryRepository, ProductRepository $productRepository)
+    private ProductViewRepository $productViewRepository;
+
+    public function __construct(CategoryRepository $categoryRepository, ProductRepository $productRepository, ProductViewRepository $productViewRepository)
     {
         $this->categoryRepository = $categoryRepository;
         $this->productRepository = $productRepository;
+        $this->productViewRepository = $productViewRepository;
     }
 
     /**
@@ -42,23 +46,15 @@ class ProductService
      */
     public function products(Language $language): array
     {
-        $products = [];
-
-        foreach ($this->productRepository->findProducts() as $product) {
-            $products[] = ProductView::fromEntity($product, $language->toString());
-        }
-
-        return $products;
+        return $this->productViewRepository->findProductViews($language);
     }
 
     public function product(int $id, Language $language): ProductView
     {
         try {
-            $product = $this->productRepository->findProduct($id);
+            return $this->productViewRepository->findProductViewById($id, $language);
         } catch (\Throwable $e) {
             throw ProductNotExists::id($id);
         }
-
-        return ProductView::fromEntity($product, $language->toString());
     }
 }

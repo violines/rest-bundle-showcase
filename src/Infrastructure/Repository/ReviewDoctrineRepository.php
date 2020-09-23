@@ -30,24 +30,6 @@ class ReviewDoctrineRepository extends ServiceEntityRepository implements Review
         $this->em = $this->getEntityManager();
     }
 
-    public function averageByProduct(Product $product): array
-    {
-        $result = $this->createQueryBuilder('rating')
-            ->select('
-                AVG(rating.taste) as taste,
-                AVG(rating.ingredients) as ingredients,
-                AVG(rating.healthiness) as healthiness,
-                AVG(rating.packaging) as packaging,
-                AVG(rating.availability) as availability
-            ')
-            ->andWhere('rating.productId = :productId')
-            ->setParameter('productId', $product->getId())
-            ->getQuery()
-            ->getResult();
-
-        return array_map(fn ($p) => (int) $p, current($result));
-    }
-
     public function findOneByGtinAndUser(string $gtin, User $user): ?Review
     {
         $result = $this->createQueryBuilder('rating')

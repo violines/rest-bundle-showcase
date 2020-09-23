@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Import\Repository;
 
-use App\Exception\PersistenceLayerException;
 use App\Import\Model\Product;
+use App\Infrastructure\Exception\PersistenceLayerException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ProductRepository implements ProductInterface
