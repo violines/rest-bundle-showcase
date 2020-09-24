@@ -57,9 +57,9 @@ class FrontendController
     }
 
     /**
-     * @Route("/frontend/product/list", name="frontend_product_list")
+     * @Route("/frontend/products", name="frontend_product_list")
      */
-    public function productList(HTTPClient $client): array
+    public function products(HTTPClient $client): array
     {
         return $this->productService->products(Language::fromString($client->getContentLanguage()));
     }
@@ -67,7 +67,7 @@ class FrontendController
     /**
      * @Route("/frontend/product/{id}", methods={"GET"}, name="frontend_product_detail")
      */
-    public function productDetail(int $id, HTTPClient $client): ProductView
+    public function product(int $id, HTTPClient $client): ProductView
     {
         try {
             $product = $this->productService->product($id, Language::fromString($client->getContentLanguage()));
@@ -82,7 +82,7 @@ class FrontendController
      * @param User $user
      * @Route("/frontend/review", methods={"POST"}, name="frontend_review")
      */
-    public function review(CreateReview $createReview, UserInterface $user): Ok
+    public function createReview(CreateReview $createReview, UserInterface $user): Ok
     {
         if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $createReview)) {
             throw AuthorizationFailedException::entryNotAllowed();
@@ -119,7 +119,7 @@ class FrontendController
     public function profile(?UserInterface $user): ProfileView
     {
         if ($user instanceof User) {
-            return $this->userService->getProfile($user);
+            return $this->userService->profile($user);
         }
 
         throw AuthenticationFailedException::userNotFound();

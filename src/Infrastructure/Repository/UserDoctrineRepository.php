@@ -4,6 +4,7 @@ namespace App\Infrastructure\Repository;
 
 use App\User\Entity\User;
 use App\User\Repository\UserRepository;
+use App\User\Value\UserId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
@@ -28,9 +29,9 @@ class UserDoctrineRepository extends ServiceEntityRepository implements UserRepo
         $this->em = $this->getEntityManager();
     }
 
-    public function nextId(): int
+    public function nextId(): UserId
     {
-        return (int)$this->connection->fetchColumn('SELECT setval(\'user_id_seq\', nextval(\'user_id_seq\'::regclass))');
+        return UserId::fromInt((int)$this->connection->fetchColumn('SELECT setval(\'user_id_seq\', nextval(\'user_id_seq\'::regclass))'));
     }
 
     public function saveUser(User $user): void

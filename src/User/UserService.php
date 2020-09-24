@@ -11,6 +11,7 @@ use App\User\Exception\UserAlreadyExists;
 use App\User\Exception\UserNotExists;
 use App\User\PasswordEncoder;
 use App\User\Repository\UserRepository;
+use App\User\Value\Email;
 use App\User\View\ProfileView;
 use App\User\View\UserView;
 
@@ -32,10 +33,12 @@ class UserService
             throw UserAlreadyExists::email($createProfile->email);
         }
 
-        $this->userRepository->saveUser(User::fromCreateProfile($createProfile, $this->passwordEncoder));
+        $userId = $this->userRepository->nextId();
+
+        $this->userRepository->saveUser(User::fromCreateProfile($userId, $createProfile, $this->passwordEncoder));
     }
 
-    public function getProfile(User $user): ProfileView
+    public function profile(User $user): ProfileView
     {
         return ProfileView::fromEntity($user);
     }
@@ -52,7 +55,7 @@ class UserService
             $user->resetKey();
         }
 
-        $user->changeEmail($editUser->email);
+        $user->changeEmail(Email::fromString($editUser->email));
         $user->changeRoles($editUser->roles);
 
         $this->userRepository->saveUser($user);
@@ -61,7 +64,7 @@ class UserService
     /**
      * @return UserView[]
      */
-    public function getUsers(): array
+    public function users(): array
     {
         $users = [];
 

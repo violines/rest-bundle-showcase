@@ -3,13 +3,14 @@
 namespace App\Product\Repository;
 
 use App\Product\Entity\Product;
+use App\Product\Value\ProductId;
 
 interface ProductRepository
 {
     /**
-     * @return int
+     * @return ProductId
      */
-    public function nextId(): int;
+    public function nextId(): ProductId;
 
     /**
      * @param Product $product

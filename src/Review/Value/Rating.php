@@ -15,7 +15,7 @@ final class Rating
         $this->rating = $rating;
     }
 
-    public static function new(int $rating)
+    public static function fromInt(int $rating)
     {
         Assert::greaterThanEq($rating, 1, 'Value cannot be less than 1');
         Assert::lessThanEq($rating, 5, 'Value cannot be greater than 5');

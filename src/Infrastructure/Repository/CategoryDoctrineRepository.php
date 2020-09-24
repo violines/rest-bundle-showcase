@@ -4,6 +4,7 @@ namespace App\Infrastructure\Repository;
 
 use App\Product\Entity\Category;
 use App\Product\Repository\CategoryRepository;
+use App\Product\Value\CategoryId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,9 +29,9 @@ class CategoryDoctrineRepository extends ServiceEntityRepository implements Cate
         $this->em = $this->getEntityManager();
     }
 
-    public function nextId(): int
+    public function nextId(): CategoryId
     {
-        return (int)$this->connection->fetchColumn('SELECT setval(\'category_id_seq\', nextval(\'category_id_seq\'::regclass))');
+        return CategoryId::fromInt((int)$this->connection->fetchColumn('SELECT setval(\'category_id_seq\', nextval(\'category_id_seq\'::regclass))'));
     }
 
     public function saveCategory(Category $category): void

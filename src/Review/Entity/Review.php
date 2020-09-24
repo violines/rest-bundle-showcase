@@ -2,9 +2,12 @@
 
 namespace App\Review\Entity;
 
+use App\Product\Value\ProductId;
 use App\Review\Command\CreateReview;
+use App\Review\Value\Comment;
 use App\Review\Value\Rating;
 use App\Review\Value\ReviewId;
+use App\User\Value\UserId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,9 +49,9 @@ class Review
     private Rating $availability;
 
     /**
-     * @ORM\Column(type="string", length=1000, nullable=true)
+     * @ORM\Column(type="comment")
      */
-    private string $comment;
+    private Comment $comment;
 
     /**
      * @ORM\Column(type="integer")
@@ -67,9 +70,9 @@ class Review
         Rating $healthiness,
         Rating $packaging,
         Rating $availability,
-        string $comment,
-        int $productId,
-        int $userId
+        Comment $comment,
+        ProductId $productId,
+        UserId $userId
     ) {
         $this->id = $reviewId->toInt();
         $this->taste = $taste;
@@ -78,22 +81,22 @@ class Review
         $this->packaging = $packaging;
         $this->availability = $availability;
         $this->comment = $comment;
-        $this->productId = $productId;
-        $this->userId = $userId;
+        $this->productId = $productId->toInt();
+        $this->userId = $userId->toInt();
     }
 
     public static function fromCreate(ReviewId $reviewId, CreateReview $review)
     {
         return new self(
             $reviewId,
-            Rating::new($review->taste),
-            Rating::new($review->ingredients),
-            Rating::new($review->healthiness),
-            Rating::new($review->packaging),
-            Rating::new($review->availability),
-            $review->comment,
-            $review->productId,
-            $review->userId
+            Rating::fromInt($review->taste),
+            Rating::fromInt($review->ingredients),
+            Rating::fromInt($review->healthiness),
+            Rating::fromInt($review->packaging),
+            Rating::fromInt($review->availability),
+            Comment::fromString($review->comment),
+            ProductId::fromInt($review->productId),
+            UserId::fromInt($review->userId)
         );
     }
 }

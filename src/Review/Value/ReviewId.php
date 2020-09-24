@@ -15,7 +15,7 @@ final class ReviewId
         $this->reviewId = $reviewId;
     }
 
-    public static function new(int $reviewId)
+    public static function fromInt(int $reviewId)
     {
         Assert::greaterThanEq($reviewId, 1, 'Value must be positive and not 0');
 

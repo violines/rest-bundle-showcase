@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Type;
 
-use App\Review\Value\Rating;
+use App\Review\Value\Comment;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\IntegerType;
+use Doctrine\DBAL\Types\StringType;
 
-final class RatingType extends IntegerType
+final class CommentType extends StringType
 {
-    const RATING = 'rating';
+    const COMMENT = 'comment';
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return Rating::fromInt($value);
+        return Comment::fromString($value);
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return $value->toInt();
+        return $value->toString();
     }
 
     public function getName()
     {
-        return self::RATING;
+        return self::COMMENT;
     }
 }

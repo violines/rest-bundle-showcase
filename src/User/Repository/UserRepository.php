@@ -3,13 +3,14 @@
 namespace App\User\Repository;
 
 use App\User\Entity\User;
+use App\User\Value\UserId;
 
 interface UserRepository
 {
     /**
-     * @return int
+     * @return UserId
      */
-    public function nextId(): int;
+    public function nextId(): UserId;
 
     /**
      * @param User $user

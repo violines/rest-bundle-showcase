@@ -52,7 +52,7 @@ class ProductService
     public function product(int $id, Language $language): ProductView
     {
         try {
-            return $this->productViewRepository->findProductViewById($id, $language);
+            return $this->productViewRepository->findProductView($id, $language);
         } catch (\Throwable $e) {
             throw ProductNotExists::id($id);
         }

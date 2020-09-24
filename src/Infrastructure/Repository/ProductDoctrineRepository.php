@@ -6,6 +6,7 @@ namespace App\Infrastructure\Repository;
 
 use App\Product\Entity\Product;
 use App\Product\Repository\ProductRepository;
+use App\Product\Value\ProductId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
@@ -30,9 +31,9 @@ class ProductDoctrineRepository extends ServiceEntityRepository implements Produ
         $this->em = $this->getEntityManager();
     }
 
-    public function nextId(): int
+    public function nextId(): ProductId
     {
-        return (int)$this->connection->fetchColumn('SELECT setval(\'product_id_seq\', nextval(\'product_id_seq\'::regclass))');
+        return ProductId::fromInt((int)$this->connection->fetchColumn('SELECT setval(\'product_id_seq\', nextval(\'product_id_seq\'::regclass))'));
     }
 
     public function saveProduct(Product $category): void

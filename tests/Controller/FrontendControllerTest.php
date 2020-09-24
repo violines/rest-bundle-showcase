@@ -23,7 +23,7 @@ class FrontendControllerTest extends WebTestCase
 
     public function testProductList()
     {
-        $this->client->request('GET', 'de/frontend/product/list', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', 'de/frontend/products', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertEquals(

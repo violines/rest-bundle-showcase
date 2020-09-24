@@ -22,12 +22,12 @@ class AdminController
     }
 
     /**
-     * @Route("/admin/user/list", methods={"GET"}, name="admin_user_list")
+     * @Route("/admin/users", methods={"GET"}, name="admin_user_list")
      * @return User[]
      */
-    public function userList(): array
+    public function users(): array
     {
-        return $this->userService->getUsers();
+        return $this->userService->users();
     }
 
     /**

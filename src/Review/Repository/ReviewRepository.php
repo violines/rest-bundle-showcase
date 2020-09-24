@@ -3,13 +3,14 @@
 namespace App\Review\Repository;
 
 use App\Review\Entity\Review;
+use App\Review\Value\ReviewId;
 
 interface ReviewRepository
 {
     /**
-     * @return int
+     * @return ReviewId
      */
-    public function nextId(): int;
+    public function nextId(): ReviewId;
 
     /**
      * @param Review $review

@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repository;
 use App\Product\Entity\Product;
 use App\Review\Entity\Review;
 use App\Review\Repository\ReviewRepository;
+use App\Review\Value\ReviewId;
 use App\User\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -48,9 +49,9 @@ class ReviewDoctrineRepository extends ServiceEntityRepository implements Review
         return current($result);
     }
 
-    public function nextId(): int
+    public function nextId(): ReviewId
     {
-        return (int)$this->connection->fetchColumn('SELECT setval(\'review_id_seq\', nextval(\'review_id_seq\'::regclass))');
+        return ReviewId::fromInt((int)$this->connection->fetchColumn('SELECT setval(\'review_id_seq\', nextval(\'review_id_seq\'::regclass))'));
     }
 
     public function saveReview(Review $review): void

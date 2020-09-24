@@ -31,19 +31,4 @@ class Category
      * @ORM\Column(type="integer", nullable=true)
      */
     private $sorting;
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getKey(): string
-    {
-        return $this->key;
-    }
-
-    public function getSorting(): int
-    {
-        return $this->sorting;
-    }
 }
