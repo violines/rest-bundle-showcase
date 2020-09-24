@@ -44,7 +44,7 @@ class AdminControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->getToken()
         ]);
 
-        $this->client->request('POST', '/admin/user/edit', [], [], $headers, $this->userPayload);
+        $this->client->request('POST', '/admin/user', [], [], $headers, $this->userPayload);
 
         $this->assertResponseIsSuccessful();
     }

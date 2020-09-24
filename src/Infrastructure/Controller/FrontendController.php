@@ -57,7 +57,7 @@ class FrontendController
     }
 
     /**
-     * @Route("/frontend/products", name="frontend_product_list")
+     * @Route("/frontend/products", name="frontend_products")
      */
     public function products(HTTPClient $client): array
     {
@@ -65,7 +65,7 @@ class FrontendController
     }
 
     /**
-     * @Route("/frontend/product/{id}", methods={"GET"}, name="frontend_product_detail")
+     * @Route("/frontend/product/{id}", methods={"GET"}, name="frontend_product")
      */
     public function product(int $id, HTTPClient $client): ProductView
     {
@@ -80,7 +80,7 @@ class FrontendController
 
     /**
      * @param User $user
-     * @Route("/frontend/review", methods={"POST"}, name="frontend_review")
+     * @Route("/frontend/review", methods={"POST"}, name="frontend_create_review")
      */
     public function createReview(CreateReview $createReview, UserInterface $user): Ok
     {
