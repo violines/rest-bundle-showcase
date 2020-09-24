@@ -38,14 +38,4 @@ class ProductTranslation
      * @ORM\ManyToOne(targetEntity="App\Product\Entity\Product", inversedBy="translations")
      */
     private $product;
-
-    public function title(): string
-    {
-        return $this->title;
-    }
-
-    public function isLanguage(string $language): bool
-    {
-        return $this->language === $language;
-    }
 }

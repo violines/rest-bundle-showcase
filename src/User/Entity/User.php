@@ -4,7 +4,9 @@ namespace App\User\Entity;
 
 use App\User\Command\CreateProfile;
 use App\User\PasswordEncoder;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\User\Value\Email;
+use App\User\Value\Password;
+use App\User\Value\UserId;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -41,40 +43,35 @@ class User implements UserInterface
      * @var array
      * @ORM\Column(type="json")
      */
-    private $roles = [];
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Review\Entity\Review", mappedBy="user")
-     */
-    private $reviews;
+    private $roles;
 
     private function __construct(
-        string $email,
-        string $password,
+        UserId $userId,
+        Email $email,
+        Password $password,
         PasswordEncoder $passwordEncoder,
-        ?string $key = null,
         array $roles = []
     ) {
-        $this->email = $email;
-        $this->password = $passwordEncoder->encode($this, $password);
-        $this->key = $key;
+        $this->id = $userId->toInt();
+        $this->email = $email->toString();
+        $this->password = $passwordEncoder->encode($this, $password->toString());
+        $this->key = self::generateKey();
         $this->roles = $roles;
-        $this->reviews = new ArrayCollection();
     }
 
-    public static function fromCreateProfile(CreateProfile $profile, PasswordEncoder $passwordEncoder): self
+    public static function fromCreateProfile(UserId $userId, CreateProfile $profile, PasswordEncoder $passwordEncoder): self
     {
-        return new self($profile->email, $profile->password, $passwordEncoder);
+        return new self($userId, Email::fromString($profile->email), Password::fromString($profile->password), $passwordEncoder);
     }
 
-    public function changeEmail(string $email): void
+    public function changeEmail(Email $email): void
     {
-        $this->email = $email;
+        $this->email = $email->toString();
     }
 
-    public function resetPassword(string $password, PasswordEncoder $passwordEncoder): void
+    public function resetPassword(Password $password, PasswordEncoder $passwordEncoder): void
     {
-        $this->password = $passwordEncoder->encode($this, $password);
+        $this->password = $passwordEncoder->encode($this, $password->toString());
     }
 
     public function changeRoles(array $roles): void
@@ -84,7 +81,7 @@ class User implements UserInterface
 
     public function resetKey(): void
     {
-        $this->key = bin2hex(openssl_random_pseudo_bytes(8));
+        $this->key = self::generateKey();
     }
 
     /**
@@ -139,5 +136,10 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->email;
+    }
+
+    public static function generateKey()
+    {
+        return bin2hex(openssl_random_pseudo_bytes(8));
     }
 }

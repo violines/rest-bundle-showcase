@@ -39,28 +39,4 @@ class Product
      * @ORM\OneToMany(targetEntity="App\Product\Entity\ProductTranslation", mappedBy="product", cascade={"persist"})
      */
     private $translations;
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function gtin()
-    {
-        return $this->gtin;
-    }
-
-    public function weight()
-    {
-        return $this->weight;
-    }
-
-    public function title(string $language): string
-    {
-        $name = $this->translations->filter(
-            fn (ProductTranslation $t) => $t->isLanguage($language)
-        )->first();
-
-        return $name !== false ? $name->title() : '';
-    }
 }

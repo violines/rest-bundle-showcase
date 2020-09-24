@@ -18,7 +18,7 @@ class ProductViewSqlRepository implements ProductViewRepository
         $this->connection = $connection;
     }
 
-    public function findProductViewById(int $id, Language $language): ProductView
+    public function findProductView(int $id, Language $language): ProductView
     {
         $statement = $this->connection->createQueryBuilder()
             ->select('

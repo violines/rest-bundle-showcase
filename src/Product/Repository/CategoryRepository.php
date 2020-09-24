@@ -3,13 +3,14 @@
 namespace App\Product\Repository;
 
 use App\Product\Entity\Category;
+use App\Product\Value\CategoryId;
 
 interface CategoryRepository
 {
     /**
-     * @return int
+     * @return CategoryId
      */
-    public function nextId(): int;
+    public function nextId(): CategoryId;
 
     /**
      * @param Category $category

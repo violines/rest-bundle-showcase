@@ -11,7 +11,7 @@ interface ProductViewRepository
      * @param int $id
      * @return ProductView
      */
-    public function findProductViewById(int $id, Language $language): ProductView;
+    public function findProductView(int $id, Language $language): ProductView;
 
     /**
      * @return ProductView[]

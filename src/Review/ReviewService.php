@@ -20,7 +20,7 @@ class ReviewService
 
     public function createReview(CreateReview $createReview): void
     {
-        $nextId = ReviewId::new($this->reviewRepository->nextId());
+        $nextId = $this->reviewRepository->nextId();
 
         $this->reviewRepository->saveReview(Review::fromCreate($nextId, $createReview));
     }
