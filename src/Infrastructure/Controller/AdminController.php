@@ -22,7 +22,7 @@ class AdminController
     }
 
     /**
-     * @Route("/admin/users", methods={"GET"}, name="admin_user_list")
+     * @Route("/admin/users", methods={"GET"}, name="admin_users")
      * @return User[]
      */
     public function users(): array
@@ -31,7 +31,7 @@ class AdminController
     }
 
     /**
-     * @Route("/admin/user/edit", methods={"POST"}, name="admin_user_edit")
+     * @Route("/admin/user", methods={"POST"}, name="admin_edit_user")
      */
     public function editUser(EditUser $editUser): Ok
     {
