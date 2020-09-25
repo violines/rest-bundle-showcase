@@ -45,13 +45,8 @@ class CategoryDoctrineRepository extends ServiceEntityRepository implements Cate
         return null !== $this->findOneBy(['key' => $key]);
     }
 
-    public function findCategory(int $id): Category
+    public function findCategory(CategoryId $categoryId): Category
     {
-        return $this->find($id);
-    }
-
-    public function findCategories(): array
-    {
-        return $this->findAll();
+        return $this->find($categoryId->toInt());
     }
 }

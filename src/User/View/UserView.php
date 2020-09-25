@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\View;
 
-use App\User\Entity\User as UserEntity;
 use TerryApiBundle\Annotation\HTTPApi;
 
 /**
@@ -30,11 +29,6 @@ final class UserView
         $this->email = $email;
         $this->roles = $roles;
         $this->key = $key;
-    }
-
-    public static function fromEntity(UserEntity $user): self
-    {
-        return new self($user->getId(), $user->getEmail(), $user->getRoles(), $user->getKey());
     }
 
     public function getId(): int

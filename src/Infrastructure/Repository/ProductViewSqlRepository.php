@@ -6,6 +6,7 @@ namespace App\Infrastructure\Repository;
 
 use App\Product\Repository\ProductViewRepository;
 use App\Product\Value\Language;
+use App\Product\Value\ProductId;
 use App\Product\View\ProductView;
 use Doctrine\DBAL\Connection;
 
@@ -18,7 +19,7 @@ class ProductViewSqlRepository implements ProductViewRepository
         $this->connection = $connection;
     }
 
-    public function findProductView(int $id, Language $language): ProductView
+    public function findProductView(ProductId $productId, Language $language): ProductView
     {
         $statement = $this->connection->createQueryBuilder()
             ->select('
@@ -36,7 +37,7 @@ class ProductViewSqlRepository implements ProductViewRepository
             ->leftJoin('product', 'review', 'review', 'review.product_id = product.id')
             ->leftJoin('product', 'product_translation', 'product_translation', 'product_translation.product_id = product.id')
             ->andWhere('product.id = :productId AND product_translation.language = :language')
-            ->setParameter('productId', $id)
+            ->setParameter('productId', $productId->toInt())
             ->setParameter('language', $language->toString())
             ->groupBy('product.id')
             ->execute();

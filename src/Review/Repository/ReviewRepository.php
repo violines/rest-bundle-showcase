@@ -2,8 +2,10 @@
 
 namespace App\Review\Repository;
 
+use App\Product\Value\ProductId;
 use App\Review\Entity\Review;
 use App\Review\Value\ReviewId;
+use App\User\Value\UserId;
 
 interface ReviewRepository
 {
@@ -18,17 +20,17 @@ interface ReviewRepository
     public function saveReview(Review $review): void;
 
     /**
-     * @param int $productId
-     * @param int $userId
+     * @param ProductId $productId
+     * @param UserId $userId
      * @return bool
      */
-    public function reviewExists(int $productId, int $userId): bool;
+    public function reviewExists(ProductId $productId, UserId $userId): bool;
 
     /**
-     * @param int $id
+     * @param ReviewId $
      * @return Review
      */
-    public function findReview(int $id): Review;
+    public function findReview(ReviewId $reviewId): Review;
 
     /**
      * @return Review[]

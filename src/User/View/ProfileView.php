@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\View;
 
-use App\User\Entity\User;
 use Symfony\Component\Serializer;
 use TerryApiBundle\Annotation\HTTPApi;
 
@@ -30,11 +29,6 @@ final class ProfileView
         $this->userId = $userId;
         $this->email = $email;
         $this->key = $key;
-    }
-
-    public static function fromEntity(User $user): self
-    {
-        return new self($user->getId(), $user->getEmail(), $user->getKey());
     }
 
     public function getUserId(): int

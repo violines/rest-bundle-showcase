@@ -3,10 +3,12 @@
 namespace App\Infrastructure\Repository;
 
 use App\Product\Entity\Product;
+use App\Product\Value\ProductId;
 use App\Review\Entity\Review;
 use App\Review\Repository\ReviewRepository;
 use App\Review\Value\ReviewId;
 use App\User\Entity\User;
+use App\User\Value\UserId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
@@ -60,14 +62,14 @@ class ReviewDoctrineRepository extends ServiceEntityRepository implements Review
         $this->em->flush();
     }
 
-    public function reviewExists(int $productId, int $userId): bool
+    public function reviewExists(ProductId $productId, UserId $userId): bool
     {
-        return null !== $this->findOneBy(['productId' => $productId, 'userId' => $userId]);
+        return null !== $this->findOneBy(['productId' => $productId->toInt(), 'userId' => $userId->toInt()]);
     }
 
-    public function findReview(int $id): Review
+    public function findReview(ReviewId $reviewId): Review
     {
-        return $this->find($id);
+        return $this->find($reviewId->toInt());
     }
 
     public function findReviews(): array

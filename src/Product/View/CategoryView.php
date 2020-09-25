@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Product\View;
 
-use App\Product\Entity\Category;
 use TerryApiBundle\Annotation\HTTPApi;
 
 /**
@@ -20,11 +19,6 @@ final class CategoryView
     {
         $this->key = $key;
         $this->sorting = $sorting;
-    }
-
-    public static function fromEntity(Category $category): self
-    {
-        return new self($category->getKey(), $category->getSorting());
     }
 
     public function getKey(): string

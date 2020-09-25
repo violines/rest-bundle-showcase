@@ -4,6 +4,7 @@ namespace App\Infrastructure\Repository;
 
 use App\User\Entity\User;
 use App\User\Repository\UserRepository;
+use App\User\Value\Email;
 use App\User\Value\UserId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -40,18 +41,13 @@ class UserDoctrineRepository extends ServiceEntityRepository implements UserRepo
         $this->em->flush();
     }
 
-    public function userExists(string $email): bool
+    public function userExists(Email $email): bool
     {
-        return null !== $this->findOneBy(['email' => $email]);
+        return null !== $this->findOneBy(['email' => $email->toString()]);
     }
 
-    public function findUser(int $id): User
+    public function findUser(UserId $userId): User
     {
-        return $this->find($id);
-    }
-
-    public function findUsers(): array
-    {
-        return $this->findAll();
+        return $this->find($userId->toInt());
     }
 }

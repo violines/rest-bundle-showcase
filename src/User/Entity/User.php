@@ -96,22 +96,12 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
     /**
      * @see UserInterface
      */
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public function getKey(): ?string
-    {
-        return $this->key;
     }
 
     /**

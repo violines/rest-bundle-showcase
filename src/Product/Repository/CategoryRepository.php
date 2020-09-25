@@ -24,13 +24,8 @@ interface CategoryRepository
     public function categoryExists(string $title): bool;
 
     /**
-     * @param int $id
+     * @param CategoryId $categoryId
      * @return Category
      */
-    public function findCategory(int $id): Category;
-
-    /**
-     * @return Category[]
-     */
-    public function findCategories(): array;
+    public function findCategory(CategoryId $categoryId): Category;
 }
