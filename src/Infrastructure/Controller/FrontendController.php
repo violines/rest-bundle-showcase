@@ -14,6 +14,7 @@ use App\Infrastructure\View\Ok;
 use App\Product\Exception\ProductNotExists;
 use App\Product\ProductService;
 use App\Product\Value\Language;
+use App\Product\Value\ProductId;
 use App\Product\View\ProductView;
 use App\Review\Command\CreateReview;
 use App\Review\ReviewService;
@@ -21,6 +22,7 @@ use App\User\Command\CreateProfile;
 use App\User\Exception\UserAlreadyExists;
 use App\User\Entity\User;
 use App\User\UserService;
+use App\User\Value\UserId;
 use App\User\View\ProfileView;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -51,9 +53,9 @@ class FrontendController
     /**
      * @Route("/frontend/categories", name="frontend_categories")
      */
-    public function categories(): array
+    public function categories(HTTPClient $client): array
     {
-        return $this->productService->categories();
+        return $this->productService->categories(Language::fromString($client->getContentLanguage()));
     }
 
     /**
@@ -70,7 +72,7 @@ class FrontendController
     public function product(int $id, HTTPClient $client): ProductView
     {
         try {
-            $product = $this->productService->product($id, Language::fromString($client->getContentLanguage()));
+            $product = $this->productService->product(ProductId::fromInt($id), Language::fromString($client->getContentLanguage()));
         } catch (ProductNotExists $e) {
             throw NotFoundException::resource();
         }
@@ -114,14 +116,14 @@ class FrontendController
     }
 
     /**
-     * @Route("/frontend/profile", methods={"GET"}, name="frontend_profile")
+     * @Route("/frontend/profile/{userId}", methods={"GET"}, name="frontend_profile")
      */
-    public function profile(?UserInterface $user): ProfileView
+    public function profile(int $userId, UserInterface $user): ProfileView
     {
-        if ($user instanceof User) {
-            return $this->userService->profile($user);
+        if (!$user instanceof User || $user->getId() !== $userId) {
+            throw AuthenticationFailedException::userNotFound();
         }
 
-        throw AuthenticationFailedException::userNotFound();
+        return $this->userService->profile(UserId::fromInt($userId));
     }
 }

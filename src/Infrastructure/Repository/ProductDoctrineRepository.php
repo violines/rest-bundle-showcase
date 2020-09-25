@@ -6,6 +6,7 @@ namespace App\Infrastructure\Repository;
 
 use App\Product\Entity\Product;
 use App\Product\Repository\ProductRepository;
+use App\Product\Value\Gtin;
 use App\Product\Value\ProductId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -42,18 +43,13 @@ class ProductDoctrineRepository extends ServiceEntityRepository implements Produ
         $this->em->flush();
     }
 
-    public function productExists(string $gtin): bool
+    public function productExists(Gtin $gtin): bool
     {
-        return null !== $this->findOneBy(['gtin' => $gtin]);
+        return null !== $this->findOneBy(['gtin' => $gtin->toString()]);
     }
 
-    public function findProduct(int $id): Product
+    public function findProduct(ProductId $productId): Product
     {
-        return $this->find($id);
-    }
-
-    public function findProducts(): array
-    {
-        return $this->findAll();
+        return $this->find($productId->toInt());
     }
 }

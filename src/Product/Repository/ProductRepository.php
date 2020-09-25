@@ -3,6 +3,7 @@
 namespace App\Product\Repository;
 
 use App\Product\Entity\Product;
+use App\Product\Value\Gtin;
 use App\Product\Value\ProductId;
 
 interface ProductRepository
@@ -18,19 +19,14 @@ interface ProductRepository
     public function saveProduct(Product $product): void;
 
     /**
-     * @param string $gtin
+     * @param Gtin $gtin
      * @return bool
      */
-    public function productExists(string $gtin): bool;
+    public function productExists(Gtin $gtin): bool;
 
     /**
-     * @param int $id
+     * @param ProductId $productId
      * @return Product
      */
-    public function findProduct(int $id): Product;
-
-    /**
-     * @return Product[]
-     */
-    public function findProducts(): array;
+    public function findProduct(ProductId $productId): Product;
 }

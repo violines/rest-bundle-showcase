@@ -21,7 +21,7 @@ class FrontendControllerTest extends WebTestCase
         $em->getConnection()->exec(file_get_contents(__DIR__ . '/../../fixtures/test.sql'));
     }
 
-    public function testProductList()
+    public function testProducts()
     {
         $this->client->request('GET', 'de/frontend/products', [], [], self::DEFAULT_HEADERS);
 
@@ -54,7 +54,7 @@ class FrontendControllerTest extends WebTestCase
         );
     }
 
-    public function testReview()
+    public function testCreateReview()
     {
         $headers = array_replace(self::DEFAULT_HEADERS, [
             'CONTENT_TYPE' => 'application/json',
@@ -116,7 +116,7 @@ class FrontendControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->getToken()
         ]);
 
-        $this->client->request('GET', 'de/frontend/profile', [], [], $headers);
+        $this->client->request('GET', 'de/frontend/profile/3', [], [], $headers);
 
         $this->assertResponseIsSuccessful();
 
@@ -133,7 +133,7 @@ class FrontendControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => 'Bearer 12345'
         ]);
 
-        $this->client->request('GET', 'de/frontend/profile', [], [], $headers);
+        $this->client->request('GET', 'de/frontend/profile/1', [], [], $headers);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }

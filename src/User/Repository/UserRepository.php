@@ -3,6 +3,7 @@
 namespace App\User\Repository;
 
 use App\User\Entity\User;
+use App\User\Value\Email;
 use App\User\Value\UserId;
 
 interface UserRepository
@@ -21,16 +22,11 @@ interface UserRepository
      * @param string $email
      * @return bool
      */
-    public function userExists(string $email): bool;
+    public function userExists(Email $email): bool;
 
     /**
-     * @param int $id
+     * @param UserId $userId
      * @return User
      */
-    public function findUser(int $id): User;
-
-    /**
-     * @return User[]
-     */
-    public function findUsers(): array;
+    public function findUser(UserId $userId): User;
 }

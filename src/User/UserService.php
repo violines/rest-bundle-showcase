@@ -11,7 +11,9 @@ use App\User\Exception\UserAlreadyExists;
 use App\User\Exception\UserNotExists;
 use App\User\PasswordEncoder;
 use App\User\Repository\UserRepository;
+use App\User\Repository\UserViewRepository;
 use App\User\Value\Email;
+use App\User\Value\UserId;
 use App\User\View\ProfileView;
 use App\User\View\UserView;
 
@@ -19,17 +21,20 @@ class UserService
 {
     private UserRepository $userRepository;
 
+    private UserViewRepository $userViewRepository;
+
     private PasswordEncoder $passwordEncoder;
 
-    public function __construct(UserRepository $userRepository, PasswordEncoder $passwordEncoder)
+    public function __construct(UserRepository $userRepository, UserViewRepository $userViewRepository, PasswordEncoder $passwordEncoder)
     {
         $this->userRepository = $userRepository;
+        $this->userViewRepository = $userViewRepository;
         $this->passwordEncoder = $passwordEncoder;
     }
 
     public function createProfile(CreateProfile $createProfile): void
     {
-        if ($this->userRepository->userExists($createProfile->email)) {
+        if ($this->userRepository->userExists(Email::fromString($createProfile->email))) {
             throw UserAlreadyExists::email($createProfile->email);
         }
 
@@ -38,14 +43,14 @@ class UserService
         $this->userRepository->saveUser(User::fromCreateProfile($userId, $createProfile, $this->passwordEncoder));
     }
 
-    public function profile(User $user): ProfileView
+    public function profile(UserId $userId): ProfileView
     {
-        return ProfileView::fromEntity($user);
+        return $this->userViewRepository->findProfileView($userId);
     }
 
     public function editUser(EditUser $editUser): void
     {
-        $user = $this->userRepository->findUser($editUser->id);
+        $user = $this->userRepository->findUser(UserId::fromInt($editUser->id));
 
         if (null === $user) {
             throw UserNotExists::id($editUser->id);
@@ -66,12 +71,6 @@ class UserService
      */
     public function users(): array
     {
-        $users = [];
-
-        foreach ($this->userRepository->findUsers() as $user) {
-            $users[] = UserView::fromEntity($user);
-        }
-
-        return $users;
+        return $this->userViewRepository->findUserViews();
     }
 }
