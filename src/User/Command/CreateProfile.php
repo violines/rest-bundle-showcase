@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\User\Command;
 
-use TerryApiBundle\Annotation\HTTPApi;
+use TerryApiBundle\HttpApi\HttpApi;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @HTTPApi
+ * @HttpApi
  */
 class CreateProfile
 {

@@ -6,9 +6,9 @@ namespace App\Infrastructure\Exception;
 
 use App\Infrastructure\View\Error;
 use Symfony\Component\HttpFoundation\Response;
-use TerryApiBundle\Exception\HTTPErrorInterface;
+use TerryApiBundle\Error\ErrorInterface;
 
-class AuthenticationFailedException extends \RuntimeException implements \Throwable, HTTPErrorInterface
+class AuthenticationFailedException extends \RuntimeException implements \Throwable, ErrorInterface
 {
     public static function userNotFound(): self
     {

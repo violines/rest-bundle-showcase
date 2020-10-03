@@ -8,7 +8,6 @@ use App\Infrastructure\Exception\AuthenticationFailedException;
 use App\Infrastructure\Exception\AuthorizationFailedException;
 use App\Infrastructure\Exception\BadRequestException;
 use App\Infrastructure\Exception\NotFoundException;
-use App\Infrastructure\HTTPClient;
 use App\Infrastructure\Security\Voter\ReviewUniqueVoter;
 use App\Infrastructure\View\Ok;
 use App\Product\Exception\ProductNotExists;
@@ -51,28 +50,28 @@ class FrontendController
     }
 
     /**
-     * @Route("/frontend/categories", name="frontend_categories")
+     * @Route("/{_locale}/frontend/categories", name="frontend_categories", requirements={"_locale": "en|de"})
      */
-    public function categories(HTTPClient $client): array
+    public function categories(string $_locale): array
     {
-        return $this->productService->categories(Language::fromString($client->getContentLanguage()));
+        return $this->productService->categories(Language::fromString($_locale));
     }
 
     /**
-     * @Route("/frontend/products", name="frontend_products")
+     * @Route("/{_locale}/frontend/products", name="frontend_products")
      */
-    public function products(HTTPClient $client): array
+    public function products(string $_locale): array
     {
-        return $this->productService->products(Language::fromString($client->getContentLanguage()));
+        return $this->productService->products(Language::fromString($_locale));
     }
 
     /**
-     * @Route("/frontend/product/{id}", methods={"GET"}, name="frontend_product")
+     * @Route("/{_locale}/frontend/product/{id}", methods={"GET"}, name="frontend_product", requirements={"_locale": "en|de"})
      */
-    public function product(int $id, HTTPClient $client): ProductView
+    public function product(int $id, string $_locale): ProductView
     {
         try {
-            $product = $this->productService->product(ProductId::fromInt($id), Language::fromString($client->getContentLanguage()));
+            $product = $this->productService->product(ProductId::fromInt($id), Language::fromString($_locale));
         } catch (ProductNotExists $e) {
             throw NotFoundException::resource();
         }
@@ -82,7 +81,7 @@ class FrontendController
 
     /**
      * @param User $user
-     * @Route("/frontend/review", methods={"POST"}, name="frontend_create_review")
+     * @Route("/{_locale}/frontend/review", methods={"POST"}, name="frontend_create_review", requirements={"_locale": "en|de"})
      */
     public function createReview(CreateReview $createReview, UserInterface $user): Ok
     {
@@ -102,7 +101,7 @@ class FrontendController
     }
 
     /**
-     * @Route("/frontend/register", methods={"POST"}, name="frontend_register")
+     * @Route("/{_locale}/frontend/register", methods={"POST"}, name="frontend_register", requirements={"_locale": "en|de"})
      */
     public function register(CreateProfile $createProfile): Ok
     {
@@ -116,7 +115,7 @@ class FrontendController
     }
 
     /**
-     * @Route("/frontend/profile/{userId}", methods={"GET"}, name="frontend_profile")
+     * @Route("/{_locale}/frontend/profile/{userId}", methods={"GET"}, name="frontend_profile", requirements={"_locale": "en|de"})
      */
     public function profile(int $userId, UserInterface $user): ProfileView
     {

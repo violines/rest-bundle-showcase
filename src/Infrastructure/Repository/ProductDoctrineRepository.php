@@ -9,7 +9,7 @@ use App\Product\Repository\ProductRepository;
 use App\Product\Value\Gtin;
 use App\Product\Value\ProductId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 

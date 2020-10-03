@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Product\View;
 
-use TerryApiBundle\Annotation\HTTPApi;
+use TerryApiBundle\HttpApi\HttpApi;
 use Symfony\Component\Serializer;
 
 /**
- * @HTTPApi
+ * @HttpApi
  */
 final class ProductView
 {

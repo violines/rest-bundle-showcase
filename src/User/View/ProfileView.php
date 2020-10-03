@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\User\View;
 
 use Symfony\Component\Serializer;
-use TerryApiBundle\Annotation\HTTPApi;
+use TerryApiBundle\HttpApi\HttpApi;
 
 /**
- * @HTTPApi
+ * @HttpApi
  */
 final class ProfileView
 {

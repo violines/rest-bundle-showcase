@@ -6,9 +6,9 @@ namespace App\Infrastructure\Exception;
 
 use App\Infrastructure\View\Error;
 use Symfony\Component\HttpFoundation\Response;
-use TerryApiBundle\Exception\HTTPErrorInterface;
+use TerryApiBundle\Error\ErrorInterface;
 
-class BadRequestException extends \LogicException implements \Throwable, HTTPErrorInterface
+class BadRequestException extends \LogicException implements \Throwable, ErrorInterface
 {
     public static function userExists(): self
     {
