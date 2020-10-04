@@ -25,7 +25,7 @@ class AuthorizationFailedException extends \RuntimeException implements \Throwab
         return Error::create($this->message);
     }
 
-    public function getHTTPStatusCode(): int
+    public function getStatusCode(): int
     {
         return Response::HTTP_FORBIDDEN;
     }

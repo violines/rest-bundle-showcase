@@ -20,7 +20,7 @@ class NotFoundException extends \LogicException implements \Throwable, ErrorInte
         return Error::create($this->message);
     }
 
-    public function getHTTPStatusCode(): int
+    public function getStatusCode(): int
     {
         return Response::HTTP_NOT_FOUND;
     }

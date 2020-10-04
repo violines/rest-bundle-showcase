@@ -25,7 +25,7 @@ class BadRequestException extends \LogicException implements \Throwable, ErrorIn
         return Error::create($this->message);
     }
 
-    public function getHTTPStatusCode(): int
+    public function getStatusCode(): int
     {
         return Response::HTTP_BAD_REQUEST;
     }

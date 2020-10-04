@@ -2276,12 +2276,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/simon-schubert/terry-api.git",
-                "reference": "bd9ca8d50753fac00a6ffcfb3ff8125529eccf62"
+                "reference": "59004ec1dccac1afec864c0bab1d5442e9c91d49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simon-schubert/terry-api/zipball/bd9ca8d50753fac00a6ffcfb3ff8125529eccf62",
-                "reference": "bd9ca8d50753fac00a6ffcfb3ff8125529eccf62",
+                "url": "https://api.github.com/repos/simon-schubert/terry-api/zipball/59004ec1dccac1afec864c0bab1d5442e9c91d49",
+                "reference": "59004ec1dccac1afec864c0bab1d5442e9c91d49",
                 "shasum": ""
             },
             "require": {
@@ -2300,6 +2300,7 @@
                 "matthiasnoback/symfony-dependency-injection-test": "^4.1",
                 "phake/phake": "^3.1",
                 "phpunit/phpunit": "^8.5.0",
+                "rector/rector": "^0.8.6",
                 "squizlabs/php_codesniffer": "^3.5.3",
                 "vimeo/psalm": "^3.7"
             },
@@ -2313,8 +2314,8 @@
             "license": [
                 "MIT"
             ],
-            "description": "TerryApiBundle is a Symfony Bundle to create REST APIs. While you can focus on your data model, business logic and persistance layer implementations, TerryApiBundle handles serialization, validation and HTTP things like headers or status codes.",
-            "time": "2020-10-03T17:50:22+00:00"
+            "description": "TerryApiBundle is a Symfony Bundle to create REST APIs. While you can focus on your data model, business logic and persistance layer implementations, TerryApiBundle handles serialization, validation and HTTP related things like headers or status codes.",
+            "time": "2020-10-04T12:44:27+00:00"
         },
         {
             "name": "symfony/cache",
@@ -6275,16 +6276,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v5.1.6",
+            "version": "v5.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "6753ea4cb2dab705e819b1ddd8833a5c98338650"
+                "reference": "150aeb91dd9dafe13ec8416abd62e435330ca12d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/6753ea4cb2dab705e819b1ddd8833a5c98338650",
-                "reference": "6753ea4cb2dab705e819b1ddd8833a5c98338650",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/150aeb91dd9dafe13ec8416abd62e435330ca12d",
+                "reference": "150aeb91dd9dafe13ec8416abd62e435330ca12d",
                 "shasum": ""
             },
             "require": {
@@ -6353,7 +6354,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-18T14:27:32+00:00"
+            "time": "2020-10-02T12:57:56+00:00"
         },
         {
             "name": "symfony/profiler-pack",

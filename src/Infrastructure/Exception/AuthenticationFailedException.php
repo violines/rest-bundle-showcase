@@ -20,7 +20,7 @@ class AuthenticationFailedException extends \RuntimeException implements \Throwa
         return Error::create($this->message);
     }
 
-    public function getHTTPStatusCode(): int
+    public function getStatusCode(): int
     {
         return Response::HTTP_UNAUTHORIZED;
     }
