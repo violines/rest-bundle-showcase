@@ -1,5 +1,5 @@
 terry_api:
-    http_server:
+    serialize:
         formats:
             json:
                 - 'application/json'
