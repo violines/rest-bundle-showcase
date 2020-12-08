@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\View;
 
-use TerryApiBundle\HttpApi\HttpApi;
+use Violines\RestBundle\HttpApi\HttpApi;
 
 /**
  * @HttpApi

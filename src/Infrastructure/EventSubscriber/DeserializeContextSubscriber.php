@@ -4,7 +4,7 @@ namespace App\Infrastructure\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use TerryApiBundle\Serialize\DeserializeEvent;
+use Violines\RestBundle\Serialize\DeserializeEvent;
 
 class DeserializeContextSubscriber implements EventSubscriberInterface
 {

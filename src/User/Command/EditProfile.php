@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Command;
 
-use TerryApiBundle\HttpApi\HttpApi;
+use Violines\RestBundle\HttpApi\HttpApi;
 use Symfony\Component\Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 

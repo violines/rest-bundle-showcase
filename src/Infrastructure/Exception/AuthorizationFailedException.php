@@ -6,7 +6,7 @@ namespace App\Infrastructure\Exception;
 
 use App\Infrastructure\View\Error;
 use Symfony\Component\HttpFoundation\Response;
-use TerryApiBundle\Error\ErrorInterface;
+use Violines\RestBundle\Error\ErrorInterface;
 
 class AuthorizationFailedException extends \RuntimeException implements \Throwable, ErrorInterface
 {

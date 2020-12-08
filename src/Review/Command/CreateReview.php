@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Review\Command;
 
-use TerryApiBundle\HttpApi\HttpApi;
+use Violines\RestBundle\HttpApi\HttpApi;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

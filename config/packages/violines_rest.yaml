@@ -1,4 +1,4 @@
-terry_api:
+violines_rest:
     serialize:
         formats:
             json:

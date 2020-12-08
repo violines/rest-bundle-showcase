@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\User\View;
 
 use Symfony\Component\Serializer;
-use TerryApiBundle\HttpApi\HttpApi;
+use Violines\RestBundle\HttpApi\HttpApi;
 
 /**
  * @HttpApi
