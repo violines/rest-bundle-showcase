@@ -10,6 +10,6 @@ jobs:
     - name: Build the docker-compose stack
       run: docker-compose up -d
     - name: Validate composer.json and composer.lock
-      run: docker exec terry-api-show-dev composer validate
+      run: docker exec rest-showcase-dev composer validate
     - name: Run tests
-      run: docker exec terry-api-show-dev composer run-script test
+      run: docker exec rest-showcase-dev composer run-script test

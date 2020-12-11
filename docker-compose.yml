@@ -2,7 +2,7 @@ version: "3.1"
 services:
     webserver:
       image: nginx:alpine
-      container_name: terry-api-show-webserver
+      container_name: rest-showcase-nginx
       volumes:
         - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       ports:
@@ -10,7 +10,7 @@ services:
         - "8041:81"
     dev:
       build: docker/dev
-      container_name: terry-api-show-dev
+      container_name: rest-showcase-dev
       working_dir: /app
       env_file:
         - ./docker/dev/.env
@@ -19,13 +19,13 @@ services:
         - .:/app:delegated  
     prod:
       build: docker/prod  
-      container_name: terry-api-show-prod
+      container_name: rest-showcase-prod
       working_dir: /app
       volumes:
         - .:/app:cached
     db:
       image: postgres:11
-      container_name: terry-api-show-db
+      container_name: rest-showcase-db
       volumes:
         - ./docker/db/pg-init-scripts:/docker-entrypoint-initdb.d
       restart: always

@@ -1,8 +1,8 @@
 {
     "type": "project",
-    "name": "simon-schubert/terry-api-show",
+    "name": "violines/rest-bundle-showcase",
     "license": "MIT",
-    "description": "Show case for https://github.com/simon-schubert/terry-api",
+    "description": "Showcase for https://github.com/violines/rest-bundle",
     "require": {
         "php": "^7.4",
         "ext-ctype": "*",
