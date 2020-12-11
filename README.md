@@ -1,5 +1,5 @@
-# terry-api-show
-This is a show case for https://github.com/simon-schubert/terry-api
+# About
+This is a show case for https://github.com/violines/rest-bundle
 
 ## Development setup
 1. copy docker/dev/.env.dist to docker/dev/.env and adjust to your needs

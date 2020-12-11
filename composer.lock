@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7652db60507892678e6eeb658a99e145",
+    "content-hash": "b64308d9ebad72266fc07428381111ce",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -5683,12 +5683,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/violines/rest-bundle.git",
-                "reference": "964fd0ecf7862113d9a6219bf67e80d428bdaf3d"
+                "reference": "d97d6545c8bc642f65b27ba9dea11734f5e78ae9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/violines/rest-bundle/zipball/964fd0ecf7862113d9a6219bf67e80d428bdaf3d",
-                "reference": "964fd0ecf7862113d9a6219bf67e80d428bdaf3d",
+                "url": "https://api.github.com/repos/violines/rest-bundle/zipball/d97d6545c8bc642f65b27ba9dea11734f5e78ae9",
+                "reference": "d97d6545c8bc642f65b27ba9dea11734f5e78ae9",
                 "shasum": ""
             },
             "require": {
@@ -5723,12 +5723,12 @@
             "license": [
                 "MIT"
             ],
-            "description": "violines/rest-bundle is a Symfony Bundle to create REST APIs. It focusses on HTTP standards and integrates the serializer and validator.",
+            "description": "violines/rest-bundle is a Symfony Bundle to create REST APIs. It focusses on HTTP standards and integrates the symfony/serializer and symfony/validator.",
             "support": {
                 "issues": "https://github.com/violines/rest-bundle/issues",
                 "source": "https://github.com/violines/rest-bundle/tree/master"
             },
-            "time": "2020-12-08T19:35:24+00:00"
+            "time": "2020-12-11T18:19:34+00:00"
         },
         {
             "name": "webimpress/safe-writer",
