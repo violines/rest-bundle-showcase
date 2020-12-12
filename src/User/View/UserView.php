@@ -6,9 +6,7 @@ namespace App\User\View;
 
 use Violines\RestBundle\HttpApi\HttpApi;
 
-/**
- * @HttpApi
- */
+#[HttpApi]
 final class UserView
 {
     private int $id;

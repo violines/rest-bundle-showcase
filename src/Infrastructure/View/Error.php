@@ -6,9 +6,7 @@ namespace App\Infrastructure\View;
 
 use Violines\RestBundle\HttpApi\HttpApi;
 
-/**
- * @HttpApi
- */
+#[HttpApi]
 final class Error
 {
     private string $message;

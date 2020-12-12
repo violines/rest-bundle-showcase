@@ -4,10 +4,9 @@
     "license": "MIT",
     "description": "Showcase for https://github.com/violines/rest-bundle",
     "require": {
-        "php": "^7.4",
+        "php": "^8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "doctrine/annotations": "^1.11",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "lexik/jwt-authentication-bundle": "^2.6",
         "violines/rest-bundle": "dev-master",
@@ -69,7 +68,7 @@
             "bash ./install/dev.sh"
         ],
         "test": [
-            "@composer install",
+            "@composer install --ignore-platform-reqs",
             "bash ./install/test.sh",
             "bin/phpunit"
         ]

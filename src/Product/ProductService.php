@@ -27,21 +27,20 @@ class ProductService
     /**
      * @return CategoryView[]
      */
-    public function categories(Language $language)
+    public function findCategories(Language $language)
     {
-
         return $this->categoryViewRepository->findCategoryViews($language);
     }
 
     /**
      * @return ProductView[]
      */
-    public function products(Language $language): array
+    public function findProducts(Language $language): array
     {
         return $this->productViewRepository->findProductViews($language);
     }
 
-    public function product(ProductId $productId, Language $language): ProductView
+    public function findProduct(ProductId $productId, Language $language): ProductView
     {
         try {
             return $this->productViewRepository->findProductView($productId, $language);
