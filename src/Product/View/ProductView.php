@@ -7,9 +7,7 @@ namespace App\Product\View;
 use Violines\RestBundle\HttpApi\HttpApi;
 use Symfony\Component\Serializer;
 
-/**
- * @HttpApi
- */
+#[HttpApi]
 final class ProductView
 {
     private string $gtin;

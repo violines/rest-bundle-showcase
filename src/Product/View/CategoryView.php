@@ -6,9 +6,7 @@ namespace App\Product\View;
 
 use Violines\RestBundle\HttpApi\HttpApi;
 
-/**
- * @HttpApi
- */
+#[HttpApi]
 final class CategoryView
 {
     private string $key;

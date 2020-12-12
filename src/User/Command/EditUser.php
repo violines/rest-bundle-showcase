@@ -7,33 +7,21 @@ namespace App\User\Command;
 use Violines\RestBundle\HttpApi\HttpApi;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @HttpApi
- */
+#[HttpApi]
 class EditUser
 {
-    /**
-     * @Assert\Type("int")
-     */
+    #[Assert\Type("int")]
     public $id;
 
-    /**
-     * @Assert\Type("string")
-     */
+    #[Assert\Type("string")]
     public $email;
 
-    /**
-     * @Assert\Type("boolean")
-     */
+    #[Assert\Type("boolean")]
     public $isResetPassword;
 
-    /**
-     * @Assert\Type("boolean")
-     */
+    #[Assert\Type("boolean")]
     public $isResetKey;
 
-    /**
-     * @Assert\Type("array")
-     */
+    #[Assert\Type("array")]
     public $roles;
 }

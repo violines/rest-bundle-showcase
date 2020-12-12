@@ -2,21 +2,17 @@
 
 namespace App\Tests\Controller;
 
+use App\Tests\RestTestCase;
 use Doctrine\DBAL\Connection;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ImportControllerTest extends WebTestCase
+class ImportControllerTest extends RestTestCase
 {
     private Connection $connection;
 
-    private $client;
-
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
-
-        $this->client = static::createClient();
 
         /** @var EntityManagerInterface $em */
         $em = self::$container->get('doctrine.orm.default_entity_manager');

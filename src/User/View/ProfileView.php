@@ -7,9 +7,7 @@ namespace App\User\View;
 use Symfony\Component\Serializer;
 use Violines\RestBundle\HttpApi\HttpApi;
 
-/**
- * @HttpApi
- */
+#[HttpApi]
 final class ProfileView
 {
     /**

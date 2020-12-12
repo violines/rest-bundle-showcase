@@ -7,21 +7,19 @@ namespace App\Import\Model;
 use Violines\RestBundle\HttpApi\HttpApi;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @HttpApi
- */
+#[HttpApi]
 class ProductTranslation
 {
     /**
-     * @Assert\Type("string")
      * @var string
      */
+    #[Assert\Type("string")]
     public $language;
 
     /**
-     * @Assert\Type("string")
      * @var string
      */
+    #[Assert\Type("string")]
     public $title;
 
     public function toArray()
