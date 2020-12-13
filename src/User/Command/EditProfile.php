@@ -11,8 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[HttpApi]
 class EditProfile
 {
-    #[Assert\Type("int")]
-    #[Serializer\Annotation\SerializedName("user_id")]
+    #[Serializer\Annotation\SerializedName("user_id"), Assert\Type("int")]
     public $userId;
 
     #[Assert\Type("string")]
