@@ -7,7 +7,7 @@ namespace App\Review\Command;
 use Violines\RestBundle\HttpApi\HttpApi;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[HttpApi]
+#[HttpApi(requestInfoSource: HttpApi::BODY)] 
 class CreateReview
 {
     #[Assert\Type("int")]

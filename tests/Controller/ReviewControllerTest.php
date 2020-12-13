@@ -25,7 +25,7 @@ class ReviewControllerTest extends RestTestCase
 
         $this->client->request(
             'POST',
-            'de/review',
+            'de/review/create',
             [],
             [],
             $headers,

@@ -30,7 +30,7 @@ class ReviewController
     /**
      * @param User $user
      */
-    #[Route('/{_locale}/review', methods: ['POST'], name:'frontend_create_review', requirements:['_locale' => 'en|de'])]
+    #[Route('/{_locale}/review/create', methods: ['POST'], name:'create_review', requirements:['_locale' => 'en|de'])]
     public function createReview(CreateReview $createReview, UserInterface $user): Ok
     {
         if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $createReview)) {

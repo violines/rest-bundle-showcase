@@ -50,7 +50,7 @@ class UserController
         return Ok::create();
     }
 
-    #[Route('/{_locale}/register', methods: ['POST'], name:'frontend_register', requirements:['_locale' => 'en|de'])]
+    #[Route('/{_locale}/register', methods: ['POST'], name:'register', requirements:['_locale' => 'en|de'])]
     public function register(CreateProfile $createProfile): Ok
     {
         try {
@@ -62,7 +62,7 @@ class UserController
         return Ok::create();
     }
 
-    #[Route('/{_locale}/profile/{userId}', methods: ['GET'], name:'frontend_profile', requirements:['_locale' => 'en|de'])]
+    #[Route('/{_locale}/profile/{userId}', methods: ['GET'], name:'profile', requirements:['_locale' => 'en|de'])]
     public function profile(int $userId, UserInterface $user): ProfileView
     {
         if (!$user instanceof UserEntity || $user->getId() !== $userId) {
