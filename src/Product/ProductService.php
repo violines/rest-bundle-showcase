@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Product;
 
+use App\Product\Command\Filter;
 use App\Product\Exception\ProductNotExists;
 use App\Product\Repository\CategoryViewRepository;
 use App\Product\Value\Language;
@@ -35,9 +36,9 @@ class ProductService
     /**
      * @return ProductView[]
      */
-    public function findProducts(Language $language): array
+    public function findProducts(Language $language, Filter $filter): array
     {
-        return $this->productViewRepository->findProductViews($language);
+        return $this->productViewRepository->findProductViews($language, $filter);
     }
 
     public function findProduct(ProductId $productId, Language $language): ProductView

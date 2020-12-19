@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
+use App\Product\Command\Filter;
 use App\Product\Repository\ProductViewRepository;
 use App\Product\Value\Language;
 use App\Product\Value\ProductId;
@@ -49,7 +50,7 @@ class ProductViewSqlRepository implements ProductViewRepository
         return new ProductView($result['gtin'], $result['weight'], $result['title'], (int)$averageRating);
     }
 
-    public function findProductViews(Language $language): array
+    public function findProductViews(Language $language, Filter $filter): array
     {
         $statement = $this->connection->createQueryBuilder()
             ->select('
@@ -76,10 +77,13 @@ class ProductViewSqlRepository implements ProductViewRepository
         $productViews = [];
 
         foreach ($rows  as $row) {
-            $averageRating = ($row['taste'] + $row['ingredients'] + $row['healthiness'] + $row['packaging'] + $row['availability']) / 5;
-            $productViews[] = new ProductView($row['gtin'], $row['weight'], $row['title'], (int)$averageRating);
-        }
+            $averageRating = (int)(($row['taste'] + $row['ingredients'] + $row['healthiness'] + $row['packaging'] + $row['availability']) / 5);
 
+            if ($averageRating >= $filter->ratingFrom && $averageRating <= $filter->ratingTo) {
+                $productViews[] = new ProductView($row['gtin'], $row['weight'], $row['title'], (int)$averageRating);
+            }
+        }
+        
         return $productViews;
     }
 }

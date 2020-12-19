@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\Infrastructure\Exception\NotFoundException;
+use App\Product\Command\Filter;
 use App\Product\Exception\ProductNotExists;
 use App\Product\ProductService;
 use App\Product\Value\Language;
@@ -28,9 +29,9 @@ class ProductController
     }
 
     #[Route('/{_locale}/products', methods: ['GET'], name:'frontend_products', requirements:['_locale' => 'en|de'])]
-    public function findProducts(string $_locale): array
+    public function findProducts(string $_locale, Filter $filter): array
     {
-        return $this->productService->findProducts(Language::fromString($_locale));
+        return $this->productService->findProducts(Language::fromString($_locale), $filter);
     }
 
     #[Route('/{_locale}/product/{id}', methods: ['GET'], name:'frontend_product', requirements:['_locale' => 'en|de'])]

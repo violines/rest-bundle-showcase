@@ -2,6 +2,7 @@
 
 namespace App\Product\Repository;
 
+use App\Product\Command\Filter;
 use App\Product\Value\Language;
 use App\Product\Value\ProductId;
 use App\Product\View\ProductView;
@@ -17,5 +18,5 @@ interface ProductViewRepository
     /**
      * @return ProductView[]
      */
-    public function findProductViews(Language $language): array;
+    public function findProductViews(Language $language, Filter $filter): array;
 }

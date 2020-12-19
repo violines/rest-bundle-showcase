@@ -25,6 +25,14 @@ class ProductControllerTest extends RestTestCase
         $this->assertJsonResponse($this->expectedProductList, $this->client->getResponse());
     }
 
+    public function testProductsFiltered()
+    {
+        $this->client->request('GET', 'de/products?ratingFrom=3&ratingTo=5', [], [], self::DEFAULT_HEADERS);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonResponse($this->expectedProductsFiltered, $this->client->getResponse());
+    }
+
     public function testProduct()
     {
         $this->client->request('GET', 'de/product/1', [], [], self::DEFAULT_HEADERS);
@@ -53,7 +61,7 @@ class ProductControllerTest extends RestTestCase
             "gtin": "9272037363324",
             "weight": 10,
             "name": "Erdnuss Cups",
-            "average_rating": 0
+            "average_rating": 4
         },
         {
             "gtin": "5567037363214",
@@ -66,6 +74,18 @@ class ProductControllerTest extends RestTestCase
             "weight": 20,
             "name": "Prinzessinen Rolle",
             "average_rating": 0
+        }
+    ]
+    EOT;
+
+
+    private $expectedProductsFiltered = <<<'EOT'
+    [
+        {
+            "gtin": "9272037363324",
+            "weight": 10,
+            "name": "Erdnuss Cups",
+            "average_rating": 4
         }
     ]
     EOT;

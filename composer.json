@@ -64,7 +64,7 @@
             "@auto-scripts"
         ],
         "dev": [
-            "@composer install",
+            "@composer install --ignore-platform-reqs",
             "bash ./install/dev.sh"
         ],
         "test": [
