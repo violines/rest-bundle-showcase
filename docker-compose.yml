@@ -15,14 +15,13 @@ services:
       env_file:
         - ./docker/dev/.env
       volumes:
-        - ./vendor:/app/vendor:cached
-        - .:/app:delegated  
+        - .:/app
     prod:
       build: docker/prod  
       container_name: rest-showcase-prod
       working_dir: /app
       volumes:
-        - .:/app:cached
+        - .:/app
     db:
       image: postgres:11
       container_name: rest-showcase-db
