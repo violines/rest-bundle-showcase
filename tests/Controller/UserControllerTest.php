@@ -8,15 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserControllerTest extends RestTestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
-
-        /** @var EntityManagerInterface $em */
-        $em = self::$container->get('doctrine.orm.default_entity_manager');
-        $em->getConnection()->exec(file_get_contents(__DIR__ . '/../../fixtures/test.sql'));
-    }
-
     public function testUsers()
     {
         $headers = array_replace(self::DEFAULT_HEADERS, [

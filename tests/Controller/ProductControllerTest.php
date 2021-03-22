@@ -4,19 +4,9 @@ namespace App\Tests\Controller;
 
 use App\Tests\RestTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManagerInterface;
 
 class ProductControllerTest extends RestTestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
-
-        /** @var EntityManagerInterface $em */
-        $em = self::$container->get('doctrine.orm.default_entity_manager');
-        $em->getConnection()->exec(file_get_contents(__DIR__ . '/../../fixtures/test.sql'));
-    }
-
     public function testProducts()
     {
         $this->client->request('GET', 'de/products', [], [], self::DEFAULT_HEADERS);
