@@ -17,7 +17,6 @@ class ImportControllerTest extends RestTestCase
         /** @var EntityManagerInterface $em */
         $em = self::$container->get('doctrine.orm.default_entity_manager');
         $this->connection = $em->getConnection();
-        $this->connection->exec(file_get_contents(__DIR__ . '/../../fixtures/test.sql'));
     }
 
     public function testImport(): void
