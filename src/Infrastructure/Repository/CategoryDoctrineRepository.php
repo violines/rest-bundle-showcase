@@ -2,9 +2,9 @@
 
 namespace App\Infrastructure\Repository;
 
-use App\Product\Entity\Category;
-use App\Product\Repository\CategoryRepository;
-use App\Product\Value\CategoryId;
+use App\Domain\Product\Entity\Category;
+use App\Domain\Product\Repository\CategoryRepository;
+use App\Domain\Product\Value\CategoryId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;

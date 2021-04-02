@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Product\Entity\Product;
-use App\Product\Repository\ProductRepository;
-use App\Product\Value\Gtin;
-use App\Product\Value\ProductId;
+use App\Domain\Product\Entity\Product;
+use App\Domain\Product\Repository\ProductRepository;
+use App\Domain\Product\Value\Gtin;
+use App\Domain\Product\Value\ProductId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;

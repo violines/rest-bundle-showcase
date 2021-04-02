@@ -2,13 +2,13 @@
 
 namespace App\Infrastructure\Repository;
 
-use App\Product\Entity\Product;
-use App\Product\Value\ProductId;
-use App\Review\Entity\Review;
-use App\Review\Repository\ReviewRepository;
-use App\Review\Value\ReviewId;
-use App\User\Entity\User;
-use App\User\Value\UserId;
+use App\Domain\Product\Entity\Product;
+use App\Domain\Product\Value\ProductId;
+use App\Domain\Review\Entity\Review;
+use App\Domain\Review\Repository\ReviewRepository;
+use App\Domain\Review\Value\ReviewId;
+use App\Domain\User\Entity\User;
+use App\Domain\User\Value\UserId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;

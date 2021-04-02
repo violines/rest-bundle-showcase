@@ -2,10 +2,10 @@
 
 namespace App\Infrastructure\Repository;
 
-use App\User\Entity\User;
-use App\User\Repository\UserRepository;
-use App\User\Value\Email;
-use App\User\Value\UserId;
+use App\Domain\User\Entity\User;
+use App\Domain\User\Repository\UserRepository;
+use App\Domain\User\Value\Email;
+use App\Domain\User\Value\UserId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;

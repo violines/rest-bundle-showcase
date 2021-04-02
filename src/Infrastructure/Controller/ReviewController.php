@@ -8,9 +8,9 @@ use App\Infrastructure\Exception\AuthorizationFailedException;
 use App\Infrastructure\Exception\BadRequestException;
 use App\Infrastructure\Security\Voter\ReviewUniqueVoter;
 use App\Infrastructure\View\Ok;
-use App\Review\Command\CreateReview;
-use App\Review\ReviewService;
-use App\User\Entity\User;
+use App\Domain\Review\Command\CreateReview;
+use App\Domain\Review\ReviewService;
+use App\Domain\User\Entity\User;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -30,7 +30,7 @@ class ReviewController
     /**
      * @param User $user
      */
-    #[Route('/{_locale}/review/create', methods: ['POST'], name:'create_review', requirements:['_locale' => 'en|de'])]
+    #[Route('/{_locale}/review/create', methods: ['POST'], name: 'create_review', requirements: ['_locale' => 'en|de'])]
     public function createReview(CreateReview $createReview, UserInterface $user): Ok
     {
         if (!$this->security->isGranted(ReviewUniqueVoter::NAME, $createReview)) {

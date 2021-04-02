@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Product\Repository\CategoryViewRepository;
-use App\Product\Value\CategoryId;
-use App\Product\Value\Language;
-use App\Product\View\CategoryView;
+use App\Domain\Product\Repository\CategoryViewRepository;
+use App\Domain\Product\Value\CategoryId;
+use App\Domain\Product\Value\Language;
+use App\Domain\Product\View\CategoryView;
 use Doctrine\DBAL\Connection;
 
 class CategoryViewSqlRepository implements CategoryViewRepository
