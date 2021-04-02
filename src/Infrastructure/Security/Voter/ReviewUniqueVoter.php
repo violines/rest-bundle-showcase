@@ -3,10 +3,10 @@
 namespace App\Infrastructure\Security\Voter;
 
 use App\Infrastructure\Repository\ReviewDoctrineRepository;
-use App\Review\Command\CreateReview;
+use App\Domain\Review\Command\CreateReview;
+use App\Domain\User\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use App\User\Entity\User;
 
 class ReviewUniqueVoter extends Voter
 {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Type;
 
-use App\Review\Value\Comment;
+use App\Domain\Review\Value\Comment;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Product\Command\Filter;
-use App\Product\Repository\ProductViewRepository;
-use App\Product\Value\Language;
-use App\Product\Value\ProductId;
-use App\Product\View\ProductView;
+use App\Domain\Product\Command\Filter;
+use App\Domain\Product\Repository\ProductViewRepository;
+use App\Domain\Product\Value\Language;
+use App\Domain\Product\Value\ProductId;
+use App\Domain\Product\View\ProductView;
 use Doctrine\DBAL\Connection;
 
 class ProductViewSqlRepository implements ProductViewRepository
@@ -83,7 +83,7 @@ class ProductViewSqlRepository implements ProductViewRepository
                 $productViews[] = new ProductView($row['gtin'], $row['weight'], $row['title'], (int)$averageRating);
             }
         }
-        
+
         return $productViews;
     }
 }

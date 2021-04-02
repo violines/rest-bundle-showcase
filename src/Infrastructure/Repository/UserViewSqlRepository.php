@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\User\Repository\UserViewRepository;
-use App\User\Value\UserId;
-use App\User\View\ProfileView;
-use App\User\View\UserView;
+use App\Domain\User\Repository\UserViewRepository;
+use App\Domain\User\Value\UserId;
+use App\Domain\User\View\ProfileView;
+use App\Domain\User\View\UserView;
 use Doctrine\DBAL\Connection;
 
 class UserViewSqlRepository implements UserViewRepository

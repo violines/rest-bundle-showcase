@@ -13,21 +13,21 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App\Product:
+            App\Domain\Product:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Product/Entity'
-                prefix: 'App\Product\Entity'
-                alias: App\Product
-            App\Review:
+                dir: '%kernel.project_dir%/src/Domain/Product/Entity'
+                prefix: 'App\Domain\Product\Entity'
+                alias: App\Domain\Product
+            App\Domain\Review:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Review/Entity'
-                prefix: 'App\Review\Entity'
-                alias: App\Review
-            App\User:
+                dir: '%kernel.project_dir%/src/Domain/Review/Entity'
+                prefix: 'App\Domain\Review\Entity'
+                alias: App\Domain\Review
+            App\Domain\User:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/User/Entity'
-                prefix: 'App\User\Entity'
-                alias: App\User
+                dir: '%kernel.project_dir%/src/Domain/User/Entity'
+                prefix: 'App\Domain\User\Entity'
+                alias: App\Domain\User

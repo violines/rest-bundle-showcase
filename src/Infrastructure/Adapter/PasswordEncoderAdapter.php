@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter;
 
-use App\User\Entity\User;
-use App\User\PasswordEncoder;
+use App\Domain\User\Entity\User;
+use App\Domain\User\PasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PasswordEncoderAdapter implements PasswordEncoder

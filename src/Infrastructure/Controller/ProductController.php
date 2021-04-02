@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\Infrastructure\Exception\NotFoundException;
-use App\Product\Command\Filter;
-use App\Product\Exception\ProductNotExists;
-use App\Product\ProductService;
-use App\Product\Value\Language;
-use App\Product\Value\ProductId;
-use App\Product\View\ProductView;
+use App\Domain\Product\Command\Filter;
+use App\Domain\Product\Exception\ProductNotExists;
+use App\Domain\Product\ProductService;
+use App\Domain\Product\Value\Language;
+use App\Domain\Product\Value\ProductId;
+use App\Domain\Product\View\ProductView;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController
