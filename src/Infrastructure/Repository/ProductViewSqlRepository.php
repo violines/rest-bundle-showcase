@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Product\Command\Filter;
+use App\Domain\Product\Query\Filter;
 use App\Domain\Product\Repository\ProductViewRepository;
 use App\Domain\Product\Value\Language;
 use App\Domain\Product\Value\ProductId;

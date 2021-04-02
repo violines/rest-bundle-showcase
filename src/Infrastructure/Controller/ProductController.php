@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\Infrastructure\Exception\NotFoundException;
-use App\Domain\Product\Command\Filter;
+use App\Domain\Product\Query\Filter;
 use App\Domain\Product\Exception\ProductNotExists;
 use App\Domain\Product\ProductService;
 use App\Domain\Product\Value\Language;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Product\Command;
+namespace App\Domain\Product\Query;
 
 use Violines\RestBundle\HttpApi\HttpApi;
 

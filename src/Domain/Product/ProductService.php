@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Product;
 
-use App\Domain\Product\Command\Filter;
+use App\Domain\Product\Query\Filter;
 use App\Domain\Product\Exception\ProductNotExists;
 use App\Domain\Product\Repository\CategoryViewRepository;
 use App\Domain\Product\Value\Language;
