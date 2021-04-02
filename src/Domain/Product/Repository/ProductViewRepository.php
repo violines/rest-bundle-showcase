@@ -2,7 +2,7 @@
 
 namespace App\Domain\Product\Repository;
 
-use App\Domain\Product\Command\Filter;
+use App\Domain\Product\Query\Filter;
 use App\Domain\Product\Value\Language;
 use App\Domain\Product\Value\ProductId;
 use App\Domain\Product\View\ProductView;
