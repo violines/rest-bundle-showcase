@@ -8,17 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ImportControllerTest extends RestTestCase
 {
-    private Connection $connection;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        /** @var EntityManagerInterface $em */
-        $em = self::$container->get('doctrine.orm.default_entity_manager');
-        $this->connection = $em->getConnection();
-    }
-
     public function testImport(): void
     {
         $this->client->request(

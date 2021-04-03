@@ -33,3 +33,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+        
+    App\Domain\Review\CommandHandler\CreateReviewHandler:
+        class: App\Domain\Review\CommandHandler\CreateReviewHandler
+        tags:
+            - { name: command_handler, handles: App\Domain\Review\Command\CreateReview }

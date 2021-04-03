@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Review;
+namespace App\Domain\Review\CommandHandler;
 
 use App\Domain\Review\Command\CreateReview;
 use App\Domain\Review\Entity\Review;
 use App\Domain\Review\Repository\ReviewRepository;
 
-class ReviewService
+class CreateReviewHandler
 {
     private ReviewRepository $reviewRepository;
 
@@ -17,7 +17,7 @@ class ReviewService
         $this->reviewRepository = $reviewRepository;
     }
 
-    public function createReview(CreateReview $createReview): void
+    public function __invoke(CreateReview $createReview): void
     {
         $nextId = $this->reviewRepository->nextId();
 
