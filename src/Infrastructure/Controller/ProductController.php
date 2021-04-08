@@ -8,24 +8,28 @@ use App\Infrastructure\Exception\NotFoundException;
 use App\Domain\Product\Query\Filter;
 use App\Domain\Product\Exception\ProductNotExists;
 use App\Domain\Product\ProductService;
+use App\Domain\Product\Query\FindCategories;
 use App\Domain\Product\Value\Language;
 use App\Domain\Product\Value\ProductId;
 use App\Domain\Product\View\ProductView;
+use App\Infrastructure\QueryBus\QueryBus;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController
 {
     private ProductService $productService;
+    private QueryBus $queryBus;
 
-    public function __construct(ProductService $productService)
+    public function __construct(ProductService $productService, QueryBus $queryBus)
     {
         $this->productService = $productService;
+        $this->queryBus = $queryBus;
     }
 
     #[Route('/{_locale}/categories', methods: ['GET'], name: 'frontend_categories', requirements: ['_locale' => 'en|de'])]
     public function findCategories(string $_locale): array
     {
-        return $this->productService->findCategories(Language::fromString($_locale));
+        return $this->queryBus->query(new FindCategories(Language::fromString($_locale)));
     }
 
     #[Route('/{_locale}/products', methods: ['GET'], name: 'frontend_products', requirements: ['_locale' => 'en|de'])]

@@ -6,31 +6,18 @@ namespace App\Domain\Product;
 
 use App\Domain\Product\Query\Filter;
 use App\Domain\Product\Exception\ProductNotExists;
-use App\Domain\Product\Repository\CategoryViewRepository;
 use App\Domain\Product\Value\Language;
-use App\Domain\Product\View\CategoryView;
 use App\Domain\Product\View\ProductView;
 use App\Domain\Product\Repository\ProductViewRepository;
 use App\Domain\Product\Value\ProductId;
 
 class ProductService
 {
-    private CategoryViewRepository $categoryViewRepository;
-
     private ProductViewRepository $productViewRepository;
 
-    public function __construct(CategoryViewRepository $categoryViewRepository, ProductViewRepository $productViewRepository)
+    public function __construct(ProductViewRepository $productViewRepository)
     {
-        $this->categoryViewRepository = $categoryViewRepository;
         $this->productViewRepository = $productViewRepository;
-    }
-
-    /**
-     * @return CategoryView[]
-     */
-    public function findCategories(Language $language)
-    {
-        return $this->categoryViewRepository->findCategoryViews($language);
     }
 
     /**
