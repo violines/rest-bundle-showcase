@@ -8,6 +8,11 @@ class ReviewControllerTest extends RestTestCase
 {
     public function testCreateReview()
     {
+        $checkWithSQL = 'SELECT id FROM review WHERE product_id = 1';
+
+        // sanity check
+        self::assertCount(0, $this->connection->fetchAllAssociative($checkWithSQL));
+
         $headers = array_replace(self::DEFAULT_HEADERS, [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->getUserToken()
@@ -23,6 +28,7 @@ class ReviewControllerTest extends RestTestCase
         );
 
         $this->assertResponseIsSuccessful();
+        self::assertCount(1, $this->connection->fetchAllAssociative($checkWithSQL));
     }
 
     private $reviewPayload = <<<'EOT'

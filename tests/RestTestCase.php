@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,11 +15,14 @@ class RestTestCase extends WebTestCase
 
     protected $client;
 
+    protected Connection $connection;
+
     protected function setUp()
     {
         parent::setUp();
 
         $this->client = static::createClient();
+        $this->connection = self::$kernel->getContainer()->get('doctrine.orm.entity_manager')->getConnection();
     }
 
     protected function assertJsonResponse(string $expected, Response $response, ?string $message = ''): void

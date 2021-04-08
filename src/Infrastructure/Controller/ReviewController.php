@@ -9,21 +9,21 @@ use App\Infrastructure\Exception\BadRequestException;
 use App\Infrastructure\Security\Voter\ReviewUniqueVoter;
 use App\Infrastructure\View\Ok;
 use App\Domain\Review\Command\CreateReview;
-use App\Domain\Review\ReviewService;
 use App\Domain\User\Entity\User;
+use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class ReviewController
 {
-    private ReviewService $reviewService;
+    private CommandBus $commandBus;
 
     private Security $security;
 
-    public function __construct(ReviewService $reviewService, Security $security)
+    public function __construct(CommandBus $commandBus, Security $security)
     {
-        $this->reviewService = $reviewService;
+        $this->commandBus = $commandBus;
         $this->security = $security;
     }
 
@@ -40,7 +40,7 @@ class ReviewController
         $createReview->userId = $user->getId();
 
         try {
-            $this->reviewService->createReview($createReview);
+            $this->commandBus->handle($createReview);
         } catch (\Throwable $e) {
             throw BadRequestException::reviewExists();
         }

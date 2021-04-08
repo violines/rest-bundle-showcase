@@ -153,6 +153,12 @@
     "psr/log": {
         "version": "1.1.2"
     },
+    "simple-bus/message-bus": {
+        "version": "v6.0.0"
+    },
+    "simple-bus/symfony-bridge": {
+        "version": "v6.0.0"
+    },
     "squizlabs/php_codesniffer": {
         "version": "3.0",
         "recipe": {
