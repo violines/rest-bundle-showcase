@@ -39,7 +39,15 @@ class ProductControllerTest extends RestTestCase
         $this->assertJsonResponse($this->expectedNotFound, $this->client->getResponse());
     }
 
-    private $expectedProductList = <<<'EOT'
+    public function testShouldListCategories()
+    {
+        $this->client->request('GET', 'de/categories', [], [], self::DEFAULT_HEADERS);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertJsonResponse($this->expectedCategories, $this->client->getResponse());
+    }
+
+    private $expectedProductList = <<<'JSON'
     [
         {
             "gtin": "886037363214",
@@ -66,10 +74,10 @@ class ProductControllerTest extends RestTestCase
             "average_rating": 0
         }
     ]
-    EOT;
+    JSON;
 
 
-    private $expectedProductsFiltered = <<<'EOT'
+    private $expectedProductsFiltered = <<<'JSON'
     [
         {
             "gtin": "9272037363324",
@@ -78,20 +86,37 @@ class ProductControllerTest extends RestTestCase
             "average_rating": 4
         }
     ]
-    EOT;
+    JSON;
 
-    private $expectedProductDetail = <<<'EOT'
+    private $expectedProductDetail = <<<'JSON'
     {
         "gtin": "886037363214",
         "weight": 5,
         "name": "Weiße Schokolade mit Krisp",
         "average_rating": 0
     }
-    EOT;
+    JSON;
 
-    private $expectedNotFound = <<<'EOT'
+    private $expectedNotFound = <<<'JSON'
     {
         "message": "The requested resource was not found"
     }    
-    EOT;
+    JSON;
+
+    private $expectedCategories = <<<'JSON'
+    [
+        {
+            "key": "Chocolate",
+            "sorting": 1
+        },
+        {
+            "key": "Biscuits",
+            "sorting": 2
+        },
+        {
+            "key": "Bubblegum",
+            "sorting": 3
+        }
+    ]
+    JSON;
 }
