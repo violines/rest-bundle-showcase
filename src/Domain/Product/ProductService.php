@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Product;
 
-use App\Domain\Product\Query\Filter;
 use App\Domain\Product\Exception\ProductNotExists;
 use App\Domain\Product\Value\Language;
 use App\Domain\Product\View\ProductView;
@@ -18,14 +17,6 @@ class ProductService
     public function __construct(ProductViewRepository $productViewRepository)
     {
         $this->productViewRepository = $productViewRepository;
-    }
-
-    /**
-     * @return ProductView[]
-     */
-    public function findProducts(Language $language, Filter $filter): array
-    {
-        return $this->productViewRepository->findProductViews($language, $filter);
     }
 
     public function findProduct(ProductId $productId, Language $language): ProductView

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\Infrastructure\Exception\NotFoundException;
-use App\Domain\Product\Query\Filter;
+use App\Domain\Product\Query\FilterProducts;
 use App\Domain\Product\Exception\ProductNotExists;
 use App\Domain\Product\ProductService;
 use App\Domain\Product\Query\FindCategories;
@@ -33,9 +33,11 @@ class ProductController
     }
 
     #[Route('/{_locale}/products', methods: ['GET'], name: 'frontend_products', requirements: ['_locale' => 'en|de'])]
-    public function findProducts(string $_locale, Filter $filter): array
+    public function findProducts(string $_locale, FilterProducts $filterProducts): array
     {
-        return $this->productService->findProducts(Language::fromString($_locale), $filter);
+        $filterProducts->language = Language::fromString($_locale);
+
+        return $this->queryBus->query($filterProducts);
     }
 
     #[Route('/{_locale}/product/{id}', methods: ['GET'], name: 'frontend_product', requirements: ['_locale' => 'en|de'])]
