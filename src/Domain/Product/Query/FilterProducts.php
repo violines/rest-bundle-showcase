@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Domain\Product\Query;
 
+use App\Domain\Product\Value\Language;
 use Violines\RestBundle\HttpApi\HttpApi;
 
 #[HttpApi(requestInfoSource: HttpApi::QUERY_STRING)]
-final class Filter
+final class FilterProducts
 {
-    public $ratingFrom = 0;
+    public int $ratingFrom = 0;
 
-    public $ratingTo = 5;
+    public int $ratingTo = 5;
+
+    public Language $language;
 
     public function setRatingFrom(string $ratringFrom)
     {
