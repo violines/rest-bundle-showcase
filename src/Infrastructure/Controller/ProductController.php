@@ -8,6 +8,7 @@ use App\Infrastructure\Exception\NotFoundException;
 use App\Domain\Product\Query\FilterProducts;
 use App\Domain\Product\Exception\ProductNotExists;
 use App\Domain\Product\ProductService;
+use App\Domain\Product\Query\FilterCategories;
 use App\Domain\Product\Query\FindCategories;
 use App\Domain\Product\Value\Language;
 use App\Domain\Product\Value\ProductId;
@@ -29,13 +30,16 @@ class ProductController
     #[Route('/{_locale}/categories', methods: ['GET'], name: 'frontend_categories', requirements: ['_locale' => 'en|de'])]
     public function findCategories(string $_locale): array
     {
-        return $this->queryBus->query(new FindCategories(Language::fromString($_locale)));
+        $filterCategories = new FilterCategories();
+        $filterCategories->language = $_locale;
+
+        return $this->queryBus->query($filterCategories);
     }
 
     #[Route('/{_locale}/products', methods: ['GET'], name: 'frontend_products', requirements: ['_locale' => 'en|de'])]
-    public function findProducts(string $_locale, FilterProducts $filterProducts): array
+    public function findProducts(FilterProducts $filterProducts, string $_locale): array
     {
-        $filterProducts->language = Language::fromString($_locale);
+        $filterProducts->language = $_locale;
 
         return $this->queryBus->query($filterProducts);
     }

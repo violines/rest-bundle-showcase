@@ -19,7 +19,7 @@ class CategoryViewSqlRepository implements CategoryViewRepository
         $this->connection = $connection;
     }
 
-    public function findCategoryView(CategoryId $categoryId, Language $language): CategoryView
+    public function find(CategoryId $categoryId): CategoryView
     {
         $statement = $this->connection->createQueryBuilder()
             ->select(' category.key, category.sorting')
@@ -33,7 +33,7 @@ class CategoryViewSqlRepository implements CategoryViewRepository
         return new CategoryView($result['key'], $result['sorting']);
     }
 
-    public function findCategoryViews(Language $language): array
+    public function match(): array
     {
         $statement = $this->connection->createQueryBuilder()
             ->select(' category.key, category.sorting')

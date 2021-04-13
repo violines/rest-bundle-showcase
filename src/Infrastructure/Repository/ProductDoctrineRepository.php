@@ -19,17 +19,19 @@ use Doctrine\ORM\EntityManagerInterface;
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductDoctrineRepository extends ServiceEntityRepository implements ProductRepository
+class ProductDoctrineRepository implements ProductRepository
 {
+    private Connection $connection;
+
     private EntityManagerInterface $em;
 
-    private Connection $connection;
+    private ServiceEntityRepository $serviceEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Product::class);
-        $this->connection = $this->getEntityManager()->getConnection();
-        $this->em = $this->getEntityManager();
+        $this->serviceEntityRepository = new ServiceEntityRepository($registry, Product::class);
+        $this->connection = $this->serviceEntityRepository->getEntityManager()->getConnection();
+        $this->em = $this->serviceEntityRepository->getEntityManager();
     }
 
     public function nextId(): ProductId
@@ -37,19 +39,19 @@ class ProductDoctrineRepository extends ServiceEntityRepository implements Produ
         return ProductId::fromInt((int)$this->connection->fetchColumn('SELECT setval(\'product_id_seq\', nextval(\'product_id_seq\'::regclass))'));
     }
 
-    public function saveProduct(Product $category): void
+    public function save(Product $product): void
     {
-        $this->em->persist($category);
+        $this->em->persist($product);
         $this->em->flush();
     }
 
-    public function productExists(Gtin $gtin): bool
+    public function exists(Gtin $gtin): bool
     {
-        return null !== $this->findOneBy(['gtin' => $gtin->toString()]);
+        return null !== $this->serviceEntityRepository->findOneBy(['gtin' => $gtin->toString()]);
     }
 
-    public function findProduct(ProductId $productId): Product
+    public function find(ProductId $productId): Product
     {
-        return $this->find($productId->toInt());
+        return $this->serviceEntityRepository->find($productId->toInt());
     }
 }

@@ -12,10 +12,10 @@ interface CategoryViewRepository
      * @param CategoryId $categoryId
      * @return CategoryView
      */
-    public function findCategoryView(CategoryId $categoryId, Language $language): CategoryView;
+    public function find(CategoryId $categoryId): CategoryView;
 
     /**
      * @return CategoryView[]
      */
-    public function findCategoryViews(Language $language): array;
+    public function match(): array;
 }

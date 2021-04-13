@@ -15,17 +15,17 @@ interface CategoryRepository
     /**
      * @param Category $category
      */
-    public function saveCategory(Category $category): void;
+    public function save(Category $category): void;
 
     /**
      * @param string $title
      * @return bool
      */
-    public function categoryExists(string $title): bool;
+    public function exists(string $title): bool;
 
     /**
      * @param CategoryId $categoryId
      * @return Category
      */
-    public function findCategory(CategoryId $categoryId): Category;
+    public function find(CategoryId $categoryId): Category;
 }
