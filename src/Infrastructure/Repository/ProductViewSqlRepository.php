@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Product\Query\FilterProducts;
+use App\Domain\Product\Repository\ProductViewCriteria;
 use App\Domain\Product\Repository\ProductViewRepository;
-use App\Domain\Product\Value\Language;
 use App\Domain\Product\Value\ProductId;
 use App\Domain\Product\View\ProductView;
 use Doctrine\DBAL\Connection;
@@ -20,70 +19,74 @@ class ProductViewSqlRepository implements ProductViewRepository
         $this->connection = $connection;
     }
 
-    public function findProductView(ProductId $productId, Language $language): ProductView
+    public function find(ProductId $productId): ProductView
     {
         $statement = $this->connection->createQueryBuilder()
             ->select('
                 product.id,
                 product.gtin,
                 product.weight,
-                max(product_translation.title) as title,
-                AVG(review.taste) as taste,
-                AVG(review.ingredients) as ingredients,
-                AVG(review.healthiness) as healthiness,
-                AVG(review.packaging) as packaging,
-                AVG(review.availability) as availability
+                MAX(product_translation.title) as title,
+                product_translation.language,
+                (AVG(review.taste) + AVG(review.ingredients) + AVG(review.healthiness) + AVG(review.packaging) + AVG(review.availability)) / 5 as average_rating
             ')
             ->from('product')
             ->leftJoin('product', 'review', 'review', 'review.product_id = product.id')
             ->leftJoin('product', 'product_translation', 'product_translation', 'product_translation.product_id = product.id')
-            ->andWhere('product.id = :productId AND product_translation.language = :language')
+            ->andWhere('product.id = :productId')
             ->setParameter('productId', $productId->toInt())
-            ->setParameter('language', $language->toString())
-            ->groupBy('product.id')
+            ->groupBy('product.id, product_translation.language')
             ->execute();
 
-        $result = $statement->fetch();
-
-        $averageRating = ($result['taste'] + $result['ingredients'] + $result['healthiness'] + $result['packaging'] + $result['availability']) / 5;
-
-        return new ProductView($result['gtin'], $result['weight'], $result['title'], (int)$averageRating);
+        return $this->createView($statement->fetchAll());
     }
 
-    public function findProductViews(FilterProducts $filterProducts): array
+    public function match(ProductViewCriteria $citeria): array
     {
         $statement = $this->connection->createQueryBuilder()
             ->select('
                 product.id,
                 product.gtin,
                 product.weight,
-                max(product_translation.title) as title,
-                AVG(review.taste) as taste,
-                AVG(review.ingredients) as ingredients,
-                AVG(review.healthiness) as healthiness,
-                AVG(review.packaging) as packaging,
-                AVG(review.availability) as availability
+                MAX(product_translation.title) AS title,
+                product_translation.language,
+                (AVG(review.taste) + AVG(review.ingredients) + AVG(review.healthiness) + AVG(review.packaging) + AVG(review.availability)) / 5 as average_rating
             ')
             ->from('product')
             ->leftJoin('product', 'review', 'review', 'review.product_id = product.id')
             ->leftJoin('product', 'product_translation', 'product_translation', 'product_translation.product_id = product.id')
-            ->andWhere('product_translation.language = :language')
-            ->setParameter('language', $filterProducts->language->toString())
-            ->groupBy('product.id')
+            ->groupBy('product.id, product_translation.language')
+            ->andHaving('(AVG(review.taste) + AVG(review.ingredients) + AVG(review.healthiness) + AVG(review.packaging) + AVG(review.availability)) / 5 >= :ratingFrom')
+            ->andHaving('(AVG(review.taste) + AVG(review.ingredients) + AVG(review.healthiness) + AVG(review.packaging) + AVG(review.availability)) / 5 <= :ratingTo')
+            ->setParameter('ratingFrom', $citeria->minRatingAsInt())
+            ->setParameter('ratingTo', $citeria->maxRatingAsInt())
+            ->orderBy('product.id')
             ->execute();
 
         $rows = $statement->fetchAll();
 
+        $map = [];
+        foreach ($rows as $row) {
+            $map[$row['id']][] = $row;
+        }
+
         $productViews = [];
-
-        foreach ($rows  as $row) {
-            $averageRating = (int)(($row['taste'] + $row['ingredients'] + $row['healthiness'] + $row['packaging'] + $row['availability']) / 5);
-
-            if ($averageRating >= $filterProducts->ratingFrom && $averageRating <= $filterProducts->ratingTo) {
-                $productViews[] = new ProductView($row['gtin'], $row['weight'], $row['title'], (int)$averageRating);
-            }
+        foreach ($map as $viewRows) {
+            $productViews[] = $this->createView($viewRows);
         }
 
         return $productViews;
+    }
+
+    private function createView($rows): ProductView
+    {
+        foreach ($rows as $row) {
+            $gtin = $row['gtin'];
+            $weight = $row['weight'];
+            $names[$row['language']] = $row['title'];
+            $averageRating = $row['average_rating'];
+        }
+
+        return new ProductView($gtin, $weight, $names, (int)$averageRating);
     }
 }

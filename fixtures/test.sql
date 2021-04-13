@@ -34,12 +34,27 @@ SELECT setval('user_id_seq', 3);
 
 INSERT INTO "review" ("id", "product_id", "user_id", "taste", "ingredients", "healthiness", "packaging", "availability", "comment")
 VALUES
-(1, 2, 1, 4, 5, 5, 3, 5, 'This was the best ever.'),
-(2, 2, 1, 5, 3, 4, 5, 4, 'I really liked it.'),
-(3, 2, 1, 4, 4, 5, 5, 5, 'Solid.'),
-(4, 2, 1, 3, 5, 4, 5, 5, 'The best!'),
-(5, 2, 1, 4, 5, 3, 5, 5, 'I really liked it.');
-SELECT setval('review_id_seq', 5);
+(1, 1, 1, 4, 5, 5, 3, 5, 'This was the best ever.'),
+(2, 1, 1, 5, 3, 4, 5, 4, 'I really liked it.'),
+(3, 1, 1, 4, 4, 5, 5, 5, 'Solid.'),
+(4, 1, 1, 3, 5, 4, 5, 5, 'The best!'),
+(5, 1, 1, 4, 5, 3, 5, 5, 'I really liked it.'),
+(6, 2, 1, 4, 5, 5, 3, 5, 'This was the best ever.'),
+(7, 2, 1, 5, 3, 4, 5, 4, 'I really liked it.'),
+(8, 2, 1, 4, 4, 5, 5, 5, 'Solid.'),
+(9, 2, 1, 3, 5, 4, 5, 5, 'The best!'),
+(10, 2, 1, 1, 1, 1, 1, 1, 'I really liked it.'),
+(11, 3, 1, 4, 5, 5, 3, 5, 'This was the best ever.'),
+(12, 3, 1, 5, 3, 4, 5, 4, 'I really liked it.'),
+(13, 3, 1, 4, 1, 5, 1, 1, 'Solid.'),
+(14, 3, 1, 3, 5, 4, 5, 5, 'The best!'),
+(15, 3, 1, 2, 5, 3, 5, 5, 'I really liked it.'),
+(16, 4, 1, 1, 4, 2, 2, 5, 'This was the best ever.'),
+(17, 4, 1, 1, 3, 4, 2, 4, 'I really liked it.'),
+(18, 4, 1, 1, 4, 5, 1, 5, 'Solid.'),
+(19, 4, 1, 1, 1, 1, 5, 5, 'The best!'),
+(20, 4, 1, 1, 5, 3, 5, 5, 'I really liked it.');
+SELECT setval('review_id_seq', 20);
 
 INSERT INTO "category" ("id","key","sorting")
 VALUES 

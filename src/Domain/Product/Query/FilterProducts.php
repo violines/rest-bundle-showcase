@@ -10,7 +10,7 @@ use Violines\RestBundle\HttpApi\HttpApi;
 #[HttpApi(requestInfoSource: HttpApi::QUERY_STRING)]
 final class FilterProducts
 {
-    public int $ratingFrom = 0;
+    public int $ratingFrom = 1;
 
     public int $ratingTo = 5;
 
