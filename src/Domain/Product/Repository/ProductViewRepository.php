@@ -2,21 +2,16 @@
 
 namespace App\Domain\Product\Repository;
 
-use App\Domain\Product\Query\FilterProducts;
-use App\Domain\Product\Value\Language;
 use App\Domain\Product\Value\ProductId;
-use App\Domain\Product\View\ProductView;
+use App\Domain\Product\View\ProductView as Product;
+use App\Domain\Product\Repository\ProductViewCriteria as Criteria;
 
 interface ProductViewRepository
 {
-    /**
-     * @param ProductId $productId
-     * @return ProductView
-     */
-    public function findProductView(ProductId $productId, Language $language): ProductView;
+    public function find(ProductId $id): Product;
 
     /**
-     * @return ProductView[]
+     * @return Product[]
      */
-    public function findProductViews(FilterProducts $filterProducts): array;
+    public function match(Criteria $criteria): array;
 }

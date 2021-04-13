@@ -11,7 +11,7 @@ class ReviewControllerTest extends RestTestCase
         $checkWithSQL = 'SELECT id FROM review WHERE product_id = 1';
 
         // sanity check
-        self::assertCount(0, $this->connection->fetchAllAssociative($checkWithSQL));
+        self::assertCount(5, $this->connection->fetchAllAssociative($checkWithSQL));
 
         $headers = array_replace(self::DEFAULT_HEADERS, [
             'CONTENT_TYPE' => 'application/json',
@@ -28,7 +28,7 @@ class ReviewControllerTest extends RestTestCase
         );
 
         $this->assertResponseIsSuccessful();
-        self::assertCount(1, $this->connection->fetchAllAssociative($checkWithSQL));
+        self::assertCount(6, $this->connection->fetchAllAssociative($checkWithSQL));
     }
 
     private $reviewPayload = <<<'EOT'

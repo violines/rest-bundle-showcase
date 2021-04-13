@@ -17,7 +17,7 @@ class ProductControllerTest extends RestTestCase
 
     public function testProductsFiltered()
     {
-        $this->client->request('GET', 'de/products?ratingFrom=3&ratingTo=5', [], [], self::DEFAULT_HEADERS);
+        $this->client->request('GET', 'de/products?ratingFrom=4&ratingTo=5', [], [], self::DEFAULT_HEADERS);
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonResponse($this->expectedProductsFiltered, $this->client->getResponse());
@@ -53,25 +53,25 @@ class ProductControllerTest extends RestTestCase
             "gtin": "886037363214",
             "weight": 5,
             "name": "Weiße Schokolade mit Krisp",
-            "average_rating": 0
+            "average_rating": 4
         },
         {
             "gtin": "9272037363324",
             "weight": 10,
             "name": "Erdnuss Cups",
-            "average_rating": 4
+            "average_rating": 3
         },
         {
             "gtin": "5567037363214",
             "weight": 15,
             "name": "Zartbitter Schokolade",
-            "average_rating": 0
+            "average_rating": 3
         },
         {
             "gtin": "893037363214",
             "weight": 20,
             "name": "Prinzessinen Rolle",
-            "average_rating": 0
+            "average_rating": 3
         }
     ]
     JSON;
@@ -80,9 +80,9 @@ class ProductControllerTest extends RestTestCase
     private $expectedProductsFiltered = <<<'JSON'
     [
         {
-            "gtin": "9272037363324",
-            "weight": 10,
-            "name": "Erdnuss Cups",
+            "gtin": "886037363214",
+            "weight": 5,
+            "name": "Weiße Schokolade mit Krisp",
             "average_rating": 4
         }
     ]
@@ -93,7 +93,7 @@ class ProductControllerTest extends RestTestCase
         "gtin": "886037363214",
         "weight": 5,
         "name": "Weiße Schokolade mit Krisp",
-        "average_rating": 0
+        "average_rating": 4
     }
     JSON;
 

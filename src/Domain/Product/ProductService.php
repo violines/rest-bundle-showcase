@@ -22,7 +22,7 @@ class ProductService
     public function findProduct(ProductId $productId, Language $language): ProductView
     {
         try {
-            return $this->productViewRepository->findProductView($productId, $language);
+            return $this->productViewRepository->find($productId)->withLanguage($language);
         } catch (\Throwable $e) {
             throw ProductNotExists::id($productId->toInt());
         }
