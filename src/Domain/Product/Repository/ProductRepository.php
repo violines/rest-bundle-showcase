@@ -16,17 +16,17 @@ interface ProductRepository
     /**
      * @param Product $product
      */
-    public function saveProduct(Product $product): void;
+    public function save(Product $product): void;
 
     /**
      * @param Gtin $gtin
      * @return bool
      */
-    public function productExists(Gtin $gtin): bool;
+    public function exists(Gtin $gtin): bool;
 
     /**
      * @param ProductId $productId
      * @return Product
      */
-    public function findProduct(ProductId $productId): Product;
+    public function find(ProductId $productId): Product;
 }

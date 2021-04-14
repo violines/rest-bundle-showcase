@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Product\QueryHandler;
 
-use App\Domain\Product\Query\FindCategories;
+use App\Domain\Product\Query\FilterCategories;
 use App\Domain\Product\Repository\CategoryViewRepository;
+use App\Domain\Product\Value\Language;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class FindCategoriesHandler implements MessageHandlerInterface
+final class FilterCategoriesHandler implements MessageHandlerInterface
 {
     private CategoryViewRepository $categoryViewRepository;
 
@@ -17,8 +18,8 @@ final class FindCategoriesHandler implements MessageHandlerInterface
         $this->categoryViewRepository = $categoryViewRepository;
     }
 
-    public function __invoke(FindCategories $findCategories): array
+    public function __invoke(FilterCategories $findCategories): array
     {
-        return $this->categoryViewRepository->findCategoryViews($findCategories->language);
+        return $this->categoryViewRepository->match();
     }
 }
