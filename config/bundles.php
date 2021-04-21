@@ -14,4 +14,5 @@ return [
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     SimpleBus\SymfonyBridge\SimpleBusCommandBusBundle::class => ['all' => true],
     Violines\RestBundle\ViolinesRestBundle::class => ['all' => true],
+    Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
 ];
