@@ -25,15 +25,6 @@ class Product
     /**
      * @var ProductTranslation[]
      */
-    #[Assert\Type("array")]
+    #[Assert\Valid]
     public $translations;
-
-    public function toArray()
-    {
-        return [
-            'gtin' => $this->gtin,
-            'weight' => $this->weight,
-            'translations' => array_map(fn (ProductTranslation $t) => $t->toArray(), $this->translations)
-        ];
-    }
 }

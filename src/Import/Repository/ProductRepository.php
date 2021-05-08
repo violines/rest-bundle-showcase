@@ -22,34 +22,19 @@ class ProductRepository implements ProductInterface
     /**
      * @param Product[]
      */
-    public function saveMany(array $candies): void
+    public function saveMany(array $products): void
     {
-        $rowCount = 0;
-        foreach ($candies as $product) {
-            $rowCount += count($product->translations);
-        }
+        $rowCount = count($products);
 
         if (self::MAX_INSERT < $rowCount) {
             throw PersistenceLayerException::fromMaxInsert(self::MAX_INSERT, $rowCount);
         }
 
         $sql = '
-            WITH 
-                data (gtin, weight, language, title) AS (
-                    VALUES
-                        ' . $this->generateValueMatrix($rowCount) . '
-                ), 
-                product AS (
-                    INSERT INTO product (gtin, weight)
-                        SELECT DISTINCT gtin, CAST(weight AS int4) FROM data
-                        ON CONFLICT (gtin) DO UPDATE SET weight = EXCLUDED.weight
-                    RETURNING gtin, id AS product_id
-                )
-            INSERT INTO product_translation (product_id, language, title)
-                SELECT product_id, language, title
-                FROM data
-                JOIN product USING (gtin)
-                ON CONFLICT (product_id, language) DO UPDATE SET title = EXCLUDED.title;
+            INSERT INTO product (gtin, weight, titles)
+                VALUES
+                    ' . $this->generateValueMatrix($rowCount) . '
+                ON CONFLICT (gtin) DO UPDATE SET weight = EXCLUDED.weight, titles = EXCLUDED.titles
         ';
 
         $connection = $this->entityManager->getConnection();
@@ -58,15 +43,16 @@ class ProductRepository implements ProductInterface
 
         /** @var Product $product */
         $i = 0;
-        foreach ($candies as $product) {
-            $mappedProduct = $product->toArray();
-            foreach ($mappedProduct['translations'] as $mappedTranslation) {
-                $statement->bindValue('gtin' . $i, $mappedProduct['gtin']);
-                $statement->bindValue('weight' . $i, $mappedProduct['weight']);
-                $statement->bindValue('language' . $i, $mappedTranslation['language']);
-                $statement->bindValue('title' . $i, $mappedTranslation['title']);
-                $i++;
+        foreach ($products as $product) {
+            $titles = [];
+            foreach ($product->translations as $translation) {
+                $titles += $translation->titleMap();
             }
+
+            $statement->bindValue('gtin' . $i, $product->gtin);
+            $statement->bindValue('weight' . $i, $product->weight);
+            $statement->bindValue('titles' . $i, json_encode($titles));
+            $i++;
         }
 
         $statement->execute();
@@ -77,7 +63,7 @@ class ProductRepository implements ProductInterface
         $matrix = '';
 
         for ($i = 0; $i < $rows; $i++) {
-            $matrix .= "(:gtin$i, :weight$i, :language$i, :title$i)";
+            $matrix .= "(:gtin$i, :weight$i, :titles$i)";
             $matrix .= $i < $rows - 1 ? ',' : '';
         }
 

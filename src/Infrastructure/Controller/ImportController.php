@@ -18,7 +18,7 @@ class ImportController
         $this->import = $import;
     }
 
-    #[Route('/import/products', methods: ['POST'], name:'import_products')]
+    #[Route('/import/products', methods: ['POST'], name: 'import_products')]
     public function importProducts(Product ...$products): Ok
     {
         $this->import->products($products);

@@ -26,19 +26,17 @@ class ProductViewSqlRepository implements ProductViewRepository
                 product.id,
                 product.gtin,
                 product.weight,
-                MAX(product_translation.title) as title,
-                product_translation.language,
+                product.titles,
                 (AVG(review.taste) + AVG(review.ingredients) + AVG(review.healthiness) + AVG(review.packaging) + AVG(review.availability)) / 5 as average_rating
             ')
             ->from('product')
             ->leftJoin('product', 'review', 'review', 'review.product_id = product.id')
-            ->leftJoin('product', 'product_translation', 'product_translation', 'product_translation.product_id = product.id')
             ->andWhere('product.id = :productId')
             ->setParameter('productId', $productId->toInt())
-            ->groupBy('product.id, product_translation.language')
+            ->groupBy('product.id')
             ->execute();
 
-        return $this->createView($statement->fetchAll());
+        return $this->createView($statement->fetch());
     }
 
     public function match(ProductViewCriteria $citeria): array
@@ -48,14 +46,12 @@ class ProductViewSqlRepository implements ProductViewRepository
                 product.id,
                 product.gtin,
                 product.weight,
-                MAX(product_translation.title) AS title,
-                product_translation.language,
+                product.titles,
                 (AVG(review.taste) + AVG(review.ingredients) + AVG(review.healthiness) + AVG(review.packaging) + AVG(review.availability)) / 5 as average_rating
             ')
             ->from('product')
             ->leftJoin('product', 'review', 'review', 'review.product_id = product.id')
-            ->leftJoin('product', 'product_translation', 'product_translation', 'product_translation.product_id = product.id')
-            ->groupBy('product.id, product_translation.language')
+            ->groupBy('product.id')
             ->andHaving('(AVG(review.taste) + AVG(review.ingredients) + AVG(review.healthiness) + AVG(review.packaging) + AVG(review.availability)) / 5 >= :ratingFrom')
             ->andHaving('(AVG(review.taste) + AVG(review.ingredients) + AVG(review.healthiness) + AVG(review.packaging) + AVG(review.availability)) / 5 <= :ratingTo')
             ->setParameter('ratingFrom', $citeria->minRatingAsInt())
@@ -65,28 +61,16 @@ class ProductViewSqlRepository implements ProductViewRepository
 
         $rows = $statement->fetchAll();
 
-        $map = [];
-        foreach ($rows as $row) {
-            $map[$row['id']][] = $row;
-        }
-
         $productViews = [];
-        foreach ($map as $viewRows) {
-            $productViews[] = $this->createView($viewRows);
+        foreach ($rows as $row) {
+            $productViews[] = $this->createView($row);
         }
 
         return $productViews;
     }
 
-    private function createView($rows): ProductView
+    private function createView($row): ProductView
     {
-        foreach ($rows as $row) {
-            $gtin = $row['gtin'];
-            $weight = $row['weight'];
-            $names[$row['language']] = $row['title'];
-            $averageRating = $row['average_rating'];
-        }
-
-        return new ProductView($gtin, $weight, $names, (int)$averageRating);
+        return new ProductView($row['gtin'], $weight = $row['weight'], \json_decode($row['titles'], true), (int)$row['average_rating']);
     }
 }

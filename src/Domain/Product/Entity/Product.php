@@ -36,7 +36,7 @@ class Product
     private $weight;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Domain\Product\Entity\ProductTranslation", mappedBy="product", cascade={"persist"})
+     * @ORM\Column(type="translatable", nullable=true)
      */
-    private $translations;
+    private $titles;
 }

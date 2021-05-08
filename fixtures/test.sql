@@ -1,28 +1,15 @@
-DELETE FROM "product_translation";
 DELETE FROM "review";
 DELETE FROM "product";
 DELETE FROM "user";
 DELETE FROM "category";
 
-INSERT INTO "product" ("id","gtin","weight")
+INSERT INTO "product" ("id","gtin","weight", "titles")
 VALUES 
-(1,'886037363214',5),
-(2,'9272037363324',10),
-(3,'5567037363214',15),
-(4,'893037363214',20);
+(1,'886037363214',5, '{"en": "White Choclate Crisp", "de": "Weiße Schokolade mit Krisp"}'),
+(2,'9272037363324',10, '{"en": "Peanut Butter Cup", "de": "Erdnuss Cups"}'),
+(3,'5567037363214',15, '{"en": "Dark Chocolate", "de": "Zartbitter Schokolade"}'),
+(4,'893037363214',20, '{"en": "Princess Cake", "de": "Prinzessinen Rolle"}');
 SELECT setval('product_id_seq', 4);
-
-INSERT INTO "product_translation" ("id","product_id","language","title")
-VALUES 
-(1,(SELECT id FROM product WHERE gtin = '886037363214'),'en','White Choclate Crisp'),
-(2,(SELECT id FROM product WHERE gtin = '886037363214'),'de','Weiße Schokolade mit Krisp'),
-(3,(SELECT id FROM product WHERE gtin = '9272037363324'),'en','Peanut Butter Cup'),
-(4,(SELECT id FROM product WHERE gtin = '9272037363324'),'de','Erdnuss Cups'),
-(5,(SELECT id FROM product WHERE gtin = '5567037363214'),'en','Dark Chocolate'),
-(6,(SELECT id FROM product WHERE gtin = '5567037363214'),'de','Zartbitter Schokolade'),
-(7,(SELECT id FROM product WHERE gtin = '893037363214'),'en','Princess Cake'),
-(8,(SELECT id FROM product WHERE gtin = '893037363214'),'de','Prinzessinen Rolle');
-SELECT setval('product_translation_id_seq', 8);
 
 /* password is always: 'pass1234' */
 INSERT INTO "user" ("id","email","password","key","roles")
