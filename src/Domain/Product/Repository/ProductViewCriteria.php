@@ -8,9 +8,13 @@ use App\Domain\Review\Value\Rating;
 
 final class ProductViewCriteria
 {
+    private const PAGE_SIZE = 10;
+
     private Rating $minRating;
 
     private Rating $maxRating;
+
+    private int $page = 1;
 
     private function __construct(Rating $minRating, Rating $maxRating)
     {
@@ -40,13 +44,30 @@ final class ProductViewCriteria
         return $this;
     }
 
-    public function minRatingAsInt(): int
+    public function forPage(int $page): static
     {
-        return $this->minRating->toInt();
+        $this->page = $page;
+
+        return $this;
     }
 
-    public function maxRatingAsInt(): int
+    public function getMinRating(): Rating
     {
-        return $this->maxRating->toInt();
+        return $this->minRating;
+    }
+
+    public function getMaxRating(): Rating
+    {
+        return $this->maxRating;
+    }
+
+    public function offset(): int
+    {
+        return ($this->page - 1) * self::PAGE_SIZE;
+    }
+
+    public function limit(): int
+    {
+        return self::PAGE_SIZE;
     }
 }

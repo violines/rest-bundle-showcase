@@ -28,7 +28,8 @@ final class FilterProductsHandler implements MessageHandlerInterface
     {
         $criteria = ProductViewCriteria::withDefaults()
             ->andMinRating(Rating::fromInt($filterProducts->ratingFrom))
-            ->andMaxRating(Rating::fromInt($filterProducts->ratingTo));
+            ->andMaxRating(Rating::fromInt($filterProducts->ratingTo))
+            ->forPage($filterProducts->page);
 
         return array_map(
             fn (ProductView $product) => $product->withLanguage(Language::fromString($filterProducts->language)),

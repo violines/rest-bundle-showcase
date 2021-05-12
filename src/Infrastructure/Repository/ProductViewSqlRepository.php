@@ -54,8 +54,10 @@ class ProductViewSqlRepository implements ProductViewRepository
             ->groupBy('product.id')
             ->andHaving('(AVG(review.taste) + AVG(review.ingredients) + AVG(review.healthiness) + AVG(review.packaging) + AVG(review.availability)) / 5 >= :ratingFrom')
             ->andHaving('(AVG(review.taste) + AVG(review.ingredients) + AVG(review.healthiness) + AVG(review.packaging) + AVG(review.availability)) / 5 <= :ratingTo')
-            ->setParameter('ratingFrom', $citeria->minRatingAsInt())
-            ->setParameter('ratingTo', $citeria->maxRatingAsInt())
+            ->setParameter('ratingFrom', $citeria->getMinRating()->toInt())
+            ->setParameter('ratingTo', $citeria->getMaxRating()->toInt())
+            ->setFirstResult($citeria->offset())
+            ->setMaxResults($citeria->limit())
             ->orderBy('product.id')
             ->execute();
 
