@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Product\Entity\Category;
-use App\Domain\Product\Repository\CategoryRepository;
-use App\Domain\Product\Value\CategoryId;
+use App\Domain\Category\Category;
+use App\Domain\Category\Repository\CategoryRepository;
+use App\Domain\Category\Value\CategoryId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;

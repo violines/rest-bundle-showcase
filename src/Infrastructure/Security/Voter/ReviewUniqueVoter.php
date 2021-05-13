@@ -6,7 +6,7 @@ namespace App\Infrastructure\Security\Voter;
 
 use App\Infrastructure\Repository\ReviewDoctrineRepository;
 use App\Domain\Review\Command\CreateReview;
-use App\Domain\User\Entity\User;
+use App\Domain\User\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 

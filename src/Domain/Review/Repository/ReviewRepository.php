@@ -3,7 +3,7 @@
 namespace App\Domain\Review\Repository;
 
 use App\Domain\Product\Value\ProductId;
-use App\Domain\Review\Entity\Review;
+use App\Domain\Review\Review;
 use App\Domain\Review\Value\ReviewId;
 use App\Domain\User\Value\UserId;
 

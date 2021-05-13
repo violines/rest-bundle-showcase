@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Product\Value;
+namespace App\Domain\Category\Value;
 
 use Webmozart\Assert\Assert;
 

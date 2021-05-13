@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Product\Entity\Product;
+use App\Domain\Product\Product;
 use App\Domain\Product\Value\ProductId;
-use App\Domain\Review\Entity\Review;
+use App\Domain\Review\Review;
 use App\Domain\Review\Repository\ReviewRepository;
 use App\Domain\Review\Value\ReviewId;
-use App\Domain\User\Entity\User;
+use App\Domain\User\User;
 use App\Domain\User\Value\UserId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

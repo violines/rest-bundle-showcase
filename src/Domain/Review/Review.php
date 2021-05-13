@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Review\Entity;
+namespace App\Domain\Review;
 
 use App\Domain\Product\Value\ProductId;
 use App\Domain\Review\Command\CreateReview;

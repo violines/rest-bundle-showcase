@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Review\CommandHandler;
 
 use App\Domain\Review\Command\CreateReview;
-use App\Domain\Review\Entity\Review;
+use App\Domain\Review\Review;
 use App\Domain\Review\Repository\ReviewRepository;
 
 class CreateReviewHandler

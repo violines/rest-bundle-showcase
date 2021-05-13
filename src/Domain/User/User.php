@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\User\Entity;
+namespace App\Domain\User;
 
 use App\Domain\User\Command\CreateProfile;
 use App\Domain\User\PasswordEncoder;

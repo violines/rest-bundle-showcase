@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Product\Entity;
+namespace App\Domain\Product;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;

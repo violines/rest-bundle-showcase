@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Product\Entity\Product;
+use App\Domain\Product\Product;
 use App\Domain\Product\Repository\ProductRepository;
 use App\Domain\Product\Value\Gtin;
 use App\Domain\Product\Value\ProductId;
