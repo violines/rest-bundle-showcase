@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Product\View;
+namespace App\Domain\Category\View;
 
 use Violines\RestBundle\HttpApi\HttpApi;
 
 #[HttpApi]
-final class CategoryView
+final class CategoryListItem
 {
     private string $key;
 

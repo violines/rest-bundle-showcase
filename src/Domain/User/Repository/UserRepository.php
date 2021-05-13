@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Repository;
 
-use App\Domain\User\Entity\User;
+use App\Domain\User\User;
 use App\Domain\User\Value\Email;
 use App\Domain\User\Value\UserId;
 

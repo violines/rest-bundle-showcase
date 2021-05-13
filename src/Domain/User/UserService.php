@@ -6,7 +6,7 @@ namespace App\Domain\User;
 
 use App\Domain\User\Command\CreateProfile;
 use App\Domain\User\Command\EditUser;
-use App\Domain\User\Entity\User;
+use App\Domain\User\User;
 use App\Domain\User\Exception\UserAlreadyExists;
 use App\Domain\User\Exception\UserNotExists;
 use App\Domain\User\PasswordEncoder;
