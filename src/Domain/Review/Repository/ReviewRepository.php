@@ -2,7 +2,7 @@
 
 namespace App\Domain\Review\Repository;
 
-use App\Domain\Product\Value\ProductId;
+use App\Domain\Product\Value\Gtin;
 use App\Domain\Review\Review;
 use App\Domain\Review\Value\ReviewId;
 use App\Domain\User\Value\UserId;
@@ -17,23 +17,18 @@ interface ReviewRepository
     /**
      * @param Review $review
      */
-    public function saveReview(Review $review): void;
+    public function save(Review $review): void;
 
     /**
-     * @param ProductId $productId
+     * @param Gtin $gtin
      * @param UserId $userId
      * @return bool
      */
-    public function reviewExists(ProductId $productId, UserId $userId): bool;
+    public function exists(Gtin $gtin, UserId $userId): bool;
 
     /**
      * @param ReviewId $
      * @return Review
      */
-    public function findReview(ReviewId $reviewId): Review;
-
-    /**
-     * @return Review[]
-     */
-    public function findReviews(): array;
+    public function find(ReviewId $reviewId): Review;
 }

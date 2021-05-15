@@ -10,17 +10,14 @@ use App\Domain\Review\Repository\ReviewRepository;
 
 class CreateReviewHandler
 {
-    private ReviewRepository $reviewRepository;
-
-    public function __construct(ReviewRepository $reviewRepository)
+    public function __construct(private ReviewRepository $reviewRepository)
     {
-        $this->reviewRepository = $reviewRepository;
     }
 
     public function __invoke(CreateReview $createReview): void
     {
         $nextId = $this->reviewRepository->nextId();
 
-        $this->reviewRepository->saveReview(Review::fromCreate($nextId, $createReview));
+        $this->reviewRepository->save(Review::fromCreate($nextId, $createReview));
     }
 }
