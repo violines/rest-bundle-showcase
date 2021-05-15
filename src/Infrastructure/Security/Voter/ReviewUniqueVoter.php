@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security\Voter;
 
-use App\Infrastructure\Repository\ReviewDoctrineRepository;
+use App\Domain\Product\Value\Gtin;
 use App\Domain\Review\Command\CreateReview;
+use App\Domain\Review\Repository\ReviewRepository;
 use App\Domain\User\User;
+use App\Domain\User\Value\UserId;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -14,11 +16,8 @@ class ReviewUniqueVoter extends Voter
 {
     public const NAME = 'APP_VOTER_REVIEW_UNIQUE';
 
-    private ReviewDoctrineRepository $reviewRepository;
-
-    public function __construct(ReviewDoctrineRepository $reviewRepository)
+    public function __construct(private ReviewRepository $reviewRepository)
     {
-        $this->reviewRepository = $reviewRepository;
     }
 
     protected function supports($attribute, $subject)
@@ -38,6 +37,6 @@ class ReviewUniqueVoter extends Voter
             return false;
         }
 
-        return $this->reviewRepository->findOneByGtinAndUser($subject->gtin, $user) === null;
+        return !$this->reviewRepository->exists(Gtin::fromString($subject->gtin), UserId::fromInt($user->getId()));
     }
 }
