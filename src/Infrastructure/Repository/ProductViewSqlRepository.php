@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Product\Repository\ProductViewCriteria;
-use App\Domain\Product\Repository\ProductViewRepository;
+use App\Domain\Product\Repository\ProductDetailRepository;
+use App\Domain\Product\Repository\ProductListCriteria;
+use App\Domain\Product\Repository\ProductListItemRepository;
 use App\Domain\Product\Value\ProductId;
-use App\Domain\Product\View\ProductView;
+use App\Domain\Product\View\ProductDetail;
+use App\Domain\Product\View\ProductListItem;
 use Doctrine\DBAL\Connection;
 
-class ProductViewSqlRepository implements ProductViewRepository
+class ProductViewSqlRepository implements ProductListItemRepository, ProductDetailRepository
 {
     private Connection $connection;
 
@@ -19,7 +21,7 @@ class ProductViewSqlRepository implements ProductViewRepository
         $this->connection = $connection;
     }
 
-    public function find(ProductId $productId): ProductView
+    public function find(ProductId $productId): ProductDetail
     {
         $statement = $this->connection->createQueryBuilder()
             ->select('
@@ -36,10 +38,12 @@ class ProductViewSqlRepository implements ProductViewRepository
             ->groupBy('product.id')
             ->execute();
 
-        return $this->createView($statement->fetch());
+        $row = $statement->fetch();
+
+        return new ProductDetail($row['gtin'], $weight = $row['weight'], \json_decode($row['titles'], true), (int)$row['average_rating']);
     }
 
-    public function match(ProductViewCriteria $citeria): array
+    public function match(ProductListCriteria $citeria): array
     {
         $statement = $this->connection->createQueryBuilder()
             ->select('
@@ -65,14 +69,9 @@ class ProductViewSqlRepository implements ProductViewRepository
 
         $productViews = [];
         foreach ($rows as $row) {
-            $productViews[] = $this->createView($row);
+            $productViews[] = new ProductListItem($row['gtin'], $weight = $row['weight'], \json_decode($row['titles'], true), (int)$row['average_rating']);
         }
 
         return $productViews;
-    }
-
-    private function createView($row): ProductView
-    {
-        return new ProductView($row['gtin'], $weight = $row['weight'], \json_decode($row['titles'], true), (int)$row['average_rating']);
     }
 }
