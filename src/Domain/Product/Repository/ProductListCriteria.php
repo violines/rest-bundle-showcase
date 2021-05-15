@@ -6,7 +6,7 @@ namespace App\Domain\Product\Repository;
 
 use App\Domain\Review\Value\Rating;
 
-final class ProductViewCriteria
+final class ProductListCriteria
 {
     private const PAGE_SIZE = 10;
 

@@ -9,7 +9,7 @@ use Violines\RestBundle\HttpApi\HttpApi;
 use Symfony\Component\Serializer;
 
 #[HttpApi]
-final class ProductView
+final class ProductDetail
 {
     private string $language = 'en';
 

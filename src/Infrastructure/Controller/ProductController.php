@@ -11,6 +11,7 @@ use App\Domain\Product\ProductService;
 use App\Domain\Category\Query\FilterCategories;
 use App\Domain\Product\Value\Language;
 use App\Domain\Product\Value\ProductId;
+use App\Domain\Product\View\ProductDetail;
 use App\Domain\Product\View\ProductView;
 use App\Infrastructure\QueryBus\QueryBus;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,7 +45,7 @@ class ProductController
     }
 
     #[Route('/{_locale}/product/{id}', methods: ['GET'], name: 'frontend_product', requirements: ['_locale' => 'en|de'])]
-    public function findProduct(int $id, string $_locale): ProductView
+    public function findProduct(int $id, string $_locale): ProductDetail
     {
         try {
             $product = $this->productService->findProduct(ProductId::fromInt($id), Language::fromString($_locale));
