@@ -6,5 +6,5 @@ use App\Domain\Product\View\ProductDetail;
 
 interface ProductDetailRepository
 {
-    public function find(ProductDetailCriteria $productDetailCriteria): ProductDetail;
+    public function find(ProductDetailCriteria $criteria): ProductDetail;
 }
