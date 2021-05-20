@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Domain\Product\Repository;
 
+use App\Domain\Product\Value\Language;
 use App\Domain\Review\Value\Rating;
 
 final class ProductListCriteria
 {
     private const PAGE_SIZE = 10;
+
+    private Language $language;
 
     private Rating $minRating;
 
@@ -16,18 +19,19 @@ final class ProductListCriteria
 
     private int $page = 1;
 
-    private function __construct(Rating $minRating, Rating $maxRating)
+    private function __construct(Language $language, Rating $minRating, Rating $maxRating)
     {
+        $this->language = $language;
         $this->minRating = $minRating;
         $this->maxRating = $maxRating;
     }
 
-    public static function withDefaults(): static
+    public static function withDefaults(Language $language): static
     {
         $minRating = Rating::fromInt(1);
         $maxRating = Rating::fromInt(5);
 
-        return new self($minRating, $maxRating);
+        return new self($language, $minRating, $maxRating);
     }
 
     public function andMinRating(Rating $rating): static
@@ -49,6 +53,11 @@ final class ProductListCriteria
         $this->page = $page;
 
         return $this;
+    }
+
+    public function getLanguage(): Language
+    {
+        return $this->language;
     }
 
     public function getMinRating(): Rating

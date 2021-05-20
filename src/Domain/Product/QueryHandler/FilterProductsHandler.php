@@ -23,14 +23,11 @@ final class FilterProductsHandler implements MessageHandlerInterface
      */
     public function __invoke(FilterProducts $filterProducts): array
     {
-        $criteria = ProductListCriteria::withDefaults()
+        $criteria = ProductListCriteria::withDefaults(Language::fromString($filterProducts->language))
             ->andMinRating(Rating::fromInt($filterProducts->ratingFrom))
             ->andMaxRating(Rating::fromInt($filterProducts->ratingTo))
             ->forPage($filterProducts->page);
 
-        return array_map(
-            fn (ProductListItem $product) => $product->withLanguage(Language::fromString($filterProducts->language)),
-            $this->productListItemRepository->match($criteria)
-        );
+        return $this->productListItemRepository->match($criteria);
     }
 }
