@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\User\Entity\User;
+use App\Domain\User\User;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\Value\Email;
 use App\Domain\User\Value\UserId;

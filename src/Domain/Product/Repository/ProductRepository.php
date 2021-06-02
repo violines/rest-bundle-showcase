@@ -2,7 +2,7 @@
 
 namespace App\Domain\Product\Repository;
 
-use App\Domain\Product\Entity\Product;
+use App\Domain\Product\Product;
 use App\Domain\Product\Value\Gtin;
 use App\Domain\Product\Value\ProductId;
 

@@ -23,7 +23,7 @@ class ImportControllerTest extends RestTestCase
 
         $created = $this->connection->fetchAll($this->importSql);
 
-        $this->assertEquals(20, count($created));
+        $this->assertEquals(10, count($created));
     }
 
     private const HEADERS = [
@@ -35,7 +35,6 @@ class ImportControllerTest extends RestTestCase
 
     private $importSql = <<<'EOT'
     SELECT * FROM product 
-        JOIN product_translation ON (product.id = product_translation.product_id)
         WHERE gtin IN (
             '9372610283610', 
             '7682610283411', 

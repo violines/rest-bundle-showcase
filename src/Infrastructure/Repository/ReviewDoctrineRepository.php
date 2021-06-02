@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Product\Entity\Product;
-use App\Domain\Product\Value\ProductId;
-use App\Domain\Review\Entity\Review;
+use App\Domain\Product\Product;
+use App\Domain\Product\Value\Gtin;
+use App\Domain\Review\Review;
 use App\Domain\Review\Repository\ReviewRepository;
 use App\Domain\Review\Value\ReviewId;
-use App\Domain\User\Entity\User;
 use App\Domain\User\Value\UserId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,35 +21,13 @@ use Doctrine\ORM\EntityManagerInterface;
  * @method Review[]    findAll()
  * @method Review[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ReviewDoctrineRepository extends ServiceEntityRepository implements ReviewRepository
+class ReviewDoctrineRepository implements ReviewRepository
 {
-    private EntityManagerInterface $em;
+    private ServiceEntityRepository $serviceEntityRepository;
 
-    private Connection $connection;
-
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(private Connection $connection, private EntityManagerInterface $entityManager, ManagerRegistry $registry)
     {
-        parent::__construct($registry, Review::class);
-        $this->connection = $this->getEntityManager()->getConnection();
-        $this->em = $this->getEntityManager();
-    }
-
-    public function findOneByGtinAndUser(string $gtin, User $user): ?Review
-    {
-        $result = $this->createQueryBuilder('rating')
-            ->join(Product::class, 'product', 'WITH', 'product.id = rating.productId')
-            ->andWhere('product.gtin = :gtin')
-            ->andWhere('rating.userId = :userId')
-            ->setParameter('gtin', $gtin)
-            ->setParameter('userId', $user->getId())
-            ->getQuery()
-            ->getResult();
-
-        if ([] === $result) {
-            return null;
-        }
-
-        return current($result);
+        $this->serviceEntityRepository = new ServiceEntityRepository($registry, Review::class);
     }
 
     public function nextId(): ReviewId
@@ -58,24 +35,28 @@ class ReviewDoctrineRepository extends ServiceEntityRepository implements Review
         return ReviewId::fromInt((int)$this->connection->fetchColumn('SELECT setval(\'review_id_seq\', nextval(\'review_id_seq\'::regclass))'));
     }
 
-    public function saveReview(Review $review): void
+    public function save(Review $review): void
     {
-        $this->em->persist($review);
-        $this->em->flush();
+        $this->entityManager->persist($review);
+        $this->entityManager->flush();
     }
 
-    public function reviewExists(ProductId $productId, UserId $userId): bool
+    public function exists(Gtin $gtin, UserId $userId): bool
     {
-        return null !== $this->findOneBy(['productId' => $productId->toInt(), 'userId' => $userId->toInt()]);
+        $result = $this->serviceEntityRepository->createQueryBuilder('rating')
+            ->join(Product::class, 'product', 'WITH', 'product.id = rating.productId')
+            ->andWhere('product.gtin = :gtin')
+            ->andWhere('rating.userId = :userId')
+            ->setParameter('gtin', $gtin->toString())
+            ->setParameter('userId', $userId->toInt())
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return null !== $result;
     }
 
-    public function findReview(ReviewId $reviewId): Review
+    public function find(ReviewId $reviewId): Review
     {
-        return $this->find($reviewId->toInt());
-    }
-
-    public function findReviews(): array
-    {
-        return $this->findAll();
+        return $this->serviceEntityRepository->find($reviewId->toInt());
     }
 }

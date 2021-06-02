@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter;
 
-use App\Domain\User\Entity\User;
+use App\Domain\User\User;
 use App\Domain\User\PasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 

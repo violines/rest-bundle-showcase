@@ -22,11 +22,8 @@ class ProductTranslation
     #[Assert\Type("string")]
     public $title;
 
-    public function toArray()
+    public function titleMap()
     {
-        return [
-            'language' => $this->language,
-            'title' => $this->title
-        ];
+        return [$this->language => $this->title];
     }
 }

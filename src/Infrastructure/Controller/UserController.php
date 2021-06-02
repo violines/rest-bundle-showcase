@@ -11,7 +11,7 @@ use App\Domain\User\Exception\UserNotExists;
 use App\Infrastructure\View\Ok;
 use App\Domain\User\Command\CreateProfile;
 use App\Domain\User\Command\EditUser;
-use App\Domain\User\Entity\User as UserEntity;
+use App\Domain\User\User as UserEntity;
 use App\Domain\User\Exception\UserAlreadyExists;
 use App\Domain\User\UserService;
 use App\Domain\User\Value\UserId;

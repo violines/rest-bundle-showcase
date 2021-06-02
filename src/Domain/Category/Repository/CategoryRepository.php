@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domain\Product\Repository;
+namespace App\Domain\Category\Repository;
 
-use App\Domain\Product\Entity\Category;
-use App\Domain\Product\Value\CategoryId;
+use App\Domain\Category\Category;
+use App\Domain\Category\Value\CategoryId;
 
 interface CategoryRepository
 {

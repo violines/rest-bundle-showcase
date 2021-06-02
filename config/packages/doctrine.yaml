@@ -4,30 +4,34 @@ doctrine:
         types:
             rating: App\Infrastructure\Type\RatingType
             comment: App\Infrastructure\Type\CommentType
+            translatable: App\Infrastructure\Type\TranslatableType
     
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        # server_version: '5.7'
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
+            App\Domain\Category:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Domain/Category'
+                prefix: 'App\Domain\Product'
+                alias: App\Domain\Category
             App\Domain\Product:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Domain/Product/Entity'
-                prefix: 'App\Domain\Product\Entity'
+                dir: '%kernel.project_dir%/src/Domain/Product'
+                prefix: 'App\Domain\Product'
                 alias: App\Domain\Product
             App\Domain\Review:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Domain/Review/Entity'
-                prefix: 'App\Domain\Review\Entity'
+                dir: '%kernel.project_dir%/src/Domain/Review'
+                prefix: 'App\Domain\Review'
                 alias: App\Domain\Review
             App\Domain\User:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Domain/User/Entity'
-                prefix: 'App\Domain\User\Entity'
+                dir: '%kernel.project_dir%/src/Domain/User'
+                prefix: 'App\Domain\User'
                 alias: App\Domain\User
