@@ -17,7 +17,7 @@ class RestTestCase extends WebTestCase
 
     protected Connection $connection;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
