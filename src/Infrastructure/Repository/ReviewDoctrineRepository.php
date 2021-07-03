@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Product\Product;
-use App\Domain\Product\Value\Gtin;
+use App\Domain\Catalog\Product;
+use App\Domain\Catalog\Value\Gtin;
 use App\Domain\Review\Review;
 use App\Domain\Review\Repository\ReviewRepository;
 use App\Domain\Review\Value\ReviewId;
@@ -16,7 +16,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * @method Review|null find($id, $lockMode = null, $lockVersion = null)
  * @method Review|null findOneBy(array $criteria, array $orderBy = null)
  * @method Review[]    findAll()
  * @method Review[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)

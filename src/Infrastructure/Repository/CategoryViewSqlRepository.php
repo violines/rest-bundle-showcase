@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Category\View\CategoryListItem;
-use App\Domain\Category\Repository\CategoryListItemRepository;
+use App\Domain\Catalog\View\CategoryListItem;
+use App\Domain\Catalog\Repository\CategoryListItemRepository;
 use Doctrine\DBAL\Connection;
 
 class CategoryViewSqlRepository implements CategoryListItemRepository

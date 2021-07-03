@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security\Voter;
 
-use App\Domain\Product\Value\Gtin;
+use App\Domain\Catalog\Value\Gtin;
 use App\Domain\Review\Command\CreateReview;
 use App\Domain\Review\Repository\ReviewRepository;
 use App\Domain\User\User;

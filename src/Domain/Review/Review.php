@@ -2,7 +2,7 @@
 
 namespace App\Domain\Review;
 
-use App\Domain\Product\Value\ProductId;
+use App\Domain\Catalog\Value\ProductId;
 use App\Domain\Review\Command\CreateReview;
 use App\Domain\Review\Value\Comment;
 use App\Domain\Review\Value\Rating;
