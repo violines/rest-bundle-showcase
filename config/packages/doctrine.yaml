@@ -11,18 +11,12 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App\Domain\Category:
+            App\Domain\Catalog:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Domain/Category'
-                prefix: 'App\Domain\Product'
-                alias: App\Domain\Category
-            App\Domain\Product:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Domain/Product'
-                prefix: 'App\Domain\Product'
-                alias: App\Domain\Product
+                dir: '%kernel.project_dir%/src/Domain/Catalog'
+                prefix: 'App\Domain\Catalog'
+                alias: App\Domain\Catalog
             App\Domain\Review:
                 is_bundle: false
                 type: annotation

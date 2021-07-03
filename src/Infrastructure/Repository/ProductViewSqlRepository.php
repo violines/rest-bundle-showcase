@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Product\Repository\ProductDetailCriteria;
-use App\Domain\Product\Repository\ProductDetailRepository;
-use App\Domain\Product\Repository\ProductListCriteria;
-use App\Domain\Product\Repository\ProductListItemRepository;
-use App\Domain\Product\View\ProductDetail;
-use App\Domain\Product\View\ProductListItem;
+use App\Domain\Catalog\Repository\ProductDetailCriteria;
+use App\Domain\Catalog\Repository\ProductDetailRepository;
+use App\Domain\Catalog\Repository\ProductListCriteria;
+use App\Domain\Catalog\Repository\ProductListItemRepository;
+use App\Domain\Catalog\View\ProductDetail;
+use App\Domain\Catalog\View\ProductListItem;
 use Doctrine\DBAL\Connection;
 
 class ProductViewSqlRepository implements ProductListItemRepository, ProductDetailRepository

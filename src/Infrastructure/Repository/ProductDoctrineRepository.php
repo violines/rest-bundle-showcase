@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Domain\Product\Product;
-use App\Domain\Product\Repository\ProductRepository;
-use App\Domain\Product\Value\Gtin;
-use App\Domain\Product\Value\ProductId;
+use App\Domain\Catalog\Product;
+use App\Domain\Catalog\Repository\ProductRepository;
+use App\Domain\Catalog\Value\Gtin;
+use App\Domain\Catalog\Value\ProductId;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * @method Product|null find($id, $lockMode = null, $lockVersion = null)
  * @method Product|null findOneBy(array $criteria, array $orderBy = null)
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)

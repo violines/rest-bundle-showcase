@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\Infrastructure\Exception\NotFoundException;
-use App\Domain\Product\Query\FilterProducts;
-use App\Domain\Product\Exception\ProductNotExists;
-use App\Domain\Product\ProductService;
-use App\Domain\Category\Query\FilterCategories;
-use App\Domain\Product\Value\Language;
-use App\Domain\Product\Value\ProductId;
-use App\Domain\Product\View\ProductDetail;
-use App\Domain\Product\View\ProductView;
+use App\Domain\Catalog\Query\FilterProducts;
+use App\Domain\Catalog\Exception\ProductNotExists;
+use App\Domain\Catalog\ProductService;
+use App\Domain\Catalog\Query\FilterCategories;
+use App\Domain\Catalog\Value\Language;
+use App\Domain\Catalog\Value\ProductId;
+use App\Domain\Catalog\View\ProductDetail;
 use App\Infrastructure\QueryBus\QueryBus;
 use Symfony\Component\Routing\Annotation\Route;
 
