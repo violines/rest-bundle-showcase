@@ -7,13 +7,15 @@ namespace App\Infrastructure\Security;
 use App\Infrastructure\Exception\AuthenticationFailedException;
 use App\Infrastructure\Repository\UserDoctrineRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
-class ImportAuthenticator extends AbstractGuardAuthenticator
+class ImportAuthenticator extends AbstractAuthenticator
 {
     private UserDoctrineRepository $userRepository;
 
@@ -27,42 +29,27 @@ class ImportAuthenticator extends AbstractGuardAuthenticator
         return $request->headers->has('X-AUTH-TOKEN');
     }
 
-    public function getCredentials(Request $request): string
+    public function authenticate(Request $request): Passport
     {
-        return $request->headers->get('X-AUTH-TOKEN', '');
-    }
-
-    public function getUser($credentials, UserProviderInterface $userProvider)
-    {
-        if ('' === $credentials) {
-            return null;
+        $apiToken = $request->headers->get('X-AUTH-TOKEN');
+        if (null === $apiToken) {
+            throw AuthenticationFailedException::userNotFound();
         }
 
-        return $this->userRepository->findOneBy(['key' => $credentials]);
+        return new SelfValidatingPassport(
+            new UserBadge($apiToken, function ($userIdentifier) {
+                return $this->userRepository->findOneBy(['key' => $userIdentifier]);
+            })
+        );
     }
 
-    public function checkCredentials($credentials, UserInterface $user): bool
-    {
-        return true;
-    }
-
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-        throw AuthenticationFailedException::userNotFound();
-    }
-
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
         return null;
     }
 
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         throw AuthenticationFailedException::userNotFound();
-    }
-
-    public function supportsRememberMe(): bool
-    {
-        return false;
     }
 }

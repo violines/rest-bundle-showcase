@@ -8,13 +8,14 @@ use App\Domain\User\Value\Email;
 use App\Domain\User\Value\Password;
 use App\Domain\User\Value\UserId;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\UserDoctrineRepository")
  * @ORM\Table(name="`user`")
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id()
@@ -99,14 +100,6 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         return $this->roles;
@@ -115,17 +108,22 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt()
+    public function getUserIdentifier(): string
     {
-        return null;
+        return $this->email;
     }
 
     /**
-     * @see UserInterface
+     * @see PasswordAuthenticatedUserInterface
      */
-    public function getUsername()
+    public function getPassword(): ?string
     {
-        return $this->email;
+        return $this->password;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->getUserIdentifier();
     }
 
     public static function generateKey()
