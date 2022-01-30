@@ -22,9 +22,9 @@ class CategoryViewSqlRepository implements CategoryListItemRepository
         $statement = $this->connection->createQueryBuilder()
             ->select(' category.key, category.sorting')
             ->from('category')
-            ->execute();
+            ->executeQuery();
 
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $categoryViews = [];
 

@@ -31,7 +31,7 @@ class ReviewDoctrineRepository implements ReviewRepository
 
     public function nextId(): ReviewId
     {
-        return ReviewId::fromInt((int)$this->connection->fetchColumn('SELECT setval(\'review_id_seq\', nextval(\'review_id_seq\'::regclass))'));
+        return ReviewId::fromInt((int)$this->connection->fetchFirstColumn('SELECT setval(\'review_id_seq\', nextval(\'review_id_seq\'::regclass))'));
     }
 
     public function save(Review $review): void

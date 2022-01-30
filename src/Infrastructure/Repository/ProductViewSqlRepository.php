@@ -37,9 +37,9 @@ class ProductViewSqlRepository implements ProductListItemRepository, ProductDeta
             ->setParameter('productId', $criteria->getProductId()->toInt())
             ->setParameter('language', $criteria->getLanguage()->toString())
             ->groupBy('product.id')
-            ->execute();
+            ->executeQuery();
 
-        $row = $statement->fetch();
+        $row = $statement->fetchAssociative();
 
         return new ProductDetail($row['gtin'], $row['weight'], (string)$row['title'], (int)$row['average_rating']);
     }
@@ -65,9 +65,9 @@ class ProductViewSqlRepository implements ProductListItemRepository, ProductDeta
             ->setFirstResult($citeria->offset())
             ->setMaxResults($citeria->limit())
             ->orderBy('product.id')
-            ->execute();
+            ->executeQuery();
 
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $productViews = [];
         foreach ($rows as $row) {

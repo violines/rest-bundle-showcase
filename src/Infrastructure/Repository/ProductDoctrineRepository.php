@@ -35,7 +35,7 @@ class ProductDoctrineRepository implements ProductRepository
 
     public function nextId(): ProductId
     {
-        return ProductId::fromInt((int)$this->connection->fetchColumn('SELECT setval(\'product_id_seq\', nextval(\'product_id_seq\'::regclass))'));
+        return ProductId::fromInt((int)$this->connection->fetchFirstColumn('SELECT setval(\'product_id_seq\', nextval(\'product_id_seq\'::regclass))'));
     }
 
     public function save(Product $product): void

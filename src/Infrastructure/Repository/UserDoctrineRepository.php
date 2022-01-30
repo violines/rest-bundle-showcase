@@ -34,7 +34,7 @@ class UserDoctrineRepository extends ServiceEntityRepository implements UserRepo
 
     public function nextId(): UserId
     {
-        return UserId::fromInt((int)$this->connection->fetchColumn('SELECT setval(\'user_id_seq\', nextval(\'user_id_seq\'::regclass))'));
+        return UserId::fromInt((int)$this->connection->fetchFirstColumn('SELECT setval(\'user_id_seq\', nextval(\'user_id_seq\'::regclass))'));
     }
 
     public function saveUser(User $user): void

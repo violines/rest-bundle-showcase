@@ -26,9 +26,9 @@ class UserViewSqlRepository implements UserViewRepository
             ->from('"user"')
             ->andWhere('"user".id = :userId')
             ->setParameter('userId', $userId->toInt())
-            ->execute();
+            ->executeQuery();
 
-        $user = $statement->fetch();
+        $user = $statement->fetchAssociative();
 
         return new UserView($user['id'], $user['email'], json_decode($user['roles']), $user['key']);
     }
@@ -38,9 +38,9 @@ class UserViewSqlRepository implements UserViewRepository
         $statement = $this->connection->createQueryBuilder()
             ->select('"user".id, "user".email, "user".roles, "user".key')
             ->from('"user"')
-            ->execute();
+            ->executeQuery();
 
-        $users = $statement->fetchAll();
+        $users = $statement->fetchAllAssociative();
 
         $userViews = [];
 
@@ -58,9 +58,9 @@ class UserViewSqlRepository implements UserViewRepository
             ->from('"user"')
             ->andWhere('"user".id = :userId')
             ->setParameter('userId', $userId->toInt())
-            ->execute();
+            ->executeQuery();
 
-        $user = $statement->fetch();
+        $user = $statement->fetchAssociative();
 
         return new ProfileView($user['id'], $user['email'], $user['key']);
     }

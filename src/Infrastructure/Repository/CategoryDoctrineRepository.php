@@ -34,7 +34,7 @@ class CategoryDoctrineRepository implements CategoryRepository
 
     public function nextId(): CategoryId
     {
-        return CategoryId::fromInt((int)$this->connection->fetchColumn('SELECT setval(\'category_id_seq\', nextval(\'category_id_seq\'::regclass))'));
+        return CategoryId::fromInt((int)$this->connection->fetchFirstColumn('SELECT setval(\'category_id_seq\', nextval(\'category_id_seq\'::regclass))'));
     }
 
     public function save(Category $category): void

@@ -21,7 +21,7 @@ class ImportControllerTest extends RestTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $created = $this->connection->fetchAll($this->importSql);
+        $created = $this->connection->fetchAllAssociative($this->importSql);
 
         $this->assertEquals(10, count($created));
     }
